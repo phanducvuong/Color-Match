@@ -8,8 +8,8 @@ import com.ss.GMain;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1280;
-		config.height = 720;
+		config.width = 720/2;
+		config.height = 1280/2;
 		new LwjglApplication(new GMain(new IPlatform() {
 			@Override
 			public void log(String str) {
@@ -52,6 +52,16 @@ public class DesktopLauncher {
 			}
 
 			@Override
+			public void CrashKey(String key, String value) {
+
+			}
+
+			@Override
+			public void CrashLog(String log) {
+
+			}
+
+			@Override
 			public void TrackCustomEvent(String event) {
 
 			}
@@ -78,6 +88,16 @@ public class DesktopLauncher {
 
 			@Override
 			public void TrackPlayerDead(String event, int mode, int difficult, int level, int parentModel, int shooterModel, boolean isBoss) {
+
+			}
+
+			@Override
+			public void ReportScore(long score) {
+
+			}
+
+			@Override
+			public void ShowLeaderboard() {
 
 			}
 		}), config);

@@ -12,6 +12,8 @@ public interface IPlatform {
     public int GetConfigIntValue(String name, int defaultValue);
     public String GetConfigStringValue(String name, String defaultValue);
 
+    public void CrashKey(String key, String value);
+    public void CrashLog(String log);
 
     public void TrackCustomEvent(String event);
     public void TrackLevelInfo(String event, int mode, int difficult, int level);
@@ -30,6 +32,9 @@ public interface IPlatform {
     public void TrackPlayerUseItem(String mode, int level, String item);
     public void TrackPlayerEnchance(int enchanceid);
     ;*/
+
+    public void ReportScore(long score);
+    public void ShowLeaderboard();
 
 
 

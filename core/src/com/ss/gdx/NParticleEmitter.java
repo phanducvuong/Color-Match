@@ -191,7 +191,7 @@ public class NParticleEmitter extends ParticleEmitter {
         this.fixFrame = readBoolean((BufferedReader)bufferedReader, (String)"fixFrame");
     }
 
-   /* void test(){
+   /* void Test(){
         var2_2.xScale = this.xScaleValue.newLowValue() / var8_9;
         var2_2.xScaleDiff = this.xScaleValue.newHighValue() / var8_9;
         var2_2.yScale = this.yScaleValue.newLowValue() / var9_10;

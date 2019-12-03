@@ -1,30 +1,27 @@
 package com.ss;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.platform.IPlatform;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.ss.core.exSprite.particle.GParticleSystem;
+import com.ss.core.util.GAssetsManager;
 import com.ss.core.util.GDirectedGame;
 import com.ss.core.util.GScreen;
 import com.ss.core.util.GStage;
 import com.ss.core.util.GStage.StageBorder;
-import com.ss.gameLogic.scene.GMenu;
+import com.ss.gameLogic.scene.common.config.config.C;
 import com.ss.scenes.GameScene;
 
-public class GMain
-  extends GDirectedGame
-{
+public class GMain extends GDirectedGame {
 
   public static boolean isDebug = false;
   public static final boolean isTest = false;
-  public static GScreen mapEditorScreen;
-  public static GMain me;
   public static int screenHeight = 0;
   public static int screenWidth = 0;
-  public static int screenId = -1;
-  public static GScreen shooterTestScreen;
   public static final int testType = 2;
-
+  public static TextureAtlas textureAtlas;
+  public static float ratioX, ratioY;
 
   public static IPlatform platform;
   public GMain(IPlatform plat){
@@ -62,10 +59,10 @@ public class GMain
       n5 = 0.0f;
     }
 
-    screenWidth = 1280;
-    screenHeight = 720;
-    n = 1280;
-    n6 = 720;
+    screenWidth = 720;
+    screenHeight = 1280;
+    n = 720;
+    n6 = 1280;
 
     GStage.init(n, n6, n5, 0, new StageBorder() {
       @Override
@@ -79,16 +76,20 @@ public class GMain
       }
     });
   }
+
+
   
-  public static GScreen menuScreen()
+  private static GScreen menuScreen()
   {
     return new GameScene();
   }
 
   public void create()
   {
-    this.init();
-    this.setScreen(menuScreen());
+      textureAtlas = GAssetsManager.getTextureAtlas("ColorMatch.atlas");
+      this.init();
+      C.init();
+      this.setScreen(menuScreen());
   }
   
   public void dispose()

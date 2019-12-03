@@ -29,7 +29,7 @@ public class NParticleEffect extends ParticleEffect {
     public NParticleEffect (ParticleEffect ef){
         super(ef);
         /*if(ef instanceof  NParticleEffect)
-            this.test = ((NParticleEffect)ef).test;*/
+            this.Test = ((NParticleEffect)ef).Test;*/
     }
     protected ParticleEmitter newEmitter (BufferedReader reader) throws IOException {
         return new NParticleEmitter(reader);

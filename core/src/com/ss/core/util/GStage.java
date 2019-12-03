@@ -175,6 +175,8 @@ public final class GStage {
       var4.end();
       return var2;
    }
+   public static float getWorldWidth(){return stage.getViewport().getWorldWidth();}
+   public static float getWorldHeight(){return stage.getViewport().getWorldHeight();}
 
    public static float getStageHeight() {
       return stage.getHeight();
@@ -229,7 +231,7 @@ public final class GStage {
 
    public static void init(float width, float height, float camera_offset_x, float camera_offset_y, GStage.StageBorder var4) {
       //Mesh.forceVBO = true;
-     // if(Gdx.graphics.isGL20Available()) {
+      // if(Gdx.graphics.isGL20Available()) {
       shader = createDefaultShader();//SpriteBatch.createDefaultShader();
       //}
 
@@ -238,7 +240,7 @@ public final class GStage {
       border = var4;
       batch = new SpriteBatch(3000, shader);
       Viewport viewport = new FitViewport(width, height);
-      //viewport = new ExtendViewport(width, height);
+      viewport = new ExtendViewport(width, height);
       //viewport = new View(width, height);
       stage = new Stage( viewport, batch);
       getCamera().setToOrtho(true, width, height);
@@ -293,7 +295,7 @@ public final class GStage {
    }
 
    public static void render() {
-     // stage.setDebugAll(true);
+      // stage.setDebugAll(true);
 
       float var0 = clearColor.r;
       float var1 = clearColor.g;
@@ -342,7 +344,7 @@ public final class GStage {
    public static void test(int width, int height){
       //getCamera().setToOrtho(true, width, height);
       stage.getViewport().getCamera().translate(-100, 0, 0);
-     // getCamera().translate(-(Gdx.graphics.getWidth()- 484), 0);
+      // getCamera().translate(-(Gdx.graphics.getWidth()- 484), 0);
    }
    private static void sleep(long var0) {
    }
@@ -394,3 +396,4 @@ public final class GStage {
       void drawVerticalBorder(Batch var1, float var2, float var3);
    }
 }
+
