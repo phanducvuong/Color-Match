@@ -35,7 +35,7 @@ public class Logic {
         return (v.x - a.x)*(b.y - a.y) - (v.y - a.y)*(b.x - a.x);
     }
 
-    public float[] getVertices(Image box, float d, int quadrant) {
+    public float[] calVertices(Image box, float d, int quadrant) {
         float[] v = new float[]{};
         switch (quadrant) {
             case 1:
@@ -47,11 +47,13 @@ public class Logic {
                 };
                 break;
             case 2:
+                Vector2 c = new Vector2(box.getX() + box.getWidth()/2, box.getY() + box.getHeight()/2);
+                float r = (float)Math.sqrt(box.getWidth()/2 * box.getWidth()/2 + box.getHeight()/2 + box.getHeight()/2);
                 v = new float[] {
-                        box.getX() + box.getWidth()/2, box.getY() + d,
-                        box.getX() + box.getWidth(), box.getY() + box.getHeight()/2 + d,
-                        box.getX() + box.getWidth()/2, box.getY() + box.getHeight() + d,
-                        box.getX(), box.getY() - box.getHeight()/2 + d
+                        c.x, c.y - r + d,
+                        c.x + r, c.y + d,
+                        c.x, c.y + r + d,
+                        c.x - r, c.y + d
                 };
                 break;
             case 3:
@@ -63,13 +65,30 @@ public class Logic {
                 };
                 break;
             case 4:
-
+                v = new float[] {
+                        box.getX() - d, box.getY() - d,
+                        box.getX() + box.getWidth() - d, box.getY() - d,
+                        box.getX() + box.getWidth() - d, box.getY() + box.getHeight() - d,
+                        box.getX() - d, box.getY() + box.getHeight() - d
+                };
                 break;
             case 5:
-
+                Vector2 cc = new Vector2(box.getX() + box.getWidth()/2, box.getY() + box.getHeight()/2);
+                float rr = (float)Math.sqrt(box.getWidth()/2 * box.getWidth()/2 + box.getHeight()/2 + box.getHeight()/2);
+                v = new float[] {
+                        cc.x, cc.y - rr - d,
+                        cc.x + rr, cc.y - d,
+                        cc.x, cc.y + rr - d,
+                        cc.x - rr, cc.y - d
+                };
                 break;
             case 6:
-
+                v = new float[] {
+                        box.getX() + d, box.getY() - d,
+                        box.getX() + box.getWidth() + d, box.getY() - d,
+                        box.getX() + box.getWidth() + d, box.getY() + box.getHeight() - d,
+                        box.getX() + d, box.getY() + box.getHeight() - d
+                };
                 break;
         }
 

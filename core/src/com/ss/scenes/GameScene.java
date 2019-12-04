@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import static com.badlogic.gdx.math.Interpolation.*;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,20 +13,18 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.FloatArray;
 import com.platform.IPlatform;
 import com.ss.GMain;
 import com.ss.core.action.exAction.GTween;
-import com.ss.core.exSprite.GShapeSprite;
 import com.ss.core.util.GLayer;
 import com.ss.core.util.GScreen;
-import com.ss.core.util.GShapeTools;
 import com.ss.core.util.GStage;
 import com.ss.core.util.GTools;
 import com.ss.core.util.GUI;
+import com.ss.gameLogic.config.Config;
 import com.ss.gameLogic.logic.Logic;
-import com.ss.gameLogic.objects.Shape;
-import com.ss.gameLogic.objects.ShapeLogic;
+import com.ss.gameLogic.logic.ShapeLogic;
+import com.ss.gameLogic.objects.Object;
 
 public class GameScene extends GScreen {
 
@@ -37,13 +32,11 @@ public class GameScene extends GScreen {
     private Group gMain = new Group();
     private Group gLogic = new Group();
     private Group gUI = new Group();
-    private Image square, box;
+    private Object square, box;
     private IPlatform plf = GMain.platform;
     private Logic logic;
     private Stage s;
     private float gsWidth = GStage.getWorldWidth()/2;
-
-    private ShapeLogic shaLogic;
 
     @Override
     public void dispose() {
@@ -59,6 +52,7 @@ public class GameScene extends GScreen {
         gUI.setSize(720, 1280);
         gUI.setPosition(GStage.getWorldWidth()/2, GStage.getWorldHeight()/2, Align.center);
 
+        createShapeMain();
         initAsset();
         initLogic();
         eventClick();
@@ -69,7 +63,7 @@ public class GameScene extends GScreen {
     private void initLogic() {
         logic = Logic.getInstance();
         logic.degree = 45;
-        logic.calRC(square);
+        logic.calRC(square.getShape());
     }
 
     private void initAsset() {
@@ -80,13 +74,6 @@ public class GameScene extends GScreen {
 
         gUI.setZIndex(1000);
         gLogic.setZIndex(1000);
-
-        square = GUI.createImage(textureAtlas, "square");
-        assert square != null;
-        square.setPosition(gUI.getWidth()/2, gUI.getHeight()/2, Align.center);
-        square.setScale(.5f);
-        gUI.addActor(square);
-        square.setOrigin(Align.center);
     }
 
     private void eventClick() {
@@ -98,53 +85,43 @@ public class GameScene extends GScreen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (x < gsWidth) {
-                    square.addAction(rotateBy(-45, .25f, fastSlow));
+                    square.getShape().addAction(rotateBy(-45, .15f, fastSlow));
+                    square.setVerShapeMain(-45, .5f);
                 }
                 else {
-
-                    square.addAction(rotateBy(45, .25f, fastSlow));
+                    square.getShape().addAction(rotateBy(45, .15f, fastSlow));
+                    square.setVerShapeMain(45, .5f);
                 }
-                Gdx.app.log("Degree", square.getRotation() + "");
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
     }
 
+    private void createShapeMain() {
+        square = new Object(gUI, gLogic, "square");
+        square.getShape().setOrigin(Align.center);
+        square.getShape().setPosition(gUI.getWidth()/2, gUI.getHeight()/2, Align.center);
+        square.getShape().setScale(.5f);
+        square.setVerShapeMain(0, .5f);
+    }
+
     private void createBox() {
-        box = GUI.createImage(textureAtlas, "box");
-        assert box != null;
-        box.setPosition(60, 338);
-        box.setOrigin(Align.center);
-        box.rotateBy(45);
-        gUI.addActor(box);
-
-        Vector2 center = new Vector2(box.getX()+box.getWidth()/2, box.getY()+box.getHeight()/2);
-        float rr = (float) Math.sqrt(box.getWidth()/2 * box.getWidth()/2 + box.getHeight()/2 * box.getHeight()/2);
-
-        Gdx.app.log("a", rr + " c: " + center.toString());
-        float[] v = new float[] {
-                center.x, center.y - rr,
-                center.x + rr, center.y,
-                center.x, center.y + rr,
-                center.x - rr, center.y
-        };
-
-        shaLogic = new ShapeLogic(v);
-        gLogic.addActor(shaLogic);
-        shaLogic.Log();
+        box = new Object(gUI, gLogic, "box");
+        box.setPos(1);
 
         moveShape();
     }
 
     private void moveShape() {
-        float[] v = new float[]{
-                box.getX()+5,box.getY()+5,
-                box.getX()+5+box.getWidth(),box.getY()+5,
-                box.getX()+5+box.getWidth(),box.getY()+5+box.getHeight(),
-                box.getX()+5,box.getY()+5+box.getHeight()
-        };
-        shaLogic.setVertices(v);
-        GTween.action(box, moveBy(5, 5, .25f, linear), this::moveShape);
+        if (square != null && box != null
+            && Intersector.overlapConvexPolygons(box.getPolygon(), square.getPolygon())) {
+            Gdx.app.log("COLLISION", "COLLISION");
+            return;
+        }
+
+        assert box != null;
+        GTween.action(box.getShape(), moveBy(5, 5, .15f, linear), this::moveShape);
+        box.setVertices(logic.calVertices(box.getShape(), 5, 1));
     }
 
     @Override

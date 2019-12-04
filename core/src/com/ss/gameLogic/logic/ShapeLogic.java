@@ -1,4 +1,4 @@
-package com.ss.gameLogic.objects;
+package com.ss.gameLogic.logic;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -19,12 +19,12 @@ public class ShapeLogic extends Actor {
     public ShapeLogic(float[] vertices){
         polygon = new Polygon(vertices);
         shapeR = new ShapeRenderer();
+        shapeR.setProjectionMatrix(GStage.getCamera().combined);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        shapeR.setProjectionMatrix(GStage.getCamera().combined);
         shapeR.begin(ShapeRenderer.ShapeType.Line);
         shapeR.polygon(polygon.getTransformedVertices());
         shapeR.end();
@@ -44,4 +44,9 @@ public class ShapeLogic extends Actor {
     public void Log() {
         Gdx.app.log("aaa", Arrays.toString(polygon.getVertices()));
     }
+
+    public Polygon getPolygon() {
+        return polygon;
+    }
+    public ShapeRenderer getShapeR() { return shapeR; }
 }
