@@ -1,4 +1,4 @@
-package com.ss.gameLogic.scene.common.config.config;
+package com.ss.gameLogic.config;
 
 import java.awt.Color;
 

@@ -3,10 +3,12 @@ package com.ss.core.action.exAction;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.ss.gameLogic.interfaces.ICollision;
 
 public class GTemporalAction extends TemporalAction {
   private ActInterface at;
   private Actor actor;
+
   public static GTemporalAction add(float duration, ActInterface at) {
     GTemporalAction instance = Actions.action(GTemporalAction.class);
     instance.setDuration(duration);
@@ -22,11 +24,11 @@ public class GTemporalAction extends TemporalAction {
 
   @Override
   protected void update(float percent) {
-    at.act(percent, actor);
+      at.act(percent, actor);
   }
 
   @FunctionalInterface
   public interface ActInterface {
-    void act(double percent, Actor actor);
+    void act(float percent, Actor actor);
   }
 }

@@ -10,7 +10,8 @@ import com.ss.core.util.GDirectedGame;
 import com.ss.core.util.GScreen;
 import com.ss.core.util.GStage;
 import com.ss.core.util.GStage.StageBorder;
-import com.ss.gameLogic.scene.common.config.config.C;
+import com.ss.gameLogic.config.C;
+import com.ss.gameLogic.config.Config;
 import com.ss.scenes.GameScene;
 
 public class GMain extends GDirectedGame {
@@ -86,10 +87,11 @@ public class GMain extends GDirectedGame {
 
   public void create()
   {
-      textureAtlas = GAssetsManager.getTextureAtlas("ColorMatch.atlas");
-      this.init();
-      C.init();
-      this.setScreen(menuScreen());
+    textureAtlas = GAssetsManager.getTextureAtlas("ColorMatch.atlas");
+    Config.addArrPos();
+    this.init();
+    C.init();
+    this.setScreen(menuScreen());
   }
   
   public void dispose()

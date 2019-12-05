@@ -1,4 +1,4 @@
-package com.ss.gameLogic.scene.common.config.config;
+package com.ss.gameLogic.config;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -20,6 +20,7 @@ public class C {
         private static I18NBundle locale;
         public static String title = "";
         public static String adsTimeLbl = "";
+
         static void initLocalize() {
             FileHandle specFilehandle = Gdx.files.internal("i18n/lang_" + "id");
             FileHandle baseFileHandle = Gdx.files.internal("i18n/lang");
