@@ -30,11 +30,11 @@ public class GSound {
    public static Preferences prefs;
    static {
       registerSoundListUpdate();
-      prefs = Gdx.app.getPreferences("SoundPref");
-      boolean silence = prefs.getBoolean("silence", false);
+//      prefs = Gdx.app.getPreferences("SoundPref");
+//      boolean silence = prefs.getBoolean("silence", false);
       //GPlayData.setIsSilence(silence);
-      GSound.setSoundSilence(silence);
-      GSound.setMusicSilence(silence);
+//      GSound.setSoundSilence(silence);
+//      GSound.setMusicSilence(silence);
    }
 
    public static void clear() {

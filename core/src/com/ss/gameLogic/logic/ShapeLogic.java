@@ -50,4 +50,5 @@ public class ShapeLogic extends Actor {
     return polygon;
   }
   public ShapeRenderer getShapeR() { return shapeR; }
+  public float[] getVertices() { return vertices; }
 }

@@ -1,5 +1,7 @@
 package com.ss.gameLogic.interfaces;
 
+import com.ss.gameLogic.objects.Object;
+
 public interface ICollision {
-  void Colli(boolean colli);
+  void collided(Object obj);
 }

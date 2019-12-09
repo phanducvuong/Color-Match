@@ -1,8 +1,11 @@
 package com.ss.gameLogic.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
@@ -11,18 +14,21 @@ import com.ss.core.action.exAction.GTemporalAction;
 import com.ss.core.util.GUI;
 import com.ss.gameLogic.config.Config;
 import com.ss.gameLogic.interfaces.ICollision;
+import com.ss.gameLogic.interfaces.INextObject;
+import com.ss.gameLogic.logic.Logic;
 import com.ss.gameLogic.logic.ShapeLogic;
 
-public class Object {
+public class Object extends Actor {
 
   private Image shape;
   private ShapeLogic shapeLogic;
   private float[] vertices;
   private int id;
+  public boolean isAlive = false;
   private int bound;
   private float degrees = 0; //end game reset degrees again
-
-  public ICollision iCollision;
+  private ICollision iCollision;
+  private INextObject iNextObject;
 
   public Object(String name, int bound){
     this.bound = bound;
@@ -36,6 +42,7 @@ public class Object {
   }
 
   public void setPos(int pos) {
+    shape.setRotation(0);
     switch (pos) {
       case 0:
 
@@ -109,6 +116,8 @@ public class Object {
     v[2] = s.getX() + s.getWidth(); v[3] = v[1];
     v[4] = v[2]; v[5] = s.getY() + s.getHeight();
     v[6] = s.getX(); v[7] = v[5];
+
+    shapeLogic.setVertices(v);
   }
 
   private void setVerCenter(Image s, float[] v) {
@@ -119,24 +128,35 @@ public class Object {
     v[2] = c.x + r; v[3] = c.y;
     v[4] = c.x; v[5] = c.y + r;
     v[6] = c.x - r; v[7] = c.y;
-  }
 
-  //set vertices
-  public void setVertices(float[] v) {
     shapeLogic.setVertices(v);
   }
 
+  //set vertices
+  private void setVertices(float[] v) {
+    vertices = v;
+    shapeLogic.setVertices(v);
+  }
 
-  public void moveShape(Object box, float duration) {
+  public void move(Object box, Vector3 lv, Logic logic, int id, int quadrant) {
     float x = shape.getX();
     float y = shape.getY();
+    float duration = lv.x;
+
+    if (id == 1 || id == 4)
+      duration -= 1.5f;
 
     shape.addAction(GTemporalAction.add(duration, (p, a) -> {
-      Vector2 temp = new Vector2(x, y);
+      Vector2 tempPos = new Vector2(x, y);
 
-      if (Intersector.overlapConvexPolygons(getPolygon(), box.getPolygon())) {
-//        GTemporalAction.isEnd = true;
+      if (Intersector.overlapConvexPolygons(this.getPolygon(), box.getPolygon())) {
+        shape.clear();
+        iCollision.collided(this);
       }
+
+      tempPos = logic.calPosObjWhileMoving(tempPos.x, tempPos.y, p, id);
+      this.setVertices(logic.calVertices(shape, tempPos.x, tempPos.y, quadrant));
+      shape.setPosition(tempPos.x, tempPos.y);
     }));
   }
 
@@ -146,10 +166,17 @@ public class Object {
     gShapeRender.addActor(shapeLogic);
   }
 
-  public void remove() {
+  @Override
+  public boolean remove() {
     shape.remove();
     shapeLogic.remove();
+    return super.remove();
   }
+
+  //  public void remove() {
+//    shape.remove();
+//    shapeLogic.remove();
+//  }
 
   public Image getShape() {return shape;}
 
@@ -158,4 +185,10 @@ public class Object {
   public void setId(int id) { this.id = id; }
 
   public int getBound() { return bound; }
+
+  public void setCollision(ICollision iCollision) {
+    this.iCollision = iCollision;
+  }
+
+  public float[] getVertices() { return vertices; }
 }

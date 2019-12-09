@@ -5,30 +5,37 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import static com.badlogic.gdx.math.Interpolation.*;
 
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.platform.IPlatform;
 import com.ss.GMain;
-import com.ss.core.action.exAction.GTemporalAction;
+import com.ss.core.action.exAction.GSimpleAction;
 import com.ss.core.util.GLayer;
 import com.ss.core.util.GScreen;
 import com.ss.core.util.GStage;
 import com.ss.core.util.GUI;
-import com.ss.gameLogic.config.C;
 import com.ss.gameLogic.config.Level;
+import com.ss.gameLogic.interfaces.ICollision;
 import com.ss.gameLogic.logic.Logic;
 import com.ss.gameLogic.objects.Object;
 import com.ss.gameLogic.objects.Shape;
 
-public class GameScene extends GScreen {
+import java.util.ArrayList;
+import java.util.List;
+
+public class GameScene extends GScreen implements ICollision {
 
   private TextureAtlas textureAtlas = GMain.textureAtlas;
   private Group gMain = new Group();
@@ -41,6 +48,9 @@ public class GameScene extends GScreen {
   private float gsWidth = GStage.getWorldWidth()/2;
 
   private Shape shape = Shape.getInstance();
+
+  private List<List<Object>> listObjGamePlay;
+  private List<Object> listObjCollided;
 
   @Override
   public void dispose() {
@@ -56,14 +66,21 @@ public class GameScene extends GScreen {
     gUI.setSize(720, 1280);
     gUI.setPosition(GStage.getWorldWidth()/2, GStage.getWorldHeight()/2, Align.center);
 
+    listObjGamePlay = new ArrayList<>();
+    listObjCollided = new ArrayList<>();
+
     createShapeMain();
     initAsset();
     initLogic();
     eventClick();
 
-    createBox();
+//    createBox();
+
+    createListObject();
+    nextObj();
   }
 
+  //caculate poin in center and radius
   private void initLogic() {
     logic = Logic.getInstance();
     logic.degree = 45;
@@ -112,51 +129,102 @@ public class GameScene extends GScreen {
     square.setVerShapeMain(0, .5f);
   }
 
-  private void createBox() {
-    int rand = (int)Math.round(Math.random() * 3);
-    Object box;
-    if (rand == 0) {
-      box = shape.shape0.pop();
-      box.addScence(gUI, gShapeRender);
-      box.setPos(1);
-      moveShape(box);
-    }
-    else if (rand == 1) {
-      box = shape.shape1.pop();
-      box.addScence(gUI, gShapeRender);
-      box.setPos(1);
-      moveShape(box);
-    }
-    else {
-      box = shape.shape2.pop();
-      box.addScence(gUI, gShapeRender);
-      box.setPos(1);
-      moveShape(box);
-    }
-
-//    Gdx.app.log("SIZE", "shape0: " + shape.shape0.size() + " shape1: " + shape.shape1.size() + " shape2: " + shape.shape2.size());
-//    Gdx.app.log("TIME", Gdx.graphics.getDeltaTime() + "");
+  public void createListObject() {
+    listObjGamePlay.add(shape.shape0);
+    listObjGamePlay.add(shape.shape1);
+    listObjGamePlay.add(shape.shape2);
+    Gdx.app.log("SIZE", listObjGamePlay.size() + "");
   }
 
-  private void moveShape(Object box) {
-    assert box != null;
-    float x = box.getShape().getX();
-    float y = box.getShape().getY();
-    float duration = Level.LV8.x;
-    box.getShape().addAction(GTemporalAction.add(duration, (p, a) -> {
-      Vector2 temp = new Vector2(x, y);
-
-      if (Intersector.overlapConvexPolygons(box.getPolygon(), square.getPolygon())) {
-        Gdx.app.log("COLLI", C.lang.title);
-        box.getShape().clear();
-      }
-      else {
-        temp = logic.calPosObj(temp.x, temp.y, p, 1);
-        box.setVertices(logic.calVertices(box.getShape(), temp.x, temp.y, 1));
-        box.getShape().setPosition(temp.x, temp.y);
-      }
-    }));
+  private void startGame(Object obj) {
+    gUI.addActor(obj);
+    obj.addAction(GSimpleAction.simpleAction(this::moveObject));
   }
+
+  private boolean moveObject(float dt, Actor a) {
+    Object obj = (Object) a;
+    Vector2 v = logic.posShowObj();
+
+    obj.addScence(gUI, gShapeRender);
+    obj.setCollision(this);
+    obj.setPos((int)v.x);
+    obj.move(square, Level.LV3, logic, (int)v.x, (int)v.y);
+
+    SequenceAction seq = sequence();
+    seq.addAction(delay(Level.LV3.z));
+    seq.addAction(Actions.run(this::nextObj));
+
+    gUI.addAction(seq);
+    return true;
+  }
+
+  private void nextObj() {
+    Gdx.app.log("AA", "AA");
+    startGame(getObject());
+  }
+
+  @Override
+  public void collided(Object obj) {
+    float[] v = obj.getVertices();
+    Vector2 p2 = new Vector2(v[2], v[3]);
+    Vector2 p4 = new Vector2(v[6], v[7]);
+
+    obj.isAlive = false;
+
+    float pOfM1 = logic.pointOfDomain(square.getShape(), p2);
+    float pOfM2 = logic.pointOfDomain(square.getShape(), p4);
+
+//    Gdx.app.log("COLLISION", pOfM1 + "  " + pOfM2);
+    obj.remove();
+  }
+
+  private Object getObject() {
+    int i = (int) Math.floor(Math.random() * 3);
+
+    for (Object o : listObjGamePlay.get(i))
+      if (!o.isAlive) {
+        o.isAlive = true;
+        o.clear();
+        return o;
+      }
+    return null;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   @Override
   public void run() {

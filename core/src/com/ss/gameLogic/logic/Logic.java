@@ -1,11 +1,10 @@
 package com.ss.gameLogic.logic;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.ss.gameLogic.config.Config;
-
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Logic {
   private static Logic instance;
@@ -22,16 +21,17 @@ public class Logic {
     r = c.dst(img.getX(), img.getY());
   }
 
-  public float vDomain(Image shape, Image img) {
-    float deg = 90 - (shape.getRotation() + degree);
+  //check point belong to what domain
+  public float pointOfDomain(Image objC, Image obj) {
+    float deg = 90 - (objC.getRotation() + degree);
     Vector2 a = new Vector2(c.x + r* MathUtils.cosDeg(deg), c.y - r*MathUtils.sinDeg(deg));
     Vector2 b = new Vector2(c.x - r* MathUtils.cosDeg(deg), c.y + r*MathUtils.sinDeg(deg));
 
-    return (img.getX() - a.x)*(b.y - a.y) - (img.getY() - a.y)*(b.x - a.x);
+    return (obj.getX() - a.x)*(b.y - a.y) - (obj.getY() - a.y)*(b.x - a.x);
   }
 
-  public float vDomain(Image shape, Vector2 v) {
-    float deg = 90 - (shape.getRotation() + degree);
+  public float pointOfDomain(Image objC, Vector2 v) {
+    float deg = 90 - (objC.getRotation() + degree);
     Vector2 a = new Vector2(c.x + r* MathUtils.cosDeg(deg), c.y - r*MathUtils.sinDeg(deg));
     Vector2 b = new Vector2(c.x - r* MathUtils.cosDeg(deg), c.y + r*MathUtils.sinDeg(deg));
 
@@ -62,7 +62,7 @@ public class Logic {
     return v;
   }
 
-  public Vector2 calPosObj(float x, float y, float p, int id) {
+  public Vector2 calPosObjWhileMoving(float x, float y, float p, int id) {
 
     Vector2 temp = new Vector2();
     switch (id) {
@@ -93,5 +93,38 @@ public class Logic {
     }
 
     return temp;
+  }
+
+  public Vector2 posShowObj() {
+    int pos = (int) Math.floor(Math.random() * 6);
+//    Gdx.app.log("POS", pos + "");
+    Vector2 v = new Vector2(); //x: position, y: degrees
+    switch (pos) {
+      case 0:
+        v.x = 0;
+        v.y = 0;
+        break;
+      case 1:
+        v.x = 1;
+        v.y = 45;
+        break;
+      case 2:
+        v.x = 2;
+        v.y = 0;
+        break;
+      case 3:
+        v.x = 3;
+        v.y = 0;
+        break;
+      case 4:
+        v.x = 4;
+        v.y = 45;
+        break;
+      case 5:
+        v.x = 5;
+        v.y = 0;
+        break;
+    }
+    return v;
   }
 }
