@@ -6,28 +6,63 @@ filter: Nearest,Nearest
 repeat: none
 bg
   rotate: false
-  xy: 2, 194
+  xy: 2, 689
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
   index: -1
 box
   rotate: false
-  xy: 2, 2
+  xy: 491, 649
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 half_square
   rotate: false
-  xy: 724, 1324
+  xy: 2, 42
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
+point_start
+  rotate: false
+  xy: 2, 2
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+polygon_center
+  rotate: false
+  xy: 2, 194
+  size: 487, 493
+  orig: 487, 493
+  offset: 0, 0
+  index: -1
+s_gray
+  rotate: false
+  xy: 876, 1931
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+s_half
+  rotate: false
+  xy: 154, 154
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+s_white
+  rotate: false
+  xy: 724, 1779
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
 square
   rotate: false
-  xy: 2, 42
+  xy: 724, 1819
   size: 150, 150
   orig: 150, 150
   offset: 0, 0

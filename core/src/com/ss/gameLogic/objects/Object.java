@@ -1,6 +1,5 @@
 package com.ss.gameLogic.objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -14,7 +13,6 @@ import com.ss.core.action.exAction.GTemporalAction;
 import com.ss.core.util.GUI;
 import com.ss.gameLogic.config.Config;
 import com.ss.gameLogic.interfaces.ICollision;
-import com.ss.gameLogic.interfaces.INextObject;
 import com.ss.gameLogic.logic.Logic;
 import com.ss.gameLogic.logic.ShapeLogic;
 
@@ -28,7 +26,8 @@ public class Object extends Actor {
   private int bound;
   private float degrees = 0; //end game reset degrees again
   private ICollision iCollision;
-  private INextObject iNextObject;
+  public int p1 = 0;
+  public int p2 = 0;
 
   public Object(String name, int bound){
     this.bound = bound;
@@ -46,11 +45,21 @@ public class Object extends Actor {
     switch (pos) {
       case 0:
 
+        if (bound == 0) {
+          p1 = 1;
+          p2 = -1;
+        }
+
         shape.setPosition(Config.POST1.x, Config.POST1.y);
         setVerLR(shape, vertices);
 
         break;
       case 1:
+
+        if (bound == 0) {
+          p1 = 1;
+          p2 = -1;
+        }
 
         shape.setPosition(Config.POST2.x, Config.POST2.y);
         shape.setOrigin(Align.center);
@@ -61,17 +70,35 @@ public class Object extends Actor {
         break;
       case 2:
 
+        if (bound == 0) {
+          p1 = -1;
+          p2 = 1;
+          id = 2;
+          shape.setOrigin(Align.center);
+          shape.rotateBy(90);
+        }
+
         shape.setPosition(Config.POST3.x, Config.POST3.y);
         setVerLR(shape, vertices);
 
         break;
       case 3:
 
+        if (bound == 0) {
+          p1 = 1;
+          p2 = -1;
+        }
+
         shape.setPosition(Config.POST4.x, Config.POST4.y);
         setVerLR(shape, vertices);
 
         break;
       case 4:
+
+        if (bound == 0) {
+          p1 = 1;
+          p2 = -1;
+        }
 
         shape.setPosition(Config.POST5.x, Config.POST5.y);
         shape.setOrigin(Align.center);
@@ -81,6 +108,14 @@ public class Object extends Actor {
 
         break;
       case 5:
+
+        if (bound == 0) {
+          p1 = -1;
+          p2 = 1;
+          id = 5;
+          shape.setOrigin(Align.center);
+          shape.rotateBy(90);
+        }
 
         shape.setPosition(Config.POST6.x, Config.POST6.y);
         setVerLR(shape, vertices);
@@ -168,21 +203,22 @@ public class Object extends Actor {
 
   @Override
   public boolean remove() {
+    p1 = 0;
+    p2 = 0;
+    id = -1;
+    isAlive = false;
     shape.remove();
     shapeLogic.remove();
     return super.remove();
   }
-
-  //  public void remove() {
-//    shape.remove();
-//    shapeLogic.remove();
-//  }
 
   public Image getShape() {return shape;}
 
   public Polygon getPolygon() { return shapeLogic.getPolygon(); }
 
   public void setId(int id) { this.id = id; }
+
+  public int getId() { return this.id; }
 
   public int getBound() { return bound; }
 

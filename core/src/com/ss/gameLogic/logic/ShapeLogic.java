@@ -27,6 +27,7 @@ public class ShapeLogic extends Actor {
   public void draw(Batch batch, float parentAlpha) {
     super.draw(batch, parentAlpha);
     shapeR.begin(ShapeRenderer.ShapeType.Line);
+    shapeR.setColor(255, 0, 0, 1);
     shapeR.polygon(polygon.getTransformedVertices());
     shapeR.end();
   }
