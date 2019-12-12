@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.Align;
 import com.ss.GMain;
 import com.ss.core.util.GUI;
 import com.ss.gameLogic.config.Config;
+import com.ss.scenes.GameScene;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class Shape {
     return instance == null ? instance = new Shape() : instance;
   }
 
-  public void createShape(String name0, String name1, String name2) {
+  public void createShape(GameScene G, String name0, String name1, String name2) {
     for (int i = 0; i < 15; i++) {
       shape0.add(new Object(name0, 0));
       shape1.add(new Object(name1, -1));
@@ -29,12 +31,12 @@ public class Shape {
     }
   }
 
-  public void createPointStart(Group group) {
+  public void createPointStart(Group gUI) {
     //polygon in center
     Image polygonCenter = GUI.createImage(GMain.textureAtlas, "polygon_center");
     assert polygonCenter != null;
-    polygonCenter.setPosition(group.getWidth()/2 - polygonCenter.getWidth()/2, group.getHeight()/2 - polygonCenter.getHeight()/2);
-    group.addActor(polygonCenter);
+    polygonCenter.setPosition(gUI.getWidth()/2 - polygonCenter.getWidth()/2, gUI.getHeight()/2 - polygonCenter.getHeight()/2);
+    gUI.addActor(polygonCenter);
 
     //point start
     for (int i = 0; i < 6; i++) {
@@ -45,7 +47,7 @@ public class Shape {
         img.rotateBy(45);
       }
       img.setPosition(Config.arrPos.get(i).x, Config.arrPos.get(i).y);
-      group.addActor(img);
+      gUI.addActor(img);
     }
   }
 }

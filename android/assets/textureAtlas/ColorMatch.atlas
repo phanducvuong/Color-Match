@@ -11,9 +11,16 @@ bg
   orig: 720, 1280
   offset: 0, 0
   index: -1
+border_square
+  rotate: false
+  xy: 491, 587
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
 box
   rotate: false
-  xy: 491, 649
+  xy: 724, 1779
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
@@ -27,7 +34,7 @@ half_square
   index: -1
 point_start
   rotate: false
-  xy: 2, 2
+  xy: 154, 154
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
@@ -41,21 +48,21 @@ polygon_center
   index: -1
 s_gray
   rotate: false
-  xy: 876, 1931
+  xy: 2, 2
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 s_half
   rotate: false
-  xy: 154, 154
+  xy: 491, 547
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 s_white
   rotate: false
-  xy: 724, 1779
+  xy: 876, 1931
   size: 38, 38
   orig: 38, 38
   offset: 0, 0

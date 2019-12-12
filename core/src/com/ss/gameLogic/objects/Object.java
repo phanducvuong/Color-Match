@@ -1,5 +1,6 @@
 package com.ss.gameLogic.objects;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -21,15 +22,16 @@ public class Object extends Actor {
   private Image shape;
   private ShapeLogic shapeLogic;
   private float[] vertices;
-  private int id;
+  private int id; //check special position
   public boolean isAlive = false;
-  private int bound;
-  private float degrees = 0; //end game reset degrees again
+  private int bound; // =1 + || =1 - || =0 half-color
+  private float degrees = 0; //end game start degrees again
   private ICollision iCollision;
   public int p1 = 0;
   public int p2 = 0;
+  public Image borderSquare;
 
-  public Object(String name, int bound){
+  public Object(String name, int bound) {
     this.bound = bound;
     this.vertices = new float[]{};
 
@@ -38,85 +40,151 @@ public class Object extends Actor {
 
     vertices = new float[]{0,0,0,0,0,0,0,0};
     this.shapeLogic = new ShapeLogic(vertices);
+
+    borderSquare = GUI.createImage(GMain.textureAtlas, "border_square");
+    assert borderSquare != null;
+    borderSquare.setOrigin(Align.center);
+    borderSquare.setColor(Color.RED);
   }
 
+  //update new position and vertices
   public void setPos(int pos) {
     shape.setRotation(0);
     switch (pos) {
       case 0:
-
         if (bound == 0) {
-          p1 = 1;
-          p2 = -1;
+          int r = (int)Math.floor(Math.random() * 2);
+          if (r == 0) {
+            p1 = 1;
+            p2 = -1;
+          }
+          else {
+            p1 = -1;
+            p2 = 1;
+            shape.setOrigin(Align.center);
+            shape.rotateBy(180);
+          }
         }
 
+        borderSquare.setPosition(Config.POST1.x - Config.ODDPOINTSTART, Config.POST1.y - Config.ODDPOINTSTART);
         shape.setPosition(Config.POST1.x, Config.POST1.y);
         setVerLR(shape, vertices);
 
         break;
       case 1:
-
-        if (bound == 0) {
-          p1 = 1;
-          p2 = -1;
-        }
-
-        shape.setPosition(Config.POST2.x, Config.POST2.y);
         shape.setOrigin(Align.center);
-        shape.rotateBy(45);
+        if (bound == 0) {
+          int r = (int)Math.floor(Math.random() * 2);
+
+          if (r == 0) {
+            p1 = 1;
+            p2 = -1;
+            shape.rotateBy(45);
+          }
+          else {
+            p1 = -1;
+            p2 = 1;
+            shape.rotateBy(225);
+          }
+        }
+        else shape.rotateBy(45);
+
+        borderSquare.setPosition(Config.POST2.x - Config.ODDPOINTSTART, Config.POST2.y - Config.ODDPOINTSTART);
+        borderSquare.setRotation(45);
+        shape.setPosition(Config.POST2.x, Config.POST2.y);
 
         setVerCenter(shape, vertices);
 
         break;
       case 2:
-
         if (bound == 0) {
-          p1 = -1;
-          p2 = 1;
-          id = 2;
+          int r = (int)Math.floor(Math.random() * 2);
+
           shape.setOrigin(Align.center);
-          shape.rotateBy(90);
+          id = 2;
+          if (r == 0) {
+            p1 = -1;
+            p2 = 1;
+            shape.rotateBy(90);
+          }
+          else {
+            p1 = 1;
+            p2 = -1;
+            shape.rotateBy(270);
+          }
         }
 
+        borderSquare.setPosition(Config.POST3.x - Config.ODDPOINTSTART, Config.POST3.y - Config.ODDPOINTSTART);
         shape.setPosition(Config.POST3.x, Config.POST3.y);
         setVerLR(shape, vertices);
 
         break;
       case 3:
-
         if (bound == 0) {
-          p1 = 1;
-          p2 = -1;
+          int r = (int)Math.floor(Math.random() * 2);
+
+          if (r == 0) {
+            p1 = 1;
+            p2 = -1;
+          }
+          else {
+            p1 = -1;
+            p2 = 1;
+            shape.setOrigin(Align.center);
+            shape.rotateBy(180);
+          }
         }
 
+        borderSquare.setPosition(Config.POST4.x - Config.ODDPOINTSTART, Config.POST4.y - Config.ODDPOINTSTART);
         shape.setPosition(Config.POST4.x, Config.POST4.y);
         setVerLR(shape, vertices);
 
         break;
       case 4:
-
-        if (bound == 0) {
-          p1 = 1;
-          p2 = -1;
-        }
-
-        shape.setPosition(Config.POST5.x, Config.POST5.y);
         shape.setOrigin(Align.center);
-        shape.rotateBy(45);
+        if (bound == 0) {
+          int r = (int)Math.floor(Math.random() * 2);
+
+          if (r == 0) {
+            p1 = 1;
+            p2 = -1;
+            shape.rotateBy(45);
+          }
+          else {
+            p1 = -1;
+            p2 = 1;
+            shape.rotateBy(225);
+          }
+        }
+        else shape.rotateBy(45);
+
+
+        borderSquare.setPosition(Config.POST5.x - Config.ODDPOINTSTART, Config.POST5.y - Config.ODDPOINTSTART);
+        borderSquare.setRotation(45);
+        shape.setPosition(Config.POST5.x, Config.POST5.y);
 
         setVerCenter(shape, vertices);
 
         break;
       case 5:
-
         if (bound == 0) {
-          p1 = -1;
-          p2 = 1;
-          id = 5;
+          int r = (int)Math.floor(Math.random() * 2);
+
           shape.setOrigin(Align.center);
-          shape.rotateBy(90);
+          id = 5;
+          if (r == 0) {
+            p1 = -1;
+            p2 = 1;
+            shape.rotateBy(90);
+          }
+          else {
+            p1 = 1;
+            p2 = -1;
+            shape.rotateBy(270);
+          }
         }
 
+        borderSquare.setPosition(Config.POST6.x - Config.ODDPOINTSTART, Config.POST6.y - Config.ODDPOINTSTART);
         shape.setPosition(Config.POST6.x, Config.POST6.y);
         setVerLR(shape, vertices);
 
@@ -179,7 +247,7 @@ public class Object extends Actor {
     float duration = lv.x;
 
     if (id == 1 || id == 4)
-      duration -= 1.5f;
+      duration -= Config.DELTATIME;
 
     shape.addAction(GTemporalAction.add(duration, (p, a) -> {
       Vector2 tempPos = new Vector2(x, y);
@@ -196,7 +264,7 @@ public class Object extends Actor {
   }
 
 
-  public void addScence(Group gUI, Group gShapeRender) {
+  public void addScene(Group gUI, Group gShapeRender) {
     gUI.addActor(shape);
     gShapeRender.addActor(shapeLogic);
   }
@@ -209,12 +277,15 @@ public class Object extends Actor {
     isAlive = false;
     shape.remove();
     shapeLogic.remove();
+    borderSquare.remove();
+    borderSquare.setRotation(0);
+    borderSquare.setScale(1);
     return super.remove();
   }
 
   public Image getShape() {return shape;}
 
-  public Polygon getPolygon() { return shapeLogic.getPolygon(); }
+  private Polygon getPolygon() { return shapeLogic.getPolygon(); }
 
   public void setId(int id) { this.id = id; }
 

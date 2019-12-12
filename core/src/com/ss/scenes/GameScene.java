@@ -1,6 +1,7 @@
 package com.ss.scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import static com.badlogic.gdx.math.Interpolation.*;
 import com.badlogic.gdx.math.Vector2;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.utils.Align;
 import com.platform.IPlatform;
 import com.ss.GMain;
 import com.ss.core.action.exAction.GSimpleAction;
+import com.ss.core.action.exAction.GTween;
 import com.ss.core.util.GLayer;
 import com.ss.core.util.GScreen;
 import com.ss.core.util.GStage;
@@ -45,6 +47,8 @@ public class GameScene extends GScreen implements ICollision {
 
   private List<List<Object>> listObjGamePlay;
 
+  private Image test;
+
   @Override
   public void dispose() {
 
@@ -63,9 +67,6 @@ public class GameScene extends GScreen implements ICollision {
 
     listObjGamePlay = new ArrayList<>();
 
-    gUI.debug();
-    gShapeRender.debug();
-
     initAsset();
     createShapeMain("square");
     initLogic();
@@ -75,6 +76,8 @@ public class GameScene extends GScreen implements ICollision {
     createListObject();
     nextObj();
   }
+
+  //////////////////////////////////////////INIT////////////////////////////////////////////////////
 
   //caculate poin in center and radius
   private void initLogic() {
@@ -92,7 +95,7 @@ public class GameScene extends GScreen implements ICollision {
     gUI.setZIndex(1000);
     gShapeRender.setZIndex(1000);
 
-    shape.createShape("s_half", "s_white", "s_gray");
+    shape.createShape(this, "s_half", "s_white", "s_gray");
     shape.createPointStart(gUI);
   }
 
@@ -119,7 +122,7 @@ public class GameScene extends GScreen implements ICollision {
 
   private void createShapeMain(String name) {
     square = new Object(name, 1);
-    square.addScence(gUI, gShapeRender);
+    square.addScene(gUI, gShapeRender);
     square.getShape().setOrigin(Align.center);
     square.getShape().setPosition(gUI.getWidth()/2, gUI.getHeight()/2, Align.center);
     square.getShape().setScale(.5f);
@@ -132,6 +135,10 @@ public class GameScene extends GScreen implements ICollision {
     listObjGamePlay.add(shape.shape2);
   }
 
+  //////////////////////////////////////////INIT////////////////////////////////////////////////////
+
+  //////////////////////////////////////////GAME PLAY///////////////////////////////////////////////
+
   private void startGame(Object obj) {
     gUI.addActor(obj);
     obj.addAction(GSimpleAction.simpleAction(this::moveObject));
@@ -141,16 +148,24 @@ public class GameScene extends GScreen implements ICollision {
     Object obj = (Object) a;
     Vector2 v = logic.posShowObj();
 
-    obj.addScence(gUI, gShapeRender);
+    obj.addScene(gUI, gShapeRender);
     obj.setCollision(this);
     obj.setPos((int)v.x);
-    obj.move(square, Level.LV5, logic, (int)v.x, (int)v.y);
+
+    gUI.addActor(obj.borderSquare);
+    GTween.action(obj.borderSquare, scaleTo(.4f, .4f, 1f, linear),
+            () -> {
+              obj.move(square, Level.LV1, logic, (int)v.x, (int)v.y);
+              obj.borderSquare.remove();
+            }
+    );
 
     SequenceAction seq = sequence();
-    seq.addAction(delay(Level.LV5.z));
+    seq.addAction(delay(Level.LV1.z));
     seq.addAction(Actions.run(this::nextObj));
 
     gUI.addAction(seq);
+
     return true;
   }
 
@@ -169,19 +184,21 @@ public class GameScene extends GScreen implements ICollision {
     Vector2 pObj1 = new Vector2();
     Vector2 pObj2 = new Vector2();
 
+    //get vertices
     if (id == 2 || id == 5) {
       pObj1.x = v[0]; pObj1.y = v[1];
       pObj2.x = v[4]; pObj2.y = v[5];
-//      Gdx.app.log("HALF", "Half" + " id: " + id + " bound: " + bound);
     }
     else {
       pObj1.x = v[2]; pObj1.y = v[3];
       pObj2.x = v[6]; pObj2.y = v[7];
     }
 
+    //caculate point in which main
     float pOfM1 = logic.pointOfDomain(square.getShape(), pObj1);
     float pOfM2 = logic.pointOfDomain(square.getShape(), pObj2);
 
+    //condition to continue game or end game
     if (bound == 0) {
       if (p1 < 0 && pOfM1 < 0 && p2 > 0 && pOfM2 > 0)
         Gdx.app.log("BOUND", bound + "  id: " + id);
@@ -197,7 +214,6 @@ public class GameScene extends GScreen implements ICollision {
       else Gdx.app.log("END", "End Game!");
     }
 
-//    Gdx.app.log("COLLISION", pOfM1 + "  " + pOfM2);
     obj.remove();
   }
 

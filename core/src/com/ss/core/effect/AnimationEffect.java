@@ -9,15 +9,15 @@ import java.util.List;
 
 public class AnimationEffect {
 
-//    private static TextureAtlas textureAtlas = GMain.textureAtlas;
+    private static TextureAtlas textureAtlas = GMain.textureAtlas;
     public static HashMap<String, TextureRegion[]> anims = new HashMap<>();
-    public static TextureRegion[] listFrameGirlAnimation;
+    public static TextureRegion[] listFrameObj;
 
     public static void LoadAnimation() {
-//        listFrameGirlAnimation = new TextureRegion[21];
-//        for (int i = 0; i < 21; i++)
-//            listFrameGirlAnimation[i] = textureAtlas.findRegion("girl", i);
-//
-//        anims.put("girl_anim", listFrameGirlAnimation);
+        listFrameObj = new TextureRegion[7];
+        for (int i = 0; i < 7; i++)
+            listFrameObj[i] = textureAtlas.findRegion("obj_anim"+i);
+
+        anims.put("obj_anim", listFrameObj);
     }
 }

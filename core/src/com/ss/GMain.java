@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.platform.IPlatform;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.ss.core.effect.AnimationEffect;
 import com.ss.core.exSprite.particle.GParticleSystem;
 import com.ss.core.util.GAssetsManager;
 import com.ss.core.util.GDirectedGame;
@@ -91,6 +92,7 @@ public class GMain extends GDirectedGame {
     Config.addArrPos();
     this.init();
     C.init();
+    AnimationEffect.LoadAnimation();
     this.setScreen(menuScreen());
   }
   
