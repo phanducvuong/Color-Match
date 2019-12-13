@@ -4,72 +4,93 @@ size: 1024,2048
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+back_obj
+  rotate: false
+  xy: 2, 2
+  size: 50, 95
+  orig: 50, 95
+  offset: 0, 0
+  index: -1
 bg
   rotate: false
-  xy: 2, 689
+  xy: 2, 746
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
   index: -1
 border_square
   rotate: false
-  xy: 491, 587
+  xy: 491, 644
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 box
   rotate: false
-  xy: 724, 1779
+  xy: 154, 211
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
-half_square
+half_obj_down
   rotate: false
-  xy: 2, 42
+  xy: 876, 1926
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+half_obj_up
+  rotate: false
+  xy: 724, 1774
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+mona_lisa
+  rotate: false
+  xy: 724, 1876
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
+mona_lisa2
+  rotate: false
+  xy: 491, 604
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
 point_start
   rotate: false
-  xy: 154, 154
+  xy: 724, 1734
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 polygon_center
   rotate: false
-  xy: 2, 194
+  xy: 2, 251
   size: 487, 493
   orig: 487, 493
   offset: 0, 0
   index: -1
-s_gray
-  rotate: false
-  xy: 2, 2
-  size: 38, 38
-  orig: 38, 38
-  offset: 0, 0
-  index: -1
-s_half
-  rotate: false
-  xy: 491, 547
-  size: 38, 38
-  orig: 38, 38
-  offset: 0, 0
-  index: -1
-s_white
-  rotate: false
-  xy: 876, 1931
-  size: 38, 38
-  orig: 38, 38
-  offset: 0, 0
-  index: -1
 square
   rotate: false
-  xy: 724, 1819
+  xy: 593, 706
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+square2
+  rotate: false
+  xy: 826, 1836
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+square_main
+  rotate: false
+  xy: 2, 99
   size: 150, 150
   orig: 150, 150
   offset: 0, 0

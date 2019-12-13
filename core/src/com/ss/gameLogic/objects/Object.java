@@ -1,12 +1,14 @@
 package com.ss.gameLogic.objects;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.ss.GMain;
@@ -29,27 +31,40 @@ public class Object extends Actor {
   private ICollision iCollision;
   public int p1 = 0;
   public int p2 = 0;
-  public Image borderSquare;
+  public Image imgBackObj;
+  private Image borderDown, borderUp;
+  public Group gBorderSquare; //group contain border of object
 
   public Object(String name, int bound) {
+    this.gBorderSquare = new Group();
     this.bound = bound;
     this.vertices = new float[]{};
 
     this.shape = GUI.createImage(GMain.textureAtlas, name);
-    assert this.shape != null;
 
     vertices = new float[]{0,0,0,0,0,0,0,0};
     this.shapeLogic = new ShapeLogic(vertices);
 
-    borderSquare = GUI.createImage(GMain.textureAtlas, "border_square");
-    assert borderSquare != null;
-    borderSquare.setOrigin(Align.center);
-    borderSquare.setColor(Color.RED);
+    createBorder();
+
+    imgBackObj = GUI.createImage(GMain.textureAtlas, "back_obj");
+    assert imgBackObj != null;
+    imgBackObj.setOrigin(Align.center);
+  }
+
+  private void createBorder() {
+    borderDown = GUI.createImage(GMain.textureAtlas, "half_obj_down");
+    borderUp = GUI.createImage(GMain.textureAtlas, "half_obj_up");
+    gBorderSquare.addActor(borderDown);
+    gBorderSquare.addActor(borderUp);
+    gBorderSquare.setOrigin(borderDown.getWidth()/2, borderDown.getHeight()/2);
   }
 
   //update new position and vertices
   public void setPos(int pos) {
+
     shape.setRotation(0);
+
     switch (pos) {
       case 0:
         if (bound == 0) {
@@ -63,11 +78,14 @@ public class Object extends Actor {
             p2 = 1;
             shape.setOrigin(Align.center);
             shape.rotateBy(180);
+            gBorderSquare.rotateBy(180);
           }
         }
 
-        borderSquare.setPosition(Config.POST1.x - Config.ODDPOINTSTART, Config.POST1.y - Config.ODDPOINTSTART);
+        gBorderSquare.setPosition(Config.POST1.x - Config.ODDPOINTSTART, Config.POST1.y - Config.ODDPOINTSTART);
         shape.setPosition(Config.POST1.x, Config.POST1.y);
+        imgBackObj.setPosition(Config.POST_BACK1.x, Config.POST_BACK1.y);
+        imgBackObj.rotateBy(135);
         setVerLR(shape, vertices);
 
         break;
@@ -80,18 +98,24 @@ public class Object extends Actor {
             p1 = 1;
             p2 = -1;
             shape.rotateBy(45);
+            gBorderSquare.setRotation(45);
           }
           else {
             p1 = -1;
             p2 = 1;
             shape.rotateBy(225);
+            gBorderSquare.setRotation(225);
           }
         }
-        else shape.rotateBy(45);
+        else {
+          shape.rotateBy(45);
+          gBorderSquare.setRotation(45);
+        }
 
-        borderSquare.setPosition(Config.POST2.x - Config.ODDPOINTSTART, Config.POST2.y - Config.ODDPOINTSTART);
-        borderSquare.setRotation(45);
+        gBorderSquare.setPosition(Config.POST2.x - Config.ODDPOINTSTART, Config.POST2.y - Config.ODDPOINTSTART);
         shape.setPosition(Config.POST2.x, Config.POST2.y);
+        imgBackObj.setPosition(Config.POST_BACK2.x, Config.POST_BACK2.y);
+        imgBackObj.rotateBy(180);
 
         setVerCenter(shape, vertices);
 
@@ -106,16 +130,20 @@ public class Object extends Actor {
             p1 = -1;
             p2 = 1;
             shape.rotateBy(90);
+            gBorderSquare.rotateBy(90);
           }
           else {
             p1 = 1;
             p2 = -1;
             shape.rotateBy(270);
+            gBorderSquare.rotateBy(270);
           }
         }
 
-        borderSquare.setPosition(Config.POST3.x - Config.ODDPOINTSTART, Config.POST3.y - Config.ODDPOINTSTART);
+        gBorderSquare.setPosition(Config.POST3.x - Config.ODDPOINTSTART, Config.POST3.y - Config.ODDPOINTSTART);
         shape.setPosition(Config.POST3.x, Config.POST3.y);
+        imgBackObj.setPosition(Config.POST_BACK3.x, Config.POST_BACK3.y);
+        imgBackObj.rotateBy(-135);
         setVerLR(shape, vertices);
 
         break;
@@ -132,11 +160,14 @@ public class Object extends Actor {
             p2 = 1;
             shape.setOrigin(Align.center);
             shape.rotateBy(180);
+            gBorderSquare.rotateBy(180);
           }
         }
 
-        borderSquare.setPosition(Config.POST4.x - Config.ODDPOINTSTART, Config.POST4.y - Config.ODDPOINTSTART);
+        gBorderSquare.setPosition(Config.POST4.x - Config.ODDPOINTSTART, Config.POST4.y - Config.ODDPOINTSTART);
         shape.setPosition(Config.POST4.x, Config.POST4.y);
+        imgBackObj.setPosition(Config.POST_BACK4.x, Config.POST_BACK4.y);
+        imgBackObj.rotateBy(-45);
         setVerLR(shape, vertices);
 
         break;
@@ -149,19 +180,23 @@ public class Object extends Actor {
             p1 = 1;
             p2 = -1;
             shape.rotateBy(45);
+            gBorderSquare.rotateBy(45);
           }
           else {
             p1 = -1;
             p2 = 1;
             shape.rotateBy(225);
+            gBorderSquare.rotateBy(225);
           }
         }
-        else shape.rotateBy(45);
+        else {
+          shape.rotateBy(45);
+          gBorderSquare.rotateBy(45);
+        }
 
-
-        borderSquare.setPosition(Config.POST5.x - Config.ODDPOINTSTART, Config.POST5.y - Config.ODDPOINTSTART);
-        borderSquare.setRotation(45);
+        gBorderSquare.setPosition(Config.POST5.x - Config.ODDPOINTSTART, Config.POST5.y - Config.ODDPOINTSTART);
         shape.setPosition(Config.POST5.x, Config.POST5.y);
+        imgBackObj.setPosition(Config.POST_BACK5.x, Config.POST_BACK5.y);
 
         setVerCenter(shape, vertices);
 
@@ -176,16 +211,20 @@ public class Object extends Actor {
             p1 = -1;
             p2 = 1;
             shape.rotateBy(90);
+            gBorderSquare.rotateBy(90);
           }
           else {
             p1 = 1;
             p2 = -1;
             shape.rotateBy(270);
+            gBorderSquare.rotateBy(270);
           }
         }
 
-        borderSquare.setPosition(Config.POST6.x - Config.ODDPOINTSTART, Config.POST6.y - Config.ODDPOINTSTART);
+        gBorderSquare.setPosition(Config.POST6.x - Config.ODDPOINTSTART, Config.POST6.y - Config.ODDPOINTSTART);
         shape.setPosition(Config.POST6.x, Config.POST6.y);
+        imgBackObj.setPosition(Config.POST_BACK6.x, Config.POST_BACK6.y);
+        imgBackObj.rotateBy(45);
         setVerLR(shape, vertices);
 
         break;
@@ -242,27 +281,34 @@ public class Object extends Actor {
   }
 
   public void move(Object box, Vector3 lv, Logic logic, int id, int quadrant) {
-    float x = shape.getX();
-    float y = shape.getY();
+    float xS = shape.getX();
+    float yS = shape.getY();
+    float xB = imgBackObj.getX();
+    float yB = imgBackObj.getY();
     float duration = lv.x;
 
     if (id == 1 || id == 4)
       duration -= Config.DELTATIME;
 
+    imgBackObj.addAction(Actions.alpha(1, 3.5f, Interpolation.linear));
+
     shape.addAction(GTemporalAction.add(duration, (p, a) -> {
-      Vector2 tempPos = new Vector2(x, y);
+      Vector2 tempPosShape = new Vector2(xS, yS);
+      Vector2 temPosBackObj = new Vector2(xB, yB);
 
       if (Intersector.overlapConvexPolygons(this.getPolygon(), box.getPolygon())) {
         shape.clear();
+        imgBackObj.clear();
         iCollision.collided(this);
       }
 
-      tempPos = logic.calPosObjWhileMoving(tempPos.x, tempPos.y, p, id);
-      this.setVertices(logic.calVertices(shape, tempPos.x, tempPos.y, quadrant));
-      shape.setPosition(tempPos.x, tempPos.y);
+      tempPosShape = logic.calPosObjWhileMoving(tempPosShape.x, tempPosShape.y, p, id);
+      temPosBackObj = logic.calPosObjWhileMoving(temPosBackObj.x, temPosBackObj.y, p, id);
+      this.setVertices(logic.calVertices(shape, tempPosShape.x, tempPosShape.y, quadrant));
+      shape.setPosition(tempPosShape.x, tempPosShape.y);
+      imgBackObj.setPosition(temPosBackObj.x, temPosBackObj.y);
     }));
   }
-
 
   public void addScene(Group gUI, Group gShapeRender) {
     gUI.addActor(shape);
@@ -275,11 +321,16 @@ public class Object extends Actor {
     p2 = 0;
     id = -1;
     isAlive = false;
+
     shape.remove();
     shapeLogic.remove();
-    borderSquare.remove();
-    borderSquare.setRotation(0);
-    borderSquare.setScale(1);
+
+    gBorderSquare.setRotation(0);
+    gBorderSquare.setScale(1);
+
+    imgBackObj.remove();
+    imgBackObj.getColor().a = 0;
+    imgBackObj.setRotation(0);
     return super.remove();
   }
 
@@ -298,4 +349,14 @@ public class Object extends Actor {
   }
 
   public float[] getVertices() { return vertices; }
+
+  public void setColorObject(Color cDown, Color cUp, Color cShape, Color cBackObj) {
+    borderDown.setColor(cDown);
+    borderUp.setColor(cUp);
+    if (cShape != null && cBackObj != null) {
+      shape.setColor(cShape);
+      imgBackObj.setColor(cBackObj);
+    }
+    imgBackObj.getColor().a = 0;
+  }
 }

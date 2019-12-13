@@ -5,9 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.ss.GMain;
 import com.ss.core.util.GUI;
+import com.ss.gameLogic.config.Colors;
 import com.ss.gameLogic.config.Config;
-import com.ss.scenes.GameScene;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +22,20 @@ public class Shape {
     return instance == null ? instance = new Shape() : instance;
   }
 
-  public void createShape(GameScene G, String name0, String name1, String name2) {
+  public void createShape(String name0, String name1) {
     for (int i = 0; i < 15; i++) {
-      shape0.add(new Object(name0, 0));
-      shape1.add(new Object(name1, -1));
-      shape2.add(new Object(name2, 1));
+      Object O1 = new Object(name0, 0);
+      O1.setColorObject(Colors.MONA_LISA, Colors.ANAKIWA, null, null);
+
+      Object O2 = new Object(name1, -1);
+      O2.setColorObject(Colors.MONA_LISA, Colors.MONA_LISA, Colors.MONA_LISA, Colors.MONA_LISA);
+
+      Object O3 = new Object(name1, 1);
+      O3.setColorObject(Colors.ANAKIWA, Colors.ANAKIWA, Colors.ANAKIWA, Colors.ANAKIWA);
+
+      shape0.add(O1);
+      shape1.add(O2);
+      shape2.add(O3);
     }
   }
 

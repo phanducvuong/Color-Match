@@ -1,7 +1,6 @@
 package com.ss.scenes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import static com.badlogic.gdx.math.Interpolation.*;
 import com.badlogic.gdx.math.Vector2;
@@ -47,8 +46,6 @@ public class GameScene extends GScreen implements ICollision {
 
   private List<List<Object>> listObjGamePlay;
 
-  private Image test;
-
   @Override
   public void dispose() {
 
@@ -68,10 +65,9 @@ public class GameScene extends GScreen implements ICollision {
     listObjGamePlay = new ArrayList<>();
 
     initAsset();
-    createShapeMain("square");
+    createShapeMain("mona_lisa");
     initLogic();
     eventClick();
-
 
     createListObject();
     nextObj();
@@ -95,7 +91,7 @@ public class GameScene extends GScreen implements ICollision {
     gUI.setZIndex(1000);
     gShapeRender.setZIndex(1000);
 
-    shape.createShape(this, "s_half", "s_white", "s_gray");
+    shape.createShape("mona_lisa2", "square");
     shape.createPointStart(gUI);
   }
 
@@ -152,11 +148,13 @@ public class GameScene extends GScreen implements ICollision {
     obj.setCollision(this);
     obj.setPos((int)v.x);
 
-    gUI.addActor(obj.borderSquare);
-    GTween.action(obj.borderSquare, scaleTo(.4f, .4f, 1f, linear),
+    gUI.addActor(obj.gBorderSquare);
+    GTween.action(obj.gBorderSquare, scaleTo(.4f, .4f, 1f, linear),
             () -> {
+              gUI.addActor(obj.imgBackObj);
+              obj.getShape().setZIndex(1000);
               obj.move(square, Level.LV1, logic, (int)v.x, (int)v.y);
-              obj.borderSquare.remove();
+              obj.gBorderSquare.remove();
             }
     );
 
