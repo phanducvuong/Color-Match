@@ -4,6 +4,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.ss.gameLogic.config.Config;
+import com.ss.gameLogic.objects.Object;
+import com.ss.gameLogic.objects.Shape;
+
+import java.util.List;
 
 public class Logic {
   private static Logic instance;
@@ -126,6 +130,19 @@ public class Logic {
     }
     return v;
   }
+
+//  public Object getObject(List<Shape> listShape) {
+//    int i = (int) Math.floor(Math.random() * 3);
+//
+//    for (Object o : listShape.get(i))
+//      if (!o.isAlive) {
+//        o.turn = turn;
+//        o.isAlive = true;
+//        o.clear();
+//        return o;
+//      }
+//    return null;
+//  }
 
 //  public boolean
 }

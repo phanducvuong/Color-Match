@@ -1,96 +1,124 @@
 
 ColorMatch.png
-size: 1024,2048
+size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+action_polygon
+  rotate: false
+  xy: 1213, 1928
+  size: 103, 104
+  orig: 103, 104
+  offset: 0, 0
+  index: -1
 back_obj
   rotate: false
-  xy: 2, 2
+  xy: 843, 1442
   size: 50, 95
   orig: 50, 95
   offset: 0, 0
   index: -1
 bg
   rotate: false
-  xy: 2, 746
+  xy: 2, 752
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
   index: -1
+border_poly_act
+  rotate: false
+  xy: 2, 194
+  size: 556, 556
+  orig: 556, 556
+  offset: 0, 0
+  index: -1
 border_square
   rotate: false
-  xy: 491, 644
+  xy: 154, 92
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 box
   rotate: false
-  xy: 154, 211
+  xy: 2, 2
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
+circle_click
+  rotate: false
+  xy: 724, 1419
+  size: 117, 118
+  orig: 117, 118
+  offset: 0, 0
+  index: -1
+half_back_obj
+  rotate: false
+  xy: 1213, 1832
+  size: 25, 94
+  orig: 25, 94
+  offset: 0, 0
+  index: -1
 half_obj_down
   rotate: false
-  xy: 876, 1926
+  xy: 724, 1317
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 half_obj_up
   rotate: false
-  xy: 724, 1774
+  xy: 560, 498
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 mona_lisa
   rotate: false
-  xy: 724, 1876
+  xy: 2, 42
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 mona_lisa2
   rotate: false
-  xy: 491, 604
+  xy: 1318, 1994
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 point_start
   rotate: false
-  xy: 724, 1734
+  xy: 256, 154
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 polygon_center
   rotate: false
-  xy: 2, 251
+  xy: 724, 1539
   size: 487, 493
   orig: 487, 493
   offset: 0, 0
   index: -1
 square
   rotate: false
-  xy: 593, 706
+  xy: 154, 52
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 square2
   rotate: false
-  xy: 826, 1836
+  xy: 560, 458
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 square_main
   rotate: false
-  xy: 2, 99
+  xy: 560, 600
   size: 150, 150
   orig: 150, 150
   offset: 0, 0

@@ -1,6 +1,7 @@
 package com.ss.scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import static com.badlogic.gdx.math.Interpolation.*;
 import com.badlogic.gdx.math.Vector2;
@@ -26,6 +27,7 @@ import com.ss.gameLogic.config.Level;
 import com.ss.gameLogic.interfaces.ICollision;
 import com.ss.gameLogic.logic.Logic;
 import com.ss.gameLogic.objects.Object;
+import com.ss.gameLogic.objects.PolygonAct;
 import com.ss.gameLogic.objects.Shape;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,13 @@ public class GameScene extends GScreen implements ICollision {
   private Shape shape = Shape.getInstance();
 
   private List<List<Object>> listObjGamePlay;
+
+  private Image circleClick;
+
+  private PolygonAct polygonAct;
+  private int turn = 0;
+  private int numberObjects = 5;
+  private boolean endGame = false;
 
   @Override
   public void dispose() {
@@ -70,6 +79,12 @@ public class GameScene extends GScreen implements ICollision {
     eventClick();
 
     createListObject();
+    createCircleClick();
+
+    polygonAct = new PolygonAct(gUI);
+    polygonAct.setDeltaScl(numberObjects);
+
+    square.getShape().setZIndex(1000);
     nextObj();
   }
 
@@ -97,6 +112,13 @@ public class GameScene extends GScreen implements ICollision {
 
   private void eventClick() {
     stageClick();
+  }
+
+  private void createCircleClick() {
+    circleClick = GUI.createImage(textureAtlas, "circle_click");
+    assert circleClick != null;
+    circleClick.setOrigin(Align.center);
+    circleClick.setScale(0);
   }
 
   private void stageClick() {
@@ -151,7 +173,7 @@ public class GameScene extends GScreen implements ICollision {
     gUI.addActor(obj.gBorderSquare);
     GTween.action(obj.gBorderSquare, scaleTo(.4f, .4f, 1f, linear),
             () -> {
-              gUI.addActor(obj.imgBackObj);
+              gUI.addActor(obj.gImgBack);
               obj.getShape().setZIndex(1000);
               obj.move(square, Level.LV1, logic, (int)v.x, (int)v.y);
               obj.gBorderSquare.remove();
@@ -168,7 +190,9 @@ public class GameScene extends GScreen implements ICollision {
   }
 
   private void nextObj() {
-    startGame(getObject());
+    turn++;
+    if (turn <= numberObjects && !endGame)
+      startGame(getObject());
   }
 
   @Override
@@ -198,21 +222,53 @@ public class GameScene extends GScreen implements ICollision {
 
     //condition to continue game or end game
     if (bound == 0) {
-      if (p1 < 0 && pOfM1 < 0 && p2 > 0 && pOfM2 > 0)
+      if (p1 < 0 && pOfM1 < 0 && p2 > 0 && pOfM2 > 0) {
         Gdx.app.log("BOUND", bound + "  id: " + id);
-      else if (p1 > 0 && pOfM1 > 0 && p2 < 0 && pOfM2 < 0)
+        eftCollition(obj);
+      }
+      else if (p1 > 0 && pOfM1 > 0 && p2 < 0 && pOfM2 < 0) {
         Gdx.app.log("BOUND", bound + "  id: " + id);
-      else Gdx.app.log("END", "End Game!");
+        eftCollition(obj);
+      }
+      else {
+        Gdx.app.log("END", "End Game!");
+        eftEndGame();
+      }
     }
     else {
-      if (bound > 0 && pOfM1 > 0 && pOfM2 > 0)
+      if (bound > 0 && pOfM1 > 0 && pOfM2 > 0) {
         Gdx.app.log("BOUND", bound + "");
-      else if (bound < 0 && pOfM1 < 0 && pOfM2 < 0)
+        eftCollition(obj);
+      }
+      else if (bound < 0 && pOfM1 < 0 && pOfM2 < 0) {
         Gdx.app.log("BOUND", bound + "");
-      else Gdx.app.log("END", "End Game!");
+        eftCollition(obj);
+      }
+      else {
+        Gdx.app.log("END", "End Game!");
+        eftEndGame();
+      }
     }
 
     obj.remove();
+  }
+
+  private void eftCollition(Object obj) {
+    if (obj.turn == numberObjects)
+      polygonAct.updatePolyAct(true);
+    else
+      polygonAct.updatePolyAct(false);
+  }
+
+  private void eftEndGame() {
+    endGame = true;
+    for (int i = 0; i < listObjGamePlay.size(); i++)
+      for (Object obj : listObjGamePlay.get(i))
+        if (obj.isAlive) {
+          obj.isAlive = false;
+          obj.clear();
+        }
+    turn = 0;
   }
 
   private Object getObject() {
@@ -220,6 +276,7 @@ public class GameScene extends GScreen implements ICollision {
 
     for (Object o : listObjGamePlay.get(i))
       if (!o.isAlive) {
+        o.turn = turn;
         o.isAlive = true;
         o.clear();
         return o;
