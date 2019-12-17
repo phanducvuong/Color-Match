@@ -12,7 +12,12 @@ public class Config {
   public static final float ODDPOINTSTART = 31;
 
   //time for obj in pos1 and pos 4
-  public static final float DELTATIME = 1.75f;
+  public static final float DELTATIME = 2f;
+
+  //connect to firebase to set timeshow and duration move
+  public static float TIMESHOW_MAX = 1.15f;
+  public static float DURATION_MAX = 6f;
+  public static int NUMOBJECT_NEXTLEVEL = 10;
 
   public static final Vector2 POST1 = new Vector2(60, 340);
   public static final Vector2 POST2 = new Vector2(342, 220);

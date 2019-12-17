@@ -1,25 +1,31 @@
 package com.ss.gameLogic.objects;
 
+import static com.badlogic.gdx.math.Interpolation.*;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
+
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.ss.GMain;
 import com.ss.core.action.exAction.GTween;
 import com.ss.core.util.GUI;
+import com.ss.gameLogic.interfaces.INextLevel;
 
 public class PolygonAct {
 
   private float deltaScl = 0;
   private float scl = 0;
   private Group gUI;
+  private INextLevel iNextLevel;
 
   private Image polyAct, borderPolyAct;
 
-  public PolygonAct(Group gUI) {
+  public PolygonAct(Group gUI, INextLevel iNextLevel) {
     this.gUI = gUI;
+    this.iNextLevel = iNextLevel;
 
     polyAct = GUI.createImage(GMain.textureAtlas, "action_polygon");
     assert polyAct != null;
@@ -36,12 +42,18 @@ public class PolygonAct {
 
   public void updatePolyAct(boolean isBorderPoly) {
     scl = polyAct.getScaleX() + deltaScl;
-    polyAct.addAction(Actions.scaleTo(scl, scl, .25f, Interpolation.linear));
+    polyAct.addAction(scaleTo(scl, scl, .25f, linear));
 
     if (isBorderPoly) {
-      Gdx.app.log("BORDER", "SHOW BORDER");
-      GTween.action(borderPolyAct, Actions.alpha(1, .5f, Interpolation.linear),
-              () -> borderPolyAct.addAction(Actions.alpha(0, .5f, Interpolation.linear)));
+      GTween.action(borderPolyAct, alpha(1, .5f, linear),
+              () -> GTween.action(borderPolyAct, alpha(0, .5f, linear),
+              () -> GTween.setTimeout(gUI, .5f,
+              () -> GTween.palActions(polyAct,
+                      () -> iNextLevel.nextLevel(), //next level to game scene
+                      scaleTo(1, 1, .5f, linear),
+                      rotateBy(-360, .5f, linear))
+              ))
+      );
     }
   }
 

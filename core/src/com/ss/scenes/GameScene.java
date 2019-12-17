@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import static com.badlogic.gdx.math.Interpolation.*;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -23,8 +24,10 @@ import com.ss.core.util.GLayer;
 import com.ss.core.util.GScreen;
 import com.ss.core.util.GStage;
 import com.ss.core.util.GUI;
+import com.ss.gameLogic.config.Config;
 import com.ss.gameLogic.config.Level;
 import com.ss.gameLogic.interfaces.ICollision;
+import com.ss.gameLogic.interfaces.INextLevel;
 import com.ss.gameLogic.logic.Logic;
 import com.ss.gameLogic.objects.Object;
 import com.ss.gameLogic.objects.PolygonAct;
@@ -32,7 +35,7 @@ import com.ss.gameLogic.objects.Shape;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameScene extends GScreen implements ICollision {
+public class GameScene extends GScreen implements ICollision, INextLevel {
 
   private TextureAtlas textureAtlas = GMain.textureAtlas;
   private Group gMain = new Group();
@@ -52,8 +55,11 @@ public class GameScene extends GScreen implements ICollision {
 
   private PolygonAct polygonAct;
   private int turn = 0;
-  private int numberObjects = 5;
+  private int numberObjects = 0;
   private boolean endGame = false;
+
+  private Vector3 level;
+  private float timeToShow = 1;
 
   @Override
   public void dispose() {
@@ -75,22 +81,32 @@ public class GameScene extends GScreen implements ICollision {
 
     initAsset();
     createShapeMain("mona_lisa");
+    initLevel();
     initLogic();
     eventClick();
 
     createListObject();
     createCircleClick();
 
-    polygonAct = new PolygonAct(gUI);
+    numberObjects = (int) level.y;
+    polygonAct = new PolygonAct(gUI, this);
     polygonAct.setDeltaScl(numberObjects);
 
     square.getShape().setZIndex(1000);
+
     nextObj();
   }
 
   //////////////////////////////////////////INIT////////////////////////////////////////////////////
 
   //caculate poin in center and radius
+  private void initLevel() {
+    level = new Vector3();
+    level.x = Level.LV1.x;
+    level.y = Level.LV1.y;
+    level.z = Level.LV1.z;
+  }
+
   private void initLogic() {
     logic = Logic.getInstance();
     logic.degree = 45;
@@ -175,13 +191,13 @@ public class GameScene extends GScreen implements ICollision {
             () -> {
               gUI.addActor(obj.gImgBack);
               obj.getShape().setZIndex(1000);
-              obj.move(square, Level.LV1, logic, (int)v.x, (int)v.y);
+              obj.move(square, level, logic, (int)v.x, (int)v.y);
               obj.gBorderSquare.remove();
             }
     );
 
     SequenceAction seq = sequence();
-    seq.addAction(delay(Level.LV1.z));
+    seq.addAction(delay(level.z));
     seq.addAction(Actions.run(this::nextObj));
 
     gUI.addAction(seq);
@@ -191,8 +207,12 @@ public class GameScene extends GScreen implements ICollision {
 
   private void nextObj() {
     turn++;
-    if (turn <= numberObjects && !endGame)
-      startGame(getObject());
+    if (turn <= numberObjects && !endGame) {
+      try {
+        startGame(getObject());
+      }
+      catch (Exception ex){ /*todo: post an event when object is null */ }
+    }
   }
 
   @Override
@@ -223,29 +243,29 @@ public class GameScene extends GScreen implements ICollision {
     //condition to continue game or end game
     if (bound == 0) {
       if (p1 < 0 && pOfM1 < 0 && p2 > 0 && pOfM2 > 0) {
-        Gdx.app.log("BOUND", bound + "  id: " + id);
+//        Gdx.app.log("BOUND", bound + "  id: " + id);
         eftCollition(obj);
       }
       else if (p1 > 0 && pOfM1 > 0 && p2 < 0 && pOfM2 < 0) {
-        Gdx.app.log("BOUND", bound + "  id: " + id);
+//        Gdx.app.log("BOUND", bound + "  id: " + id);
         eftCollition(obj);
       }
       else {
-        Gdx.app.log("END", "End Game!");
+//        Gdx.app.log("END", "End Game!");
         eftEndGame();
       }
     }
     else {
       if (bound > 0 && pOfM1 > 0 && pOfM2 > 0) {
-        Gdx.app.log("BOUND", bound + "");
+//        Gdx.app.log("BOUND", bound + "");
         eftCollition(obj);
       }
       else if (bound < 0 && pOfM1 < 0 && pOfM2 < 0) {
-        Gdx.app.log("BOUND", bound + "");
+//        Gdx.app.log("BOUND", bound + "");
         eftCollition(obj);
       }
       else {
-        Gdx.app.log("END", "End Game!");
+//        Gdx.app.log("END", "End Game!");
         eftEndGame();
       }
     }
@@ -269,6 +289,41 @@ public class GameScene extends GScreen implements ICollision {
           obj.clear();
         }
     turn = 0;
+  }
+
+  @Override
+  public void nextLevel() {
+    endGame = false;
+    turn = 0;
+    numberObjects += Config.NUMOBJECT_NEXTLEVEL;
+    polygonAct.setDeltaScl(numberObjects);
+
+    updateLevel();
+
+    Gdx.app.log("Level", level.toString());
+
+    GTween.setTimeout(gUI, .5f, this::nextObj);
+  }
+
+  private void updateLevel() {
+    if (level.z < Config.TIMESHOW_MAX) {
+      level.x -= .15f;
+      level.y += 10;
+      level.z = Config.TIMESHOW_MAX;
+
+      if (level.x < Config.DURATION_MAX)
+        level.x = Config.DURATION_MAX;
+    }
+    else {
+      level.x -= .25f;
+      level.y += 10;
+      level.z -= .15f;
+
+      if (level.z < Config.TIMESHOW_MAX)
+        level.z = Config.TIMESHOW_MAX;
+      if (level.x < Config.DURATION_MAX)
+        level.x = Config.DURATION_MAX;
+    }
   }
 
   private Object getObject() {
