@@ -1,5 +1,9 @@
 package com.ss.gameLogic.objects;
 
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
@@ -25,13 +29,13 @@ public class Shape {
   public void createShape(String name0, String name1) {
     for (int i = 0; i < 15; i++) {
       Object O1 = new Object(name0, 0);
-      O1.setColorObject(Colors.MONA_LISA, Colors.ANAKIWA, null, null);
+      O1.setColorObject(Colors.SUNSET_ORANGE, Colors.CLARET, null, null);
 
       Object O2 = new Object(name1, -1);
-      O2.setColorObject(Colors.MONA_LISA, Colors.MONA_LISA, Colors.MONA_LISA, Colors.MONA_LISA);
+      O2.setColorObject(Colors.SUNSET_ORANGE, Colors.SUNSET_ORANGE, Colors.SUNSET_ORANGE, Colors.SUNSET_ORANGE);
 
       Object O3 = new Object(name1, 1);
-      O3.setColorObject(Colors.ANAKIWA, Colors.ANAKIWA, Colors.ANAKIWA, Colors.ANAKIWA);
+      O3.setColorObject(Colors.CLARET, Colors.CLARET, Colors.CLARET, Colors.CLARET);
 
       shape0.add(O1);
       shape1.add(O2);
@@ -57,5 +61,22 @@ public class Shape {
       img.setPosition(Config.arrPos.get(i).x, Config.arrPos.get(i).y);
       gUI.addActor(img);
     }
+  }
+
+  public boolean overlaps(Polygon polygon, Circle circle) {
+    float []vertices = polygon.getTransformedVertices();
+    Vector2 center = new Vector2(circle.x, circle.y);
+    float squareRadius=circle.radius*circle.radius;
+
+    for (int i=0 ; i<vertices.length; i += 2){
+      if (i == 0){
+        if (Intersector.intersectSegmentCircle(new Vector2(vertices[vertices.length-2], vertices[vertices.length-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
+          return true;
+      } else {
+        if (Intersector.intersectSegmentCircle(new Vector2(vertices[i-2], vertices[i-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
+          return true;
+      }
+    }
+    return false;
   }
 }

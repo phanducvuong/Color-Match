@@ -6,120 +6,141 @@ filter: Nearest,Nearest
 repeat: none
 action_polygon
   rotate: false
-  xy: 1213, 1928
+  xy: 1213, 1786
   size: 103, 104
   orig: 103, 104
   offset: 0, 0
   index: -1
 back_obj
   rotate: false
-  xy: 843, 1442
+  xy: 724, 1148
   size: 50, 95
   orig: 50, 95
   offset: 0, 0
   index: -1
 bg
   rotate: false
-  xy: 2, 752
+  xy: 2, 762
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
   index: -1
 border_poly_act
   rotate: false
-  xy: 2, 194
+  xy: 2, 204
   size: 556, 556
   orig: 556, 556
   offset: 0, 0
   index: -1
 border_square
   rotate: false
-  xy: 154, 92
+  xy: 1365, 1942
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
-box
+circle_2
   rotate: false
   xy: 2, 2
-  size: 38, 38
-  orig: 38, 38
+  size: 200, 200
+  orig: 200, 200
   offset: 0, 0
   index: -1
 circle_click
   rotate: false
-  xy: 724, 1419
+  xy: 876, 1429
   size: 117, 118
   orig: 117, 118
   offset: 0, 0
   index: -1
 half_back_obj
   rotate: false
-  xy: 1213, 1832
+  xy: 876, 1333
   size: 25, 94
   orig: 25, 94
   offset: 0, 0
   index: -1
 half_obj_down
   rotate: false
-  xy: 724, 1317
+  xy: 560, 356
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 half_obj_up
   rotate: false
-  xy: 560, 498
+  xy: 356, 102
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 mona_lisa
   rotate: false
-  xy: 2, 42
+  xy: 560, 458
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 mona_lisa2
   rotate: false
-  xy: 1318, 1994
+  xy: 204, 12
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 point_start
   rotate: false
-  xy: 256, 154
+  xy: 1213, 1746
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 polygon_center
   rotate: false
-  xy: 724, 1539
+  xy: 724, 1549
   size: 487, 493
   orig: 487, 493
   offset: 0, 0
   index: -1
-square
+shader_circle
   rotate: false
-  xy: 154, 52
-  size: 38, 38
-  orig: 38, 38
-  offset: 0, 0
-  index: -1
-square2
-  rotate: false
-  xy: 560, 458
-  size: 38, 38
-  orig: 38, 38
-  offset: 0, 0
-  index: -1
-square_main
-  rotate: false
-  xy: 560, 600
+  xy: 204, 52
   size: 150, 150
   orig: 150, 150
+  offset: 0, 0
+  index: -1
+shader_circle1
+  rotate: false
+  xy: 724, 1397
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+shader_circle2
+  rotate: false
+  xy: 1213, 1892
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+shader_hexagon
+  rotate: false
+  xy: 560, 610
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+shader_square
+  rotate: false
+  xy: 724, 1245
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+square
+  rotate: false
+  xy: 995, 1509
+  size: 38, 38
+  orig: 38, 38
   offset: 0, 0
   index: -1

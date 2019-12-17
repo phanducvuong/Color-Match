@@ -10,6 +10,7 @@ public interface IPlatform {
     public void ShowBanner(boolean visible);
 
     public int GetConfigIntValue(String name, int defaultValue);
+    public float GetConfigFloatValue(String name, float defaultValue);
     public String GetConfigStringValue(String name, String defaultValue);
 
     public void CrashKey(String key, String value);

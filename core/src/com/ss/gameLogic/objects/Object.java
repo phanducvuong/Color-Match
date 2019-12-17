@@ -1,6 +1,7 @@
 package com.ss.gameLogic.objects;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
@@ -270,6 +271,7 @@ public class Object extends Actor {
     degrees += deg;
     Vector2 c = new Vector2(shape.getX() + shape.getWidth()*scl, shape.getY() + shape.getHeight()*scl);
     float r = (float)Math.sqrt(shape.getWidth()/2 * scl * shape.getWidth()/2 * scl + shape.getHeight()/2 * scl * shape.getHeight()/2 * scl);
+    shapeLogic.setCircle(c.x, c.y, shape.getWidth()*scl / 2);
 
     if (degrees % 2 == 0) {
       vertices[0] = shape.getX() + shape.getWidth()/2 * scl; vertices[1] = shape.getY() + shape.getHeight()/2 * scl;
@@ -314,7 +316,7 @@ public class Object extends Actor {
     shapeLogic.setVertices(v);
   }
 
-  public void move(Object box, Vector3 lv, Logic logic, int id, int quadrant) {
+  public void move(Object shapeCenter, Vector3 lv, Logic logic, int id, int quadrant) {
     float xS = shape.getX();
     float yS = shape.getY();
     float xB = gImgBack.getX();
@@ -330,7 +332,13 @@ public class Object extends Actor {
       Vector2 tempPosShape = new Vector2(xS, yS);
       Vector2 temPosBackObj = new Vector2(xB, yB);
 
-      if (Intersector.overlapConvexPolygons(this.getPolygon(), box.getPolygon())) {
+//      if (Intersector.overlapConvexPolygons(this.getPolygon(), shapeCenter.getPolygon())) {
+//        shape.clear();
+//        gImgBack.clearActions();
+//        iCollision.collided(this);
+//      }
+
+      if (Shape.getInstance().overlaps(this.getPolygon(), shapeCenter.getCircle())) {
         shape.clear();
         gImgBack.clearActions();
         iCollision.collided(this);
@@ -379,6 +387,8 @@ public class Object extends Actor {
   public Image getShape() {return shape;}
 
   private Polygon getPolygon() { return shapeLogic.getPolygon(); }
+
+  private Circle getCircle() { return shapeLogic.getCircle(); }
 
   public void setId(int id) { this.id = id; }
 

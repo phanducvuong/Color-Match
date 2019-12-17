@@ -32,4 +32,7 @@ public class Colors {
 
     public static final Color BRICK_RED = new Color(184/255f, 42/255f, 64/255f, 1f);
     public static final Color CHATHAMS_BLUE = new Color(25/255f, 69/255f, 114/255f, 1f);
+
+    public static final Color SUNSET_ORANGE = new Color(1f, 82/255f, 59/255f, 1f);
+    public static final Color CLARET = new Color(136/255f, 21/255f, 52/255f, 1f);
 }

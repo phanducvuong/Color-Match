@@ -43,7 +43,12 @@ public class DesktopLauncher {
 
 			@Override
 			public int GetConfigIntValue(String name, int defaultValue) {
-				return 0;
+				return defaultValue;
+			}
+
+			@Override
+			public float GetConfigFloatValue(String name, float defaultValue) {
+				return defaultValue;
 			}
 
 			@Override

@@ -31,6 +31,7 @@ import com.ss.gameLogic.interfaces.INextLevel;
 import com.ss.gameLogic.logic.Logic;
 import com.ss.gameLogic.objects.Object;
 import com.ss.gameLogic.objects.PolygonAct;
+import com.ss.gameLogic.objects.ShaderAct;
 import com.ss.gameLogic.objects.Shape;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,18 +49,16 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
   private float gsWidth = GStage.getWorldWidth()/2;
 
   private Shape shape = Shape.getInstance();
-
   private List<List<Object>> listObjGamePlay;
 
   private Image circleClick;
+  private ShaderAct shaderAct;
 
   private PolygonAct polygonAct;
   private int turn = 0;
   private int numberObjects = 0;
-  private boolean endGame = false;
-
   private Vector3 level;
-  private float timeToShow = 1;
+  private boolean endGame = false;
 
   @Override
   public void dispose() {
@@ -80,7 +79,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
     listObjGamePlay = new ArrayList<>();
 
     initAsset();
-    createShapeMain("mona_lisa");
+    createShapeMain("circle_2");
     initLevel();
     initLogic();
     eventClick();
@@ -92,14 +91,22 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
     polygonAct = new PolygonAct(gUI, this);
     polygonAct.setDeltaScl(numberObjects);
 
-    square.getShape().setZIndex(1000);
+//    createShaderAct();
 
+    square.getShape().setZIndex(1000);
     nextObj();
   }
 
   //////////////////////////////////////////INIT////////////////////////////////////////////////////
 
   //caculate poin in center and radius
+  private void createShaderAct() {
+    float x = square.getShape().getX();
+    float y = square.getShape().getY();
+    shaderAct = new ShaderAct(gUI, "shader_square", x, y);
+    square.getShape().setZIndex(1000);
+  }
+
   private void initLevel() {
     level = new Vector3();
     level.x = Level.LV1.x;
@@ -144,10 +151,12 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
         if (x < gsWidth) {
           square.getShape().addAction(rotateBy(-45, .15f, fastSlow));
           square.setVerShapeMain(-45, .5f);
+//          shaderAct.actionShader(-45, .15f);
         }
         else {
           square.getShape().addAction(rotateBy(45, .15f, fastSlow));
           square.setVerShapeMain(45, .5f);
+//          shaderAct.actionShader(45, .15f);
         }
         return super.touchDown(event, x, y, pointer, button);
       }
@@ -158,7 +167,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
     square = new Object(name, 1);
     square.addScene(gUI, gShapeRender);
     square.getShape().setOrigin(Align.center);
-    square.getShape().setPosition(gUI.getWidth()/2, gUI.getHeight()/2, Align.center);
+    square.getShape().setPosition(gUI.getWidth()/2 - square.getShape().getWidth()/2, gUI.getHeight()/2 - square.getShape().getHeight()/2);
     square.getShape().setScale(.5f);
     square.setVerShapeMain(0, .5f);
   }
@@ -296,11 +305,10 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
     endGame = false;
     turn = 0;
     numberObjects += Config.NUMOBJECT_NEXTLEVEL;
+    Gdx.app.log("NUM", numberObjects + "  num:" + Config.NUMOBJECT_NEXTLEVEL);
     polygonAct.setDeltaScl(numberObjects);
 
     updateLevel();
-
-    Gdx.app.log("Level", level.toString());
 
     GTween.setTimeout(gUI, .5f, this::nextObj);
   }

@@ -148,6 +148,21 @@ public class AndroidLauncher extends AndroidApplication {
 			}
 
 			@Override
+			public float GetConfigFloatValue(String name, float defaultValue) {
+				try {
+
+					String v = GetConfigStringValue(name, "");
+					if(v.equals(""))
+						return defaultValue;
+
+					return Float.parseFloat(v);
+				}
+				catch(Exception e){
+					return defaultValue;
+				}
+			}
+
+			@Override
 			public String GetConfigStringValue(String name, String defaultValue) {
 				try {
 					String v = mFirebaseRemoteConfig.getString(name);
