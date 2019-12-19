@@ -1,9 +1,9 @@
 package com.ss.scenes;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import static com.badlogic.gdx.math.Interpolation.*;
+
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -15,6 +15,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.platform.IPlatform;
 import com.ss.GMain;
@@ -41,11 +42,13 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
   private TextureAtlas textureAtlas = GMain.textureAtlas;
   private Group gMain = new Group();
   private Group gShapeRender = new Group();
+  private Group gLogic = new Group();
   private Group gUI = new Group();
-  private Object square;
+  private Object shapeMainCenter;
   private IPlatform plf = GMain.platform;
   private Logic logic;
   private Stage s;
+  private boolean isTouchStage = true;
   private float gsWidth = GStage.getWorldWidth()/2;
 
   private Shape shape = Shape.getInstance();
@@ -69,17 +72,19 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
   public void init() {
     s = GStage.getStage();
     GStage.addToLayer(GLayer.ui, gMain);
-    gMain.addActor(gUI);
+    gMain.addActor(gLogic);
     gMain.addActor(gShapeRender);
-    gUI.setSize(720, 1280);
-    gUI.setPosition(GStage.getWorldWidth()/2, GStage.getWorldHeight()/2, Align.center);
+    gMain.addActor(gUI);
+    gLogic.setSize(720, 1280);
+    gLogic.setPosition(GStage.getWorldWidth()/2, GStage.getWorldHeight()/2, Align.center);
     gShapeRender.setSize(720, 1280);
     gShapeRender.setPosition(GStage.getWorldWidth()/2, GStage.getWorldHeight()/2, Align.center);
 
     listObjGamePlay = new ArrayList<>();
+    logic = Logic.getInstance();
 
     initAsset();
-    createShapeMain("circle_2");
+    createShapeMain("square_1",1,1);
     initLevel();
     initLogic();
     eventClick();
@@ -88,36 +93,39 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
     createCircleClick();
 
     numberObjects = (int) level.y;
-    polygonAct = new PolygonAct(gUI, this);
+    polygonAct = new PolygonAct(gLogic, this);
     polygonAct.setDeltaScl(numberObjects);
 
-//    createShaderAct();
+    createShaderAct();
 
-    square.getShape().setZIndex(1000);
+    shapeMainCenter.getShape().setZIndex(1000);
     nextObj();
+
+    test();
   }
 
   //////////////////////////////////////////INIT////////////////////////////////////////////////////
 
   //caculate poin in center and radius
   private void createShaderAct() {
-    float x = square.getShape().getX();
-    float y = square.getShape().getY();
-    shaderAct = new ShaderAct(gUI, "shader_square", x, y);
-    square.getShape().setZIndex(1000);
+    float x = shapeMainCenter.getShape().getX();
+    float y = shapeMainCenter.getShape().getY();
+    shaderAct = new ShaderAct(gLogic, "shader_square", x, y);
+    shapeMainCenter.getShape().setZIndex(1000);
   }
 
+  //init level and reset level when end game
   private void initLevel() {
-    level = new Vector3();
+    if (level == null)
+      level = new Vector3();
     level.x = Level.LV1.x;
     level.y = Level.LV1.y;
     level.z = Level.LV1.z;
   }
 
   private void initLogic() {
-    logic = Logic.getInstance();
     logic.degree = 45;
-    logic.calRC(square.getShape());
+    logic.calRC(shapeMainCenter.getShape());
   }
 
   private void initAsset() {
@@ -126,11 +134,12 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
     bg.setSize(GStage.getWorldWidth(), GStage.getWorldHeight());
     gMain.addActor(bg);
 
-    gUI.setZIndex(1000);
+    gLogic.setZIndex(1000);
     gShapeRender.setZIndex(1000);
+    gUI.setZIndex(1000);
 
-    shape.createShape("mona_lisa2", "square");
-    shape.createPointStart(gUI);
+    shape.createShape("obj_square_1", "square", "square_1");
+    shape.createPointStart(gLogic);
   }
 
   private void eventClick() {
@@ -148,28 +157,49 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
     s.addListener(new InputListener() {
       @Override
       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        if (x < gsWidth) {
-          square.getShape().addAction(rotateBy(-45, .15f, fastSlow));
-          square.setVerShapeMain(-45, .5f);
-//          shaderAct.actionShader(-45, .15f);
-        }
-        else {
-          square.getShape().addAction(rotateBy(45, .15f, fastSlow));
-          square.setVerShapeMain(45, .5f);
-//          shaderAct.actionShader(45, .15f);
+        if (isTouchStage) {
+          if (x < gsWidth) {
+            shapeMainCenter.getShape().addAction(rotateBy(-45, .15f, fastSlow));
+            shapeMainCenter.setVerShapeMain(-45, .5f, shapeMainCenter.getIdShape());
+            shaderAct.actionShader(-45, .1f);
+          }
+          else {
+            shapeMainCenter.getShape().addAction(rotateBy(45, .15f, fastSlow));
+            shapeMainCenter.setVerShapeMain(45, .5f, shapeMainCenter.getIdShape());
+            shaderAct.actionShader(45, .1f);
+          }
         }
         return super.touchDown(event, x, y, pointer, button);
       }
     });
   }
 
-  private void createShapeMain(String name) {
-    square = new Object(name, 1);
-    square.addScene(gUI, gShapeRender);
-    square.getShape().setOrigin(Align.center);
-    square.getShape().setPosition(gUI.getWidth()/2 - square.getShape().getWidth()/2, gUI.getHeight()/2 - square.getShape().getHeight()/2);
-    square.getShape().setScale(.5f);
-    square.setVerShapeMain(0, .5f);
+  private void createShapeMain(String name, int bound, int idShape) {
+    shapeMainCenter = new Object(name, bound);
+    shapeMainCenter.setIdShape(idShape);
+    shapeMainCenter.addScene(gLogic, gShapeRender);
+    shapeMainCenter.getShape().setOrigin(Align.center);
+    shapeMainCenter.getShape().setPosition(gLogic.getWidth()/2 - shapeMainCenter.getShape().getWidth()/2, gLogic.getHeight()/2 - shapeMainCenter.getShape().getHeight()/2);
+    shapeMainCenter.getShape().setScale(.5f);
+    shapeMainCenter.setVerShapeMain(0, .5f, idShape);
+  }
+
+  private void reInitShapeMain(String name, int bound, int idShape) {
+    TextureRegion textureRegion = textureAtlas.findRegion(name);
+    float width = textureRegion.getRegionWidth();
+    float height = textureRegion.getRegionHeight();
+
+    shapeMainCenter.degrees = 0;
+    shapeMainCenter.getShape().setRotation(0);
+    shapeMainCenter.getShape().setDrawable(new TextureRegionDrawable(textureRegion));
+    shapeMainCenter.setIdShape(idShape);
+    shapeMainCenter.getShape().setSize(width, height);
+    shapeMainCenter.getShape().setOrigin(Align.center);
+    shapeMainCenter.getShape().setPosition(gLogic.getWidth()/2 - shapeMainCenter.getShape().getWidth()/2, gLogic.getHeight()/2 - shapeMainCenter.getShape().getHeight()/2);
+    shapeMainCenter.getShape().setScale(.5f);
+    shapeMainCenter.setVerShapeMain(0, .5f, idShape);
+
+    initLogic();
   }
 
   private void createListObject() {
@@ -183,7 +213,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
   //////////////////////////////////////////GAME PLAY///////////////////////////////////////////////
 
   private void startGame(Object obj) {
-    gUI.addActor(obj);
+    gLogic.addActor(obj);
     obj.addAction(GSimpleAction.simpleAction(this::moveObject));
   }
 
@@ -191,16 +221,16 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
     Object obj = (Object) a;
     Vector2 v = logic.posShowObj();
 
-    obj.addScene(gUI, gShapeRender);
+    obj.addScene(gLogic, gShapeRender);
     obj.setCollision(this);
     obj.setPos((int)v.x);
 
-    gUI.addActor(obj.gBorderSquare);
+    gLogic.addActor(obj.gBorderSquare);
     GTween.action(obj.gBorderSquare, scaleTo(.4f, .4f, 1f, linear),
             () -> {
-              gUI.addActor(obj.gImgBack);
+              gLogic.addActor(obj.gImgBack);
               obj.getShape().setZIndex(1000);
-              obj.move(square, level, logic, (int)v.x, (int)v.y);
+              obj.move(shapeMainCenter, level, logic, (int)v.x, (int)v.y);
               obj.gBorderSquare.remove();
             }
     );
@@ -209,7 +239,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
     seq.addAction(delay(level.z));
     seq.addAction(Actions.run(this::nextObj));
 
-    gUI.addAction(seq);
+    gLogic.addAction(seq);
 
     return true;
   }
@@ -246,8 +276,8 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
     }
 
     //caculate point in which main
-    float pOfM1 = logic.pointOfDomain(square.getShape(), pObj1);
-    float pOfM2 = logic.pointOfDomain(square.getShape(), pObj2);
+    float pOfM1 = logic.pointOfDomain(shapeMainCenter.getShape(), pObj1);
+    float pOfM2 = logic.pointOfDomain(shapeMainCenter.getShape(), pObj2);
 
     //condition to continue game or end game
     if (bound == 0) {
@@ -270,7 +300,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
         eftCollition(obj);
       }
       else if (bound < 0 && pOfM1 < 0 && pOfM2 < 0) {
-//        Gdx.app.log("BOUND", bound + "");
+//        Gdx.app.log("BOUND", bound + "  POM1:" + pOfM1 + "  POM2:" + pOfM2 + "  id: " + id);
         eftCollition(obj);
       }
       else {
@@ -291,13 +321,15 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
 
   private void eftEndGame() {
     endGame = true;
-    for (int i = 0; i < listObjGamePlay.size(); i++)
+    for (int i = 0; i < listObjGamePlay.size(); i++) {
       for (Object obj : listObjGamePlay.get(i))
         if (obj.isAlive) {
           obj.isAlive = false;
           obj.clear();
         }
+    }
     turn = 0;
+    isTouchStage = false;
   }
 
   @Override
@@ -305,12 +337,10 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
     endGame = false;
     turn = 0;
     numberObjects += Config.NUMOBJECT_NEXTLEVEL;
-    Gdx.app.log("NUM", numberObjects + "  num:" + Config.NUMOBJECT_NEXTLEVEL);
     polygonAct.setDeltaScl(numberObjects);
 
     updateLevel();
-
-    GTween.setTimeout(gUI, .5f, this::nextObj);
+    GTween.setTimeout(gLogic, .5f, this::nextObj);
   }
 
   private void updateLevel() {
@@ -346,6 +376,73 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
       }
     return null;
   }
+
+  private void resetGame() {
+    shape.resetItem();
+
+    endGame = false;
+    numberObjects = 5;
+    turn = 0;
+    polygonAct.setScalePolyAct(1f);
+    polygonAct.setDeltaScl(numberObjects);
+
+    initLevel();
+  }
+
+  //call method newGame() when end game
+  private void newGame() {
+    resetGame();
+    GTween.setTimeout(gLogic, .5f, () -> {
+      isTouchStage = true;
+      nextObj();
+    });
+  }
+
+  //////////////////////////////////////////GAME PLAY///////////////////////////////////////////////
+
+  //////////////////////////////////////////EVENT CHANGE SHAPE CENTER///////////////////////////////
+
+  private void changeShapeMainCenter(String name, int idShape, String color) {
+    String tempName = "obj_" + name;
+    reInitShapeMain(name, 1, idShape);
+    shape.changeItem(tempName, color);
+  }
+
+  private void changeShaderAct(String name) {
+    float xx = shapeMainCenter.getShape().getX();
+    float yy = shapeMainCenter.getShape().getY();
+    shaderAct.reInitShader(xx, yy, textureAtlas.findRegion(shape.getTextureRegionShader(name)));
+  }
+
+  private void test() {
+    Image square = GUI.createImage(textureAtlas, "square_1");
+    square.setPosition(100, 100);
+    gUI.addActor(square);
+
+    Image circle = GUI.createImage(textureAtlas, "circle_2");
+    circle.setPosition(300, 100);
+    gUI.addActor(circle);
+
+    square.addListener(new InputListener() {
+      @Override
+      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        changeShapeMainCenter("square_1", 1, "square_1");
+        changeShaderAct("square_1");
+        return super.touchDown(event, x, y, pointer, button);
+      }
+    });
+
+    circle.addListener(new InputListener() {
+      @Override
+      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        changeShapeMainCenter("circle_2", 0, "circle_2");
+        changeShaderAct("circle_2");
+        return super.touchDown(event, x, y, pointer, button);
+      }
+    });
+  }
+
+  //////////////////////////////////////////EVENT CHANGE SHAPE CENTER///////////////////////////////
 
 
 

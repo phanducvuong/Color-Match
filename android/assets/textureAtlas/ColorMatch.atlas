@@ -6,14 +6,14 @@ filter: Nearest,Nearest
 repeat: none
 action_polygon
   rotate: false
-  xy: 1213, 1786
+  xy: 560, 352
   size: 103, 104
   orig: 103, 104
   offset: 0, 0
   index: -1
 back_obj
   rotate: false
-  xy: 724, 1148
+  xy: 1128, 1452
   size: 50, 95
   orig: 50, 95
   offset: 0, 0
@@ -34,63 +34,196 @@ border_poly_act
   index: -1
 border_square
   rotate: false
-  xy: 1365, 1942
+  xy: 995, 841
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
-circle_2
+circle_1
   rotate: false
   xy: 2, 2
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
+circle_2
+  rotate: false
+  xy: 724, 1347
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+circle_3
+  rotate: false
+  xy: 1213, 1842
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+circle_4
+  rotate: false
+  xy: 1213, 1640
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+circle_5
+  rotate: false
+  xy: 204, 2
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
 circle_click
   rotate: false
-  xy: 876, 1429
+  xy: 876, 823
   size: 117, 118
   orig: 117, 118
   offset: 0, 0
   index: -1
+flower_1
+  rotate: false
+  xy: 926, 1347
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+flower_2
+  rotate: false
+  xy: 1819, 1640
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+flower_3
+  rotate: false
+  xy: 1415, 1842
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
 half_back_obj
   rotate: false
-  xy: 876, 1333
+  xy: 2021, 1948
   size: 25, 94
   orig: 25, 94
   offset: 0, 0
   index: -1
 half_obj_down
   rotate: false
-  xy: 560, 356
+  xy: 1213, 1538
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 half_obj_up
   rotate: false
-  xy: 356, 102
+  xy: 560, 250
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
-mona_lisa
+obj_circle_1
   rotate: false
-  xy: 560, 458
-  size: 150, 150
-  orig: 150, 150
+  xy: 406, 12
+  size: 38, 38
+  orig: 38, 38
   offset: 0, 0
   index: -1
-mona_lisa2
+obj_circle_2
   rotate: false
-  xy: 204, 12
+  xy: 665, 418
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_circle_3
+  rotate: false
+  xy: 560, 210
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_circle_4
+  rotate: false
+  xy: 1355, 1600
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_circle_5
+  rotate: false
+  xy: 1395, 1560
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_flower_1
+  rotate: false
+  xy: 1128, 1412
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_flower_2
+  rotate: false
+  xy: 446, 12
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_flower_3
+  rotate: false
+  xy: 665, 378
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_square_1
+  rotate: false
+  xy: 1355, 1560
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_square_2
+  rotate: false
+  xy: 1315, 1600
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_square_3
+  rotate: false
+  xy: 1315, 1560
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_sun_flower_1
+  rotate: false
+  xy: 1128, 1332
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_sun_flower_2
+  rotate: false
+  xy: 1128, 1372
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_sun_flower_3
+  rotate: false
+  xy: 486, 12
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 point_start
   rotate: false
-  xy: 1213, 1746
+  xy: 1395, 1600
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
@@ -102,45 +235,94 @@ polygon_center
   orig: 487, 493
   offset: 0, 0
   index: -1
-shader_circle
+shader_circle_1
   rotate: false
-  xy: 204, 52
+  xy: 926, 1145
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+shader_circle_4
+  rotate: false
+  xy: 724, 943
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+shader_circle_5
+  rotate: false
+  xy: 1617, 1640
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+shader_flower
+  rotate: false
+  xy: 1819, 1842
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+shader_square
+  rotate: false
+  xy: 560, 458
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
-shader_circle1
+shader_sun_flower
   rotate: false
-  xy: 724, 1397
+  xy: 724, 1145
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+square
+  rotate: false
+  xy: 600, 210
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+square_1
+  rotate: false
+  xy: 406, 52
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
-shader_circle2
+square_2
   rotate: false
-  xy: 1213, 1892
+  xy: 724, 791
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
-shader_hexagon
+square_3
   rotate: false
   xy: 560, 610
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
-shader_square
+sun_flower_1
   rotate: false
-  xy: 724, 1245
-  size: 150, 150
-  orig: 150, 150
+  xy: 1415, 1640
+  size: 200, 200
+  orig: 200, 200
   offset: 0, 0
   index: -1
-square
+sun_flower_2
   rotate: false
-  xy: 995, 1509
-  size: 38, 38
-  orig: 38, 38
+  xy: 1617, 1842
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+sun_flower_3
+  rotate: false
+  xy: 926, 943
+  size: 200, 200
+  orig: 200, 200
   offset: 0, 0
   index: -1

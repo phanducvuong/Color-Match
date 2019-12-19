@@ -1,6 +1,7 @@
 package com.ss.gameLogic.objects;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Intersector;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.ss.GMain;
 import com.ss.core.action.exAction.GTemporalAction;
@@ -25,10 +27,11 @@ public class Object extends Actor {
   private Image shape;
   private ShapeLogic shapeLogic;
   private float[] vertices;
+  private int idShape; //1,-1: rectangle || 0: circle || 2: hexagon  (1,2: polygon)
   private int id; //check special position
   public boolean isAlive = false;
   private int bound; // =1 + || =1 - || =0 half-color
-  private float degrees = 0; //end game start degrees again
+  public float degrees = 0; //end game start degrees again
   private ICollision iCollision;
   public int p1 = 0;
   public int p2 = 0;
@@ -70,6 +73,8 @@ public class Object extends Actor {
     gBorderSquare.addActor(borderUp);
     gBorderSquare.setOrigin(borderDown.getWidth()/2, borderDown.getHeight()/2);
   }
+
+  /////////////////////////////////////////LOGIC////////////////////////////////////////////////////
 
   //update new position and vertices
   public void setPos(int pos) {
@@ -140,11 +145,11 @@ public class Object extends Actor {
 
         break;
       case 2:
+        id = 2;
         if (bound == 0) {
           int r = (int)Math.floor(Math.random() * 2);
 
           shape.setOrigin(Align.center);
-          id = 2;
           if (r == 0) {
             p1 = -1;
             p2 = 1;
@@ -233,11 +238,11 @@ public class Object extends Actor {
 
         break;
       case 5:
+        id = 5;
         if (bound == 0) {
           int r = (int)Math.floor(Math.random() * 2);
 
           shape.setOrigin(Align.center);
-          id = 5;
           if (r == 0) {
             p1 = -1;
             p2 = 1;
@@ -267,53 +272,36 @@ public class Object extends Actor {
   }
 
   //change shapeLogic shape in center
-  public void setVerShapeMain(float deg, float scl) {
+  //idShape: 0 -> circle || != 0 -> polygon
+  public void setVerShapeMain(float deg, float scl, int idshape) {
     degrees += deg;
     Vector2 c = new Vector2(shape.getX() + shape.getWidth()*scl, shape.getY() + shape.getHeight()*scl);
     float r = (float)Math.sqrt(shape.getWidth()/2 * scl * shape.getWidth()/2 * scl + shape.getHeight()/2 * scl * shape.getHeight()/2 * scl);
-    shapeLogic.setCircle(c.x, c.y, shape.getWidth()*scl / 2);
 
-    if (degrees % 2 == 0) {
-      vertices[0] = shape.getX() + shape.getWidth()/2 * scl; vertices[1] = shape.getY() + shape.getHeight()/2 * scl;
-      vertices[2] = vertices[0] + shape.getWidth() * scl; vertices[3] = vertices[1];
-      vertices[4] = vertices[2]; vertices[5] = vertices[3] + shape.getWidth()*scl;
-      vertices[6] = vertices[0]; vertices[7] = vertices[5];
+    if (idshape == 0) {
+      shapeLogic.setCircle(c.x, c.y, shape.getWidth()*scl / 2);
+      vertices[0] = 0; vertices[1] = 0;
+      vertices[2] = 0; vertices[3] = 0;
+      vertices[4] = 0; vertices[5] = 0;
+      vertices[6] = 0; vertices[7] = 0;
     }
     else {
-      vertices[0] = c.x; vertices[1] = c.y - r;
-      vertices[2] = c.x + r; vertices[3] = c.y;
-      vertices[4] = c.x; vertices[5] = c.y + r;
-      vertices[6] = c.x - r; vertices[7] = c.y;
+      shapeLogic.setCircle(0, 0, 0);
+      if (degrees % 2 == 0) {
+        vertices[0] = shape.getX() + shape.getWidth()/2 * scl; vertices[1] = shape.getY() + shape.getHeight()/2 * scl;
+        vertices[2] = vertices[0] + shape.getWidth() * scl; vertices[3] = vertices[1];
+        vertices[4] = vertices[2]; vertices[5] = vertices[3] + shape.getWidth()*scl;
+        vertices[6] = vertices[0]; vertices[7] = vertices[5];
+      }
+      else {
+        vertices[0] = c.x; vertices[1] = c.y - r;
+        vertices[2] = c.x + r; vertices[3] = c.y;
+        vertices[4] = c.x; vertices[5] = c.y + r;
+        vertices[6] = c.x - r; vertices[7] = c.y;
+      }
+
+      shapeLogic.setVertices(vertices);
     }
-
-    shapeLogic.setVertices(vertices);
-  }
-
-  private void setVerLR(Image s, float[] v) {
-    v[0] = s.getX(); v[1] = s.getY();
-    v[2] = s.getX() + s.getWidth(); v[3] = v[1];
-    v[4] = v[2]; v[5] = s.getY() + s.getHeight();
-    v[6] = s.getX(); v[7] = v[5];
-
-    shapeLogic.setVertices(v);
-  }
-
-  private void setVerCenter(Image s, float[] v) {
-    Vector2 c = new Vector2(s.getX() + s.getWidth()/2, s.getY() + s.getHeight()/2);
-    float r = (float)Math.sqrt(s.getWidth()/2 * s.getWidth()/2 + s.getHeight()/2 * s.getHeight()/2);
-
-    v[0] = c.x; v[1] = c.y - r;
-    v[2] = c.x + r; v[3] = c.y;
-    v[4] = c.x; v[5] = c.y + r;
-    v[6] = c.x - r; v[7] = c.y;
-
-    shapeLogic.setVertices(v);
-  }
-
-  //set vertices
-  private void setVertices(float[] v) {
-    vertices = v;
-    shapeLogic.setVertices(v);
   }
 
   public void move(Object shapeCenter, Vector3 lv, Logic logic, int id, int quadrant) {
@@ -332,17 +320,7 @@ public class Object extends Actor {
       Vector2 tempPosShape = new Vector2(xS, yS);
       Vector2 temPosBackObj = new Vector2(xB, yB);
 
-//      if (Intersector.overlapConvexPolygons(this.getPolygon(), shapeCenter.getPolygon())) {
-//        shape.clear();
-//        gImgBack.clearActions();
-//        iCollision.collided(this);
-//      }
-
-      if (Shape.getInstance().overlaps(this.getPolygon(), shapeCenter.getCircle())) {
-        shape.clear();
-        gImgBack.clearActions();
-        iCollision.collided(this);
-      }
+      checkOverlap(this, shapeCenter);
 
       tempPosShape = logic.calPosObjWhileMoving(tempPosShape.x, tempPosShape.y, p, id);
       temPosBackObj = logic.calPosObjWhileMoving(temPosBackObj.x, temPosBackObj.y, p, id);
@@ -350,6 +328,23 @@ public class Object extends Actor {
       shape.setPosition(tempPosShape.x, tempPosShape.y);
       gImgBack.setPosition(temPosBackObj.x, temPosBackObj.y);
     }));
+  }
+
+  private void checkOverlap(Object obj, Object shapeCenter) {
+    if (shapeCenter.idShape == 0) {
+      if (overlaps(obj.getPolygon(), shapeCenter.getCircle())) {
+        shape.clear();
+        gImgBack.clearActions();
+        iCollision.collided(this);
+      }
+    }
+    else {
+      if (Intersector.overlapConvexPolygons(obj.getPolygon(), shapeCenter.getPolygon())) {
+        shape.clear();
+        gImgBack.clearActions();
+        iCollision.collided(this);
+      }
+    }
   }
 
   public void addScene(Group gUI, Group gShapeRender) {
@@ -380,8 +375,40 @@ public class Object extends Actor {
   @Override
   public void clear() {
     super.clear();
+    gBorderSquare.remove();
     gBorderSquare.clearActions();
     shape.clear();
+  }
+
+  /////////////////////////////////////////LOGIC////////////////////////////////////////////////////
+
+  /////////////////////////////////////////GET SET//////////////////////////////////////////////////
+
+  private void setVerLR(Image s, float[] v) {
+    v[0] = s.getX(); v[1] = s.getY();
+    v[2] = s.getX() + s.getWidth(); v[3] = v[1];
+    v[4] = v[2]; v[5] = s.getY() + s.getHeight();
+    v[6] = s.getX(); v[7] = v[5];
+
+    shapeLogic.setVertices(v);
+  }
+
+  private void setVerCenter(Image s, float[] v) {
+    Vector2 c = new Vector2(s.getX() + s.getWidth()/2, s.getY() + s.getHeight()/2);
+    float r = (float)Math.sqrt(s.getWidth()/2 * s.getWidth()/2 + s.getHeight()/2 * s.getHeight()/2);
+
+    v[0] = c.x; v[1] = c.y - r;
+    v[2] = c.x + r; v[3] = c.y;
+    v[4] = c.x; v[5] = c.y + r;
+    v[6] = c.x - r; v[7] = c.y;
+
+    shapeLogic.setVertices(v);
+  }
+
+  //set vertices
+  private void setVertices(float[] v) {
+    vertices = v;
+    shapeLogic.setVertices(v);
   }
 
   public Image getShape() {return shape;}
@@ -394,10 +421,16 @@ public class Object extends Actor {
 
   public int getId() { return this.id; }
 
+  public int getIdShape() { return this.idShape; }
+
   public int getBound() { return bound; }
 
   public void setCollision(ICollision iCollision) {
     this.iCollision = iCollision;
+  }
+
+  public void setIdShape(int idShape) {
+    this.idShape = idShape;
   }
 
   public float[] getVertices() { return vertices; }
@@ -414,5 +447,28 @@ public class Object extends Actor {
       imgBackRight.setColor(cBackObj);
     }
     gImgBack.getColor().a = 0;
+  }
+
+  public void setDrawable(TextureRegion textureRegion) {
+    shape.setDrawable(new TextureRegionDrawable(textureRegion));
+  }
+
+  /////////////////////////////////////////GET SET//////////////////////////////////////////////////
+
+  private boolean overlaps(Polygon polygon, Circle circle) {
+    float []vertices = polygon.getTransformedVertices();
+    Vector2 center = new Vector2(circle.x, circle.y);
+    float squareRadius=circle.radius*circle.radius;
+
+    for (int i=0 ; i<vertices.length; i += 2){
+      if (i == 0){
+        if (Intersector.intersectSegmentCircle(new Vector2(vertices[vertices.length-2], vertices[vertices.length-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
+          return true;
+      } else {
+        if (Intersector.intersectSegmentCircle(new Vector2(vertices[i-2], vertices[i-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
+          return true;
+      }
+    }
+    return false;
   }
 }

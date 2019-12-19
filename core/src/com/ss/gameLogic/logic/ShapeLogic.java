@@ -27,14 +27,28 @@ public class ShapeLogic extends Actor {
     shapeR.setProjectionMatrix(GStage.getCamera().combined);
   }
 
+  public void freeShapeLogic() {
+    circle = null;
+    polygon = null;
+    shapeR = null;
+    vertices = null;
+  }
+
   @Override
   public void draw(Batch batch, float parentAlpha) {
+//    batch.end();
+//
+//    try {
+//      shapeR.begin(ShapeRenderer.ShapeType.Line);
+//      shapeR.setColor(255, 0, 0, 1);
+//      shapeR.polygon(polygon.getTransformedVertices());
+//      shapeR.circle(circle.x, circle.y, circle.radius);
+//      shapeR.end();
+//    }
+//    catch (Exception ex) {}
+//
+//    batch.begin();
     super.draw(batch, parentAlpha);
-    shapeR.begin(ShapeRenderer.ShapeType.Line);
-    shapeR.setColor(255, 0, 0, 1);
-    shapeR.polygon(polygon.getTransformedVertices());
-    shapeR.circle(circle.x, circle.y, circle.radius);
-    shapeR.end();
   }
 
   @Override

@@ -1,5 +1,6 @@
 package com.ss.gameLogic.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -28,7 +29,16 @@ public class ShaderAct {
     shader.addAction(Actions.rotateBy(degrees, duration, Interpolation.linear));
   }
 
-  public void setTextureShader(TextureRegion textureRegion) {
+  public void reInitShader(float x, float y, TextureRegion textureRegion) {
+    shader.setRotation(0);
     shader.setDrawable(new TextureRegionDrawable(textureRegion));
+
+    shader.setSize(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
+    shader.setOrigin(Align.center);
+
+    shader.setPosition(x+5, y+5);
+    shader.setScale(.5f);
   }
+
+  public Image getShader() { return shader; }
 }

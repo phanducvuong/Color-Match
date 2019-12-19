@@ -1,9 +1,6 @@
 package com.ss.gameLogic.objects;
 
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
@@ -17,6 +14,7 @@ import java.util.List;
 public class Shape {
 
   private static Shape instance;
+  private Colors colorShape = Colors.getInstance();
 
   public List<Object> shape0 = new ArrayList<>();
   public List<Object> shape1 = new ArrayList<>();
@@ -26,21 +24,65 @@ public class Shape {
     return instance == null ? instance = new Shape() : instance;
   }
 
-  public void createShape(String name0, String name1) {
+  //name0: object have two colors || name1: object have one color || color: name order to get color
+  public void createShape(String name0, String name1, String color) {
+    List<Color> colors = colorShape.colors(color);
+    Color c1 = colors.get(0);
+    Color c2 = colors.get(1);
+
     for (int i = 0; i < 15; i++) {
       Object O1 = new Object(name0, 0);
-      O1.setColorObject(Colors.SUNSET_ORANGE, Colors.CLARET, null, null);
+      O1.setColorObject(c1, c2, null, null);
 
       Object O2 = new Object(name1, -1);
-      O2.setColorObject(Colors.SUNSET_ORANGE, Colors.SUNSET_ORANGE, Colors.SUNSET_ORANGE, Colors.SUNSET_ORANGE);
+      O2.setColorObject(c1, c1, c1, c1);
 
       Object O3 = new Object(name1, 1);
-      O3.setColorObject(Colors.CLARET, Colors.CLARET, Colors.CLARET, Colors.CLARET);
+      O3.setColorObject(c2, c2, c2, c2);
 
       shape0.add(O1);
       shape1.add(O2);
       shape2.add(O3);
     }
+  }
+
+  public void changeItem(String name, String color) {
+
+    List<Color> colors = colorShape.colors(color);
+    Color c1 = colors.get(0);
+    Color c2 = colors.get(1);
+
+    for (Object obj : shape0) {
+      obj.setDrawable(GMain.textureAtlas.findRegion(name));
+      obj.setColorObject(c1, c2, null, null);
+      obj.remove();
+    }
+
+    for (int i=0; i<shape1.size(); i++) {
+      shape1.get(i).setColorObject(c1, c1, c1, c1);
+      shape2.get(i).setColorObject(c2, c2, c2, c2);
+
+      shape1.get(i).remove();
+      shape2.get(i).remove();
+    }
+  }
+
+  public String getTextureRegionShader(String name) {
+    if (name.equals("circle_1") || name.equals("circle_2") || name.equals("circle_3"))
+      return "shader_circle_1";
+    else if (name.equals("circle_4"))
+      return "shader_circle_4";
+    else if (name.equals("circle_5"))
+      return "shader_circle_5";
+    else if (name.equals("flower_1") || name.equals("flower_2") || name.equals("flower_3"))
+      return "shader_flower";
+    else if (name.equals("sun_flower_1") || name.equals("sun_flower_2") || name.equals("sun_flower_3"))
+      return "shader_sun_flower";
+    else if (name.equals("hexagon_1") || name.equals("hexagon_2") || name.equals("hexagon_3"))
+      return "shader_hexagon";
+    else if (name.equals("pinwheel_1") || name.equals("pinwheel_2") || name.equals("pinwheel_3"))
+      return "shader_pinwheel";
+    else return "shader_square";
   }
 
   public void createPointStart(Group gUI) {
@@ -63,20 +105,16 @@ public class Shape {
     }
   }
 
-  public boolean overlaps(Polygon polygon, Circle circle) {
-    float []vertices = polygon.getTransformedVertices();
-    Vector2 center = new Vector2(circle.x, circle.y);
-    float squareRadius=circle.radius*circle.radius;
+  public void resetItem() {
+    for (int i=0; i<shape0.size(); i++) {
+      shape0.get(i).remove();
+      shape0.get(i).clear();
 
-    for (int i=0 ; i<vertices.length; i += 2){
-      if (i == 0){
-        if (Intersector.intersectSegmentCircle(new Vector2(vertices[vertices.length-2], vertices[vertices.length-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
-          return true;
-      } else {
-        if (Intersector.intersectSegmentCircle(new Vector2(vertices[i-2], vertices[i-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
-          return true;
-      }
+      shape1.get(i).remove();
+      shape1.get(i).clear();
+
+      shape2.get(i).remove();
+      shape2.get(i).clear();
     }
-    return false;
   }
 }

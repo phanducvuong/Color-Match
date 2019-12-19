@@ -61,4 +61,8 @@ public class PolygonAct {
   public void setDeltaScl(int turn) {
     deltaScl = (float) (3.5/turn);
   }
+
+  public void setScalePolyAct(float scl) {
+    polyAct.setScale(scl);
+  }
 }
