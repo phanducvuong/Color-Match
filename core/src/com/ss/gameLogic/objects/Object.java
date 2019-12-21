@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.ss.GMain;
 import com.ss.core.action.exAction.GTemporalAction;
+import com.ss.core.effect.Anim;
 import com.ss.core.util.GUI;
 import com.ss.gameLogic.config.Config;
 import com.ss.gameLogic.interfaces.ICollision;
@@ -39,6 +40,7 @@ public class Object extends Actor {
   private Image borderDown, borderUp;
   private Image imgBackLeft, imgBackRight;
   public Group gBorderSquare, gImgBack; //group contain border of object
+  public Anim anim;
   public int turn = 0; //turn to set zoom to polyAct
 
   public Object(String name, int bound) {
@@ -48,6 +50,7 @@ public class Object extends Actor {
     this.vertices = new float[]{};
 
     this.shape = GUI.createImage(GMain.textureAtlas, name);
+    this.anim = new Anim("anim_left", "anim_right", this);
 
     vertices = new float[]{0,0,0,0,0,0,0,0};
     this.shapeLogic = new ShapeLogic(vertices);
@@ -83,6 +86,7 @@ public class Object extends Actor {
 
     switch (pos) {
       case 0:
+        id = 0;
         if (bound == 0) {
           int r = (int)Math.floor(Math.random() * 2);
           if (r == 0) {
@@ -90,12 +94,14 @@ public class Object extends Actor {
             p2 = -1;
             imgBackLeft.setColor(cRight);
             imgBackRight.setColor(cLeft);
+            anim.setColor(cLeft, cRight);
           }
           else {
             p1 = -1;
             p2 = 1;
             imgBackLeft.setColor(cLeft);
             imgBackRight.setColor(cRight);
+            anim.setColor(cRight, cLeft);
             shape.setOrigin(Align.center);
             shape.rotateBy(180);
             gBorderSquare.rotateBy(180);
@@ -110,6 +116,7 @@ public class Object extends Actor {
 
         break;
       case 1:
+        id = 1;
         shape.setOrigin(Align.center);
         if (bound == 0) {
           int r = (int)Math.floor(Math.random() * 2);
@@ -119,6 +126,7 @@ public class Object extends Actor {
             p2 = -1;
             imgBackLeft.setColor(cRight);
             imgBackRight.setColor(cLeft);
+            anim.setColor(cLeft, cRight);
             shape.rotateBy(45);
             gBorderSquare.setRotation(45);
           }
@@ -127,6 +135,7 @@ public class Object extends Actor {
             p2 = 1;
             imgBackLeft.setColor(cLeft);
             imgBackRight.setColor(cRight);
+            anim.setColor(cRight, cLeft);
             shape.rotateBy(225);
             gBorderSquare.setRotation(225);
           }
@@ -155,6 +164,7 @@ public class Object extends Actor {
             p2 = 1;
             imgBackLeft.setColor(cRight);
             imgBackRight.setColor(cLeft);
+            anim.setColor(cLeft, cRight);
             shape.rotateBy(90);
             gBorderSquare.rotateBy(90);
           }
@@ -163,6 +173,7 @@ public class Object extends Actor {
             p2 = -1;
             imgBackLeft.setColor(cLeft);
             imgBackRight.setColor(cRight);
+            anim.setColor(cRight, cLeft);
             shape.rotateBy(270);
             gBorderSquare.rotateBy(270);
           }
@@ -176,6 +187,7 @@ public class Object extends Actor {
 
         break;
       case 3:
+        id = 3;
         if (bound == 0) {
           int r = (int)Math.floor(Math.random() * 2);
 
@@ -184,12 +196,14 @@ public class Object extends Actor {
             p2 = -1;
             imgBackLeft.setColor(cLeft);
             imgBackRight.setColor(cRight);
+            anim.setColor(cRight, cLeft);
           }
           else {
             p1 = -1;
             p2 = 1;
             imgBackLeft.setColor(cRight);
             imgBackRight.setColor(cLeft);
+            anim.setColor(cLeft, cRight);
             shape.setOrigin(Align.center);
             shape.rotateBy(180);
             gBorderSquare.rotateBy(180);
@@ -204,6 +218,7 @@ public class Object extends Actor {
 
         break;
       case 4:
+        id = 4;
         shape.setOrigin(Align.center);
         if (bound == 0) {
           int r = (int)Math.floor(Math.random() * 2);
@@ -213,6 +228,7 @@ public class Object extends Actor {
             p2 = -1;
             imgBackLeft.setColor(cLeft);
             imgBackRight.setColor(cRight);
+            anim.setColor(cRight, cLeft);
             shape.rotateBy(45);
             gBorderSquare.rotateBy(45);
           }
@@ -221,6 +237,7 @@ public class Object extends Actor {
             p2 = 1;
             imgBackLeft.setColor(cRight);
             imgBackRight.setColor(cLeft);
+            anim.setColor(cLeft, cRight);
             shape.rotateBy(225);
             gBorderSquare.rotateBy(225);
           }
@@ -248,6 +265,7 @@ public class Object extends Actor {
             p2 = 1;
             imgBackLeft.setColor(cLeft);
             imgBackRight.setColor(cRight);
+            anim.setColor(cRight, cLeft);
             shape.rotateBy(90);
             gBorderSquare.rotateBy(90);
           }
@@ -256,6 +274,7 @@ public class Object extends Actor {
             p2 = -1;
             imgBackLeft.setColor(cRight);
             imgBackRight.setColor(cLeft);
+            anim.setColor(cLeft, cRight);
             shape.rotateBy(270);
             gBorderSquare.rotateBy(270);
           }
@@ -360,16 +379,18 @@ public class Object extends Actor {
     turn = 0;
     isAlive = false;
 
-    shape.remove();
-    shapeLogic.remove();
-
     gBorderSquare.setRotation(0);
     gBorderSquare.setScale(1);
 
-    gImgBack.remove();
     gImgBack.getColor().a = 0;
     gImgBack.setRotation(0);
     return super.remove();
+  }
+
+  public void rmActor() {
+    shape.remove();
+    shapeLogic.remove();
+    gImgBack.remove();
   }
 
   @Override
@@ -445,6 +466,7 @@ public class Object extends Actor {
       shape.setColor(cShape);
       imgBackLeft.setColor(cBackObj);
       imgBackRight.setColor(cBackObj);
+      anim.setColor(cBackObj, cBackObj);
     }
     gImgBack.getColor().a = 0;
   }

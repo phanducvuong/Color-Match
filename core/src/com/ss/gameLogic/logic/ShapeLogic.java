@@ -27,13 +27,6 @@ public class ShapeLogic extends Actor {
     shapeR.setProjectionMatrix(GStage.getCamera().combined);
   }
 
-  public void freeShapeLogic() {
-    circle = null;
-    polygon = null;
-    shapeR = null;
-    vertices = null;
-  }
-
   @Override
   public void draw(Batch batch, float parentAlpha) {
 //    batch.end();
@@ -48,7 +41,7 @@ public class ShapeLogic extends Actor {
 //    catch (Exception ex) {}
 //
 //    batch.begin();
-    super.draw(batch, parentAlpha);
+//    super.draw(batch, parentAlpha);
   }
 
   @Override

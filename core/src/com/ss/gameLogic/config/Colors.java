@@ -52,12 +52,12 @@ public class Colors {
   private static final Color FERN_FROND = new Color(92/225f, 102/255f, 29/255f, 1f);
 
   //flower_3
-  private static final Color CHETWODE_BLUE = new Color(125/255f, 164/255f, 224/255f, 1f);
-  private static final Color GIGAS = new Color(93/225f, 58/255f, 143/255f, 1f);
+  public static final Color CHETWODE_BLUE = new Color(125/255f, 164/255f, 224/255f, 1f);
+  public static final Color GIGAS = new Color(93/225f, 58/255f, 143/255f, 1f);
 
   //square_1
-  private static final Color MONA_LISA = new Color(255/255f, 150/255f, 150/255f, 1f);
-  private static final Color ANAKIWA = new Color(140/255f, 190/255f, 255/255f, 1f);
+  public static final Color MONA_LISA = new Color(255/255f, 150/255f, 150/255f, 1f);
+  public static final Color ANAKIWA = new Color(140/255f, 190/255f, 255/255f, 1f);
 
   //square_2
   private static final Color YELLOW_ORANGE_SQUARER = new Color(255/255f, 166/255f, 59/255f, 1f);

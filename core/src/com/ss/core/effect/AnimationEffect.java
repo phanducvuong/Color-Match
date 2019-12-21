@@ -3,21 +3,26 @@ package com.ss.core.effect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.ss.GMain;
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.List;
 
 public class AnimationEffect {
 
-    private static TextureAtlas textureAtlas = GMain.textureAtlas;
-    public static HashMap<String, TextureRegion[]> anims = new HashMap<>();
-    public static TextureRegion[] listFrameObj;
+    private static TextureAtlas animAtlas = GMain.animAtlas;
+    public static HashMap<String, TextureRegion[]> animLeft = new HashMap<>();
+    public static HashMap<String, TextureRegion[]> animRight = new HashMap<>();
+    public static TextureRegion[] listFrameL;
+    public static TextureRegion[] listFrameR;
 
     public static void LoadAnimation() {
-        listFrameObj = new TextureRegion[7];
-        for (int i = 0; i < 7; i++)
-            listFrameObj[i] = textureAtlas.findRegion("obj_anim"+i);
+        listFrameL = new TextureRegion[3];
+        listFrameR = new TextureRegion[3];
+        for (int i = 0; i < 3; i++) {
+            listFrameL[i] = animAtlas.findRegion("pl_"+i);
+            listFrameR[i] = animAtlas.findRegion("pr_"+i);
+        }
 
-        anims.put("obj_anim", listFrameObj);
+        animRight.put("anim_left", listFrameL);
+        animLeft.put("anim_right", listFrameR);
     }
 }

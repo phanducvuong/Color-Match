@@ -1,5 +1,7 @@
 package com.ss.scenes;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import static com.badlogic.gdx.math.Interpolation.*;
 
@@ -21,13 +23,16 @@ import com.platform.IPlatform;
 import com.ss.GMain;
 import com.ss.core.action.exAction.GSimpleAction;
 import com.ss.core.action.exAction.GTween;
+import com.ss.core.effect.Anim;
 import com.ss.core.util.GLayer;
 import com.ss.core.util.GScreen;
 import com.ss.core.util.GStage;
 import com.ss.core.util.GUI;
+import com.ss.gameLogic.config.Colors;
 import com.ss.gameLogic.config.Config;
 import com.ss.gameLogic.config.Level;
 import com.ss.gameLogic.interfaces.ICollision;
+import com.ss.gameLogic.interfaces.IFinishAnim;
 import com.ss.gameLogic.interfaces.INextLevel;
 import com.ss.gameLogic.logic.Logic;
 import com.ss.gameLogic.objects.Object;
@@ -37,7 +42,7 @@ import com.ss.gameLogic.objects.Shape;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameScene extends GScreen implements ICollision, INextLevel {
+public class GameScene extends GScreen implements ICollision, INextLevel, IFinishAnim {
 
   private TextureAtlas textureAtlas = GMain.textureAtlas;
   private Group gMain = new Group();
@@ -63,6 +68,8 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
   private Vector3 level;
   private boolean endGame = false;
 
+  private StartScene startScene;
+
   @Override
   public void dispose() {
 
@@ -75,6 +82,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
     gMain.addActor(gLogic);
     gMain.addActor(gShapeRender);
     gMain.addActor(gUI);
+    gUI.setSize(GStage.getWorldWidth(), GStage.getWorldHeight());
     gLogic.setSize(720, 1280);
     gLogic.setPosition(GStage.getWorldWidth()/2, GStage.getWorldHeight()/2, Align.center);
     gShapeRender.setSize(720, 1280);
@@ -98,10 +106,12 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
 
     createShaderAct();
 
-    shapeMainCenter.getShape().setZIndex(1000);
-    nextObj();
+    startScene = new StartScene(gUI);
 
-    test();
+    shapeMainCenter.getShape().setZIndex(1000);
+//    nextObj();
+
+//    test();
   }
 
   //////////////////////////////////////////INIT////////////////////////////////////////////////////
@@ -262,6 +272,8 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
     int p1 = obj.p1;
     int p2 = obj.p2;
 
+    Gdx.app.log("ppp", p1 + "  " + p2);
+
     Vector2 pObj1 = new Vector2();
     Vector2 pObj2 = new Vector2();
 
@@ -309,7 +321,8 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
       }
     }
 
-    obj.remove();
+    obj.rmActor();
+
   }
 
   private void eftCollition(Object obj) {
@@ -317,6 +330,15 @@ public class GameScene extends GScreen implements ICollision, INextLevel {
       polygonAct.updatePolyAct(true);
     else
       polygonAct.updatePolyAct(false);
+
+    Vector2 temp = logic.posOfAnim(obj);
+    obj.anim.setiFinishAnim(this);
+    obj.anim.start(gLogic, temp.x, temp.y, logic.getDegree(obj.getId()));
+  }
+
+  @Override
+  public void finishedAnim(Object obj) {
+    obj.remove();
   }
 
   private void eftEndGame() {

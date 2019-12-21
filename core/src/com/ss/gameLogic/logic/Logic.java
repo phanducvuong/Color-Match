@@ -131,6 +131,55 @@ public class Logic {
     return v;
   }
 
+  public float getDegree(int id) {
+
+    float deg = 0;
+
+    switch (id) {
+      case 0: deg = -45; break;
+      case 1: deg = 0; break;
+      case 2: deg = 45; break;
+      case 3: deg = 135; break;
+      case 4: deg = 180; break;
+      case 5: deg = -135; break;
+    }
+
+    return deg;
+  }
+
+  public Vector2 posOfAnim(Object obj) {
+    float x = 0, y = 0;
+
+    switch (obj.getId()) {
+      case 0:
+        x = obj.getShape().getX() - 15;
+        y = obj.getShape().getY() - 15;
+        break;
+      case 1:
+        x = obj.getShape().getX() + 20;
+        y = obj.getShape().getY() - 30;
+        break;
+      case 2:
+        x = obj.getShape().getX() + 70;
+        y = obj.getShape().getY() - 15;
+        break;
+      case 3:
+        x = obj.getShape().getX() + 55;
+        y = obj.getShape().getY() + 65;
+        break;
+      case 4:
+        x = obj.getShape().getX() + 25;
+        y = obj.getShape().getY() + 65;
+        break;
+      case 5:
+        x = obj.getShape().getX() - 15;
+        y = obj.getShape().getY() + 55;
+        break;
+    }
+
+    return new Vector2(x, y);
+  }
+
 //  public Object getObject(List<Shape> listShape) {
 //    int i = (int) Math.floor(Math.random() * 3);
 //
