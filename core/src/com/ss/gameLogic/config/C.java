@@ -23,6 +23,15 @@ public class C {
         public static String title = "";
         public static String adsTimeLbl = "";
         public static String playnow = "";
+        public static String continuee = "";
+        public static String ignore = "";
+        public static String gameOver = "";
+        public static String result = "";
+        public static String STT = "";
+        public static String player = "";
+        public static String score = "";
+        public static String coin = "";
+        public static String tks = "";
 
         static void initLocalize() {
             FileHandle specFilehandle = Gdx.files.internal("i18n/lang_" + "id");
@@ -38,6 +47,15 @@ public class C {
             title = locale.get("title");
             adsTimeLbl = locale.format("adsTime", remote.adsTime);
             playnow = locale.get("playnow");
+            continuee = locale.get("continue");
+            ignore = locale.get("ignore");
+            gameOver = locale.get("game_over");
+            result = locale.get("result");
+            STT = locale.get("STT");
+            player = locale.get("player");
+            score = locale.get("score");
+            coin = locale.get("coin");
+            tks = locale.get("tks");
         }
     }
 
