@@ -153,28 +153,28 @@ circle_click
   index: -1
 flower_1
   rotate: false
-  xy: 712, 162
+  xy: 914, 162
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 flower_2
   rotate: false
-  xy: 914, 162
+  xy: 1288, 685
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 flower_3
   rotate: false
-  xy: 1288, 685
+  xy: 1490, 685
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 half_back_obj
   rotate: false
-  xy: 1211, 853
+  xy: 1559, 955
   size: 25, 94
   orig: 25, 94
   offset: 0, 0
@@ -195,14 +195,14 @@ half_obj_up
   index: -1
 icon_rank
   rotate: false
-  xy: 1073, 645
+  xy: 481, 73
   size: 58, 58
   orig: 58, 58
   offset: 0, 0
   index: -1
 icon_shop
   rotate: false
-  xy: 481, 72
+  xy: 1211, 888
   size: 60, 59
   orig: 60, 59
   offset: 0, 0
@@ -223,28 +223,28 @@ obj_circle_1
   index: -1
 obj_circle_2
   rotate: false
-  xy: 1238, 909
+  xy: 1211, 848
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_circle_3
   rotate: false
-  xy: 481, 32
+  xy: 481, 33
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_circle_4
   rotate: false
-  xy: 1073, 605
+  xy: 1073, 665
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_circle_5
   rotate: false
-  xy: 1559, 971
+  xy: 2007, 1806
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
@@ -272,7 +272,7 @@ obj_flower_3
   index: -1
 obj_square_1
   rotate: false
-  xy: 1238, 869
+  xy: 1073, 625
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
@@ -286,7 +286,7 @@ obj_square_2
   index: -1
 obj_square_3
   rotate: false
-  xy: 1559, 1011
+  xy: 1073, 585
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
@@ -328,28 +328,28 @@ polygon_center
   index: -1
 shader_circle_1
   rotate: false
-  xy: 1827, 1038
+  xy: 1606, 915
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 shader_circle_4
   rotate: false
-  xy: 1606, 915
+  xy: 1808, 836
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 shader_circle_5
   rotate: false
-  xy: 1808, 836
+  xy: 712, 162
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 shader_flower
   rotate: false
-  xy: 1089, 380
+  xy: 1827, 1038
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
@@ -412,14 +412,14 @@ star
   index: -1
 sun_flower_1
   rotate: false
-  xy: 1490, 685
+  xy: 1692, 634
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 sun_flower_2
   rotate: false
-  xy: 1692, 634
+  xy: 1089, 380
   size: 200, 200
   orig: 200, 200
   offset: 0, 0

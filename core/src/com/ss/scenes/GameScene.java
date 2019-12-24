@@ -68,7 +68,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
   private Vector3 level;
   private boolean endGame = false;
 
-  private StartScene startScene;
+  public StartScene startScene;
 
   @Override
   public void dispose() {
@@ -101,15 +101,16 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
     createCircleClick();
 
     numberObjects = (int) level.y;
-    polygonAct = new PolygonAct(gLogic, this);
+    polygonAct = new PolygonAct(this, gLogic, this);
     polygonAct.setDeltaScl(numberObjects);
 
     createShaderAct();
 
     startScene = new StartScene(gUI);
+    gUI.addActor(startScene.lbScoreInGame);
 
     shapeMainCenter.getShape().setZIndex(1000);
-//    nextObj();
+    nextObj();
 
 //    test();
   }
@@ -331,6 +332,8 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
     else
       polygonAct.updatePolyAct(false);
 
+    startScene.eftLbScore(10);
+
     Vector2 temp = logic.posOfAnim(obj);
     obj.anim.setiFinishAnim(this);
     obj.anim.start(gLogic, temp.x, temp.y, logic.getDegree(obj.getId()));
@@ -352,6 +355,8 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
     }
     turn = 0;
     isTouchStage = false;
+
+    startScene.eftGEndGame();
   }
 
   @Override
@@ -362,7 +367,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
     polygonAct.setDeltaScl(numberObjects);
 
     updateLevel();
-    GTween.setTimeout(gLogic, .5f, this::nextObj);
+    GTween.setTimeout(gLogic, 1.5f, this::nextObj);
   }
 
   private void updateLevel() {

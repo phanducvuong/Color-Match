@@ -14,6 +14,7 @@ import com.ss.GMain;
 import com.ss.core.action.exAction.GTween;
 import com.ss.core.util.GUI;
 import com.ss.gameLogic.interfaces.INextLevel;
+import com.ss.scenes.GameScene;
 
 public class PolygonAct {
 
@@ -21,12 +22,14 @@ public class PolygonAct {
   private float scl = 0;
   private Group gUI;
   private INextLevel iNextLevel;
+  private GameScene G;
 
   private Image polyAct, borderPolyAct;
 
-  public PolygonAct(Group gUI, INextLevel iNextLevel) {
+  public PolygonAct(GameScene G, Group gUI, INextLevel iNextLevel) {
     this.gUI = gUI;
     this.iNextLevel = iNextLevel;
+    this.G = G;
 
     polyAct = GUI.createImage(GMain.textureAtlas, "action_polygon");
     assert polyAct != null;
@@ -46,6 +49,7 @@ public class PolygonAct {
     polyAct.addAction(scaleTo(scl, scl, .25f, linear));
 
     if (isBorderPoly) {
+      G.startScene.eftLbLevel();
       GTween.action(borderPolyAct, alpha(1, .5f, linear),
               () -> GTween.action(borderPolyAct, alpha(0, .5f, linear),
               () -> GTween.setTimeout(gUI, .5f,

@@ -1,14 +1,20 @@
 package com.ss.scenes;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.ss.GMain;
+import com.ss.core.action.exAction.GTemporalAction;
+import com.ss.core.action.exAction.GTween;
 import com.ss.core.util.GAssetsManager;
+import com.ss.core.util.GStage;
 import com.ss.core.util.GUI;
 import com.ss.gameLogic.config.C;
 import com.ss.gameLogic.config.Colors;
@@ -23,20 +29,26 @@ public class StartScene {
   private Color c = new Color(106/255f, 106/255f, 106/255f, 1);
   private Color cTxt = new Color(92/255f, 87/255f, 69/255f, 1);
 
-  private Group gStart;
+  public Group gStart;
   private Image txtColor, txtMatch;
   private Image soundOn, soundOff;
   private Image iconShop, iconRank, btnPlayNow, btnShop, btnRank;
   private Label lbPlayNow;
 
-  private Group gEndGame;
+  public Group gEndGame;
   private Image bgResult, bgRanking, bannerRanikng, btnX2Coin, imgAdsEG, imgStar, btnNoThank, bgCoinInRound, bgTotalCoin;
   private Label lbResult, lbSTT, lbPlayer, lbScore, lbTotalCoin, lbCoinInRound, lbX2Coin, lbNoThank, lbScoreInRound;
 
-  private Group gContinue;
+  public Group gContinue;
   private Image btnContinue, btnIgnore;
   private Label lbLose, lbContinue, lbIgnore;
   private Image imgAds;
+
+  public Group gLevelUp;
+  private Label lbLevelUp;
+  private Label lbLevel;
+
+  public Label lbScoreInGame;
 
   public StartScene(Group gUI) {
     this.gUI = gUI;
@@ -44,14 +56,21 @@ public class StartScene {
     gStart = new Group();
     gEndGame = new Group();
     gContinue = new Group();
+    gLevelUp = new Group();
 
     gUI.addActor(gStart);
-    gUI.addActor(gEndGame);
     gUI.addActor(gContinue);
+    gUI.addActor(gEndGame);
+    gUI.addActor(gLevelUp);
 
     initStartScene();
-//    initContinueScene();
-//    initEndGameScene();
+    initContinueScene();
+    initEndGameScene();
+    initLbLevel();
+
+    lbScoreInGame = new Label("0", new Label.LabelStyle(bitmap, c2));
+    lbScoreInGame.setFontScale(.5f);
+    lbScoreInGame.setPosition(gUI.getWidth()/2 - lbScoreInGame.getWidth()*lbScoreInGame.getFontScaleX()/2, -30);
   }
 
   private void initStartScene() {
@@ -89,8 +108,8 @@ public class StartScene {
     btnPlayNow.setColor(c1);
 
     lbPlayNow = new Label(C.lang.playnow, new Label.LabelStyle(bitmap, null));
-    lbPlayNow.setFontScale(.8f);
-    lbPlayNow.setPosition(btnPlayNow.getX() + btnPlayNow.getWidth()/2 - lbPlayNow.getWidth()*lbPlayNow.getFontScaleX()/2, btnPlayNow.getY() + btnPlayNow.getHeight()/2 - 35);
+    lbPlayNow.setFontScale(.7f);
+    lbPlayNow.setPosition(btnPlayNow.getX() + btnPlayNow.getWidth()/2 - lbPlayNow.getWidth()*lbPlayNow.getFontScaleX()/2, btnPlayNow.getY() - lbPlayNow.getHeight()*lbPlayNow.getFontScaleX()/2 - 5);
 
     gStart.addActor(txtColor);
     gStart.addActor(txtMatch);
@@ -100,10 +119,12 @@ public class StartScene {
     gStart.addActor(iconRank);
     gStart.addActor(btnPlayNow);
     gStart.addActor(lbPlayNow);
+
+    gStart.setPosition(-GStage.getWorldWidth(), 0);
   }
 
   private void initContinueScene() {
-    lbLose = new Label(C.lang.gameOver, new Label.LabelStyle(bitmap, null));
+    lbLose = new Label(C.lang.gameOver, new Label.LabelStyle(bitmap, cTxt));
     lbLose.setPosition(gUI.getWidth()/2, 150, Align.center);
 
     btnContinue = GUI.createImage(textureAtlas, "btn_continue");
@@ -116,8 +137,8 @@ public class StartScene {
     imgAds.setPosition(btnContinue.getX() + 70, btnContinue.getY() + btnContinue.getHeight()/2, Align.center);
 
     lbContinue = new Label(C.lang.continuee, new Label.LabelStyle(bitmap, null));
-    lbContinue.setFontScale(.5f);
-    lbContinue.setPosition(gUI.getWidth()/2 + 120, btnContinue.getY() + btnContinue.getHeight()/2, Align.center);
+    lbContinue.setFontScale(.4f);
+    lbContinue.setPosition(gUI.getWidth()/2 - lbContinue.getWidth()*lbContinue.getFontScaleX()/2 + 40, btnContinue.getY() + btnContinue.getHeight()/2 - 115);
 
     btnIgnore = GUI.createImage(textureAtlas, "btn_fr_world");
     assert btnIgnore != null;
@@ -126,7 +147,7 @@ public class StartScene {
 
     lbIgnore = new Label(C.lang.ignore, new Label.LabelStyle(bitmap, null));
     lbIgnore.setFontScale(.3f);
-    lbIgnore.setPosition(btnIgnore.getX() + btnIgnore.getWidth()/2 - lbIgnore.getWidth()*lbIgnore.getFontScaleX()/2, btnIgnore.getY() - btnIgnore.getHeight()/2 + 30);
+    lbIgnore.setPosition(btnIgnore.getX() + btnIgnore.getWidth()/2 - lbIgnore.getWidth()*lbIgnore.getFontScaleX()/2, btnIgnore.getY() - btnIgnore.getHeight()/2 - 50);
 
     gContinue.addActor(lbLose);
     gContinue.addActor(btnContinue);
@@ -134,6 +155,8 @@ public class StartScene {
     gContinue.addActor(lbIgnore);
     gContinue.addActor(lbContinue);
     gContinue.addActor(imgAds);
+
+    gContinue.getColor().a = 0;
   }
 
   private void initEndGameScene() {
@@ -145,29 +168,29 @@ public class StartScene {
     assert  bgTotalCoin != null;
     bgTotalCoin.setPosition(gUI.getWidth()/2 - bgTotalCoin.getWidth()/2, 0);
 
-    lbTotalCoin = new Label("3465789", new Label.LabelStyle(bitmap, null));
-    lbTotalCoin.setPosition(gUI.getWidth()/2 - lbTotalCoin.getWidth()/6, 20);
-    lbTotalCoin.setFontScale(.45f);
+    lbTotalCoin = new Label("3568799", new Label.LabelStyle(bitmap, null));
+    lbTotalCoin.setFontScale(.3f);
+    lbTotalCoin.setPosition(gUI.getWidth()/2 - lbTotalCoin.getWidth()*lbTotalCoin.getFontScaleX()/2 + 23, -53);
 
-    lbResult = new Label(C.lang.result, new Label.LabelStyle(bitmap, cTxt));
-    lbResult.setFontScale(.6f);
-    lbResult.setPosition(gUI.getWidth()/2 - lbResult.getWidth()*lbResult.getFontScaleX()/2, bgResult.getY() + 10);
+    lbResult = new Label(C.lang.result, new Label.LabelStyle(bitmap, c));
+    lbResult.setFontScale(.5f);
+    lbResult.setPosition(gUI.getWidth()/2 - lbResult.getWidth()*lbResult.getFontScaleX()/2, 90);
 
-    lbScoreInRound = new Label("345687", new Label.LabelStyle(bitmap, null));
+    lbScoreInRound = new Label("345687", new Label.LabelStyle(bitmap, c1));
     lbScoreInRound.setFontScale(.7f);
     lbScoreInRound.setPosition(gUI.getWidth()/2 - lbScoreInRound.getWidth()*lbScoreInRound.getFontScaleX()/2, lbResult.getY() + 70);
 
     bgCoinInRound = GUI.createImage(textureAtlas, "bg_coin_in_round");
     assert bgCoinInRound != null;
-    bgCoinInRound.setPosition(gUI.getWidth()/2, lbScoreInRound.getY() + 150, Align.center);
+    bgCoinInRound.setPosition(gUI.getWidth()/2, lbScoreInRound.getY() + 250, Align.center);
 
-    lbCoinInRound = new Label("222222", new Label.LabelStyle(bitmap, null));
-    lbCoinInRound.setFontScale(.5f);
-    lbCoinInRound.setPosition(gUI.getWidth()/2 - lbCoinInRound.getWidth()*lbCoinInRound.getFontScaleX()/2, bgCoinInRound.getY() - bgCoinInRound.getHeight()/2 + 25);
+    lbCoinInRound = new Label("659875", new Label.LabelStyle(bitmap, null));
+    lbCoinInRound.setFontScale(.35f);
+    lbCoinInRound.setPosition(gUI.getWidth()/2 - lbCoinInRound.getWidth()*lbCoinInRound.getFontScaleX()/2 + 20, bgCoinInRound.getY() - 65);
 
     bgRanking = GUI.createImage(textureAtlas, "bg_ranking");
     assert bgRanking != null;
-    bgRanking.setPosition(gUI.getWidth()/2, gUI.getHeight()/2 + 60, Align.center);
+    bgRanking.setPosition(gUI.getWidth()/2, gUI.getHeight()/2 + 70, Align.center);
 
     bannerRanikng = GUI.createImage(textureAtlas, "banner_ranking");
     assert bannerRanikng != null;
@@ -175,16 +198,16 @@ public class StartScene {
     bannerRanikng.setColor(c2);
 
     lbSTT = new Label(C.lang.STT, new Label.LabelStyle(bitmap, null));
-    lbSTT.setFontScale(.35f);
-    lbSTT.setPosition(bannerRanikng.getX() + 20, bannerRanikng.getY());
+    lbSTT.setFontScale(.25f);
+    lbSTT.setPosition(bannerRanikng.getX() + 20, bannerRanikng.getY() - 50);
 
     lbPlayer = new Label(C.lang.player, new Label.LabelStyle(bitmap, null));
-    lbPlayer.setFontScale(.35f);
-    lbPlayer.setPosition(bannerRanikng.getX() + bannerRanikng.getWidth()/2 - lbPlayer.getWidth()*lbPlayer.getFontScaleX()/2, bannerRanikng.getY());
+    lbPlayer.setFontScale(.25f);
+    lbPlayer.setPosition(bannerRanikng.getX() + bannerRanikng.getWidth()/2 - lbPlayer.getWidth()*lbPlayer.getFontScaleX()/2, bannerRanikng.getY() - 50);
 
     lbScore = new Label(C.lang.score, new Label.LabelStyle(bitmap, null));
-    lbScore.setFontScale(.35f);
-    lbScore.setPosition(bannerRanikng.getX() + bannerRanikng.getWidth() - 110, bannerRanikng.getY());
+    lbScore.setFontScale(.25f);
+    lbScore.setPosition(bannerRanikng.getX() + bannerRanikng.getWidth() - 110, bannerRanikng.getY() - 50);
 
     btnX2Coin = GUI.createImage(textureAtlas, "btn_continue");
     assert btnX2Coin != null;
@@ -197,11 +220,11 @@ public class StartScene {
 
     imgStar = GUI.createImage(textureAtlas, "star");
     assert imgStar != null;
-    imgStar.setPosition(imgAdsEG.getX() + 190, imgAdsEG.getY() + imgAdsEG.getHeight()/2, Align.center);
+    imgStar.setPosition(imgAdsEG.getX() + 170, imgAdsEG.getY() + imgAdsEG.getHeight()/2, Align.center);
 
     lbX2Coin = new Label(C.lang.coin, new Label.LabelStyle(bitmap, null));
-    lbX2Coin.setFontScale(.35f);
-    lbX2Coin.setPosition(btnX2Coin.getX() + btnX2Coin.getWidth() + 30, imgStar.getY() + imgStar.getHeight()/2, Align.center);
+    lbX2Coin.setFontScale(.25f);
+    lbX2Coin.setPosition(btnX2Coin.getX() + btnX2Coin.getWidth() + 175, imgStar.getY() + imgStar.getHeight()/2 - 30, Align.center);
 
     btnNoThank = GUI.createImage(textureAtlas, "btn_fr_world");
     assert btnNoThank != null;
@@ -209,8 +232,8 @@ public class StartScene {
     btnNoThank.setColor(c);
 
     lbNoThank = new Label(C.lang.tks, new Label.LabelStyle(bitmap, null));
-    lbNoThank.setFontScale(.35f);
-    lbNoThank.setPosition(btnNoThank.getX() - lbNoThank.getWidth()*lbNoThank.getFontScaleX()/2 + btnNoThank.getWidth()/2, btnNoThank.getY() - lbNoThank.getHeight()*lbNoThank.getFontScaleX()/2 + 5);
+    lbNoThank.setFontScale(.25f);
+    lbNoThank.setPosition(btnNoThank.getX() - lbNoThank.getWidth()*lbNoThank.getFontScaleX()/2 + btnNoThank.getWidth()/2, btnNoThank.getY() - lbNoThank.getHeight()*lbNoThank.getFontScaleX()/2 - 40);
 
     gEndGame.addActor(bgResult);
     gEndGame.addActor(bgTotalCoin);
@@ -230,6 +253,51 @@ public class StartScene {
     gEndGame.addActor(imgAdsEG);
     gEndGame.addActor(btnNoThank);
     gEndGame.addActor(lbNoThank);
+
+    gEndGame.setPosition(GStage.getWorldWidth(), 0);
+  }
+
+  private void initLbLevel() {
+    lbLevelUp = new Label(C.lang.lvUp, new Label.LabelStyle(bitmap, c));
+    lbLevelUp.setFontScale(.5f);
+    lbLevelUp.getColor().a = 0;
+    lbLevelUp.setPosition(gUI.getWidth()/2 - lbLevelUp.getWidth()*lbLevelUp.getFontScaleX()/2, 150);
+
+    lbLevel = new Label(C.lang.lv + "3", new Label.LabelStyle(bitmap, c));
+    lbLevel.setFontScale(.5f);
+    lbLevel.getColor().a = 0;
+    lbLevel.setPosition(gUI.getWidth()/2 - lbLevel.getWidth()*lbLevel.getFontScaleX()/2, 230);
+
+    gLevelUp.addActor(lbLevelUp);
+    gLevelUp.addActor(lbLevel);
+  }
+
+  public void eftLbScore(float score) {
+    int ss = Integer.parseInt(lbScoreInGame.getText().toString());
+    lbScoreInGame.addAction(GTemporalAction.add(.4f, (p, a) -> {
+      int s = (int) (ss + score*p);
+      lbScoreInGame.setText(String.valueOf(s));
+
+      float x = lbScoreInGame.getText().length * 96 * lbScoreInGame.getFontScaleX()/2;
+      lbScoreInGame.setPosition(gUI.getWidth()/2 - x, -30);
+    }));
+  }
+
+  public void eftLbLevel() {
+    GTween.action(lbLevelUp, Actions.alpha(1, .5f, Interpolation.linear),
+            () -> GTween.setTimeout(gLevelUp, .75f,
+            () -> lbLevelUp.addAction(Actions.alpha(0, 1.5f, Interpolation.linear)))
+    );
+
+    GTween.action(lbLevel, Actions.alpha(1, .5f, Interpolation.linear),
+            () -> GTween.setTimeout(gLevelUp, .75f,
+            () -> lbLevel.addAction(Actions.alpha(0, 1.5f, Interpolation.linear)))
+    );
+  }
+
+  public void eftGEndGame() {
+    lbScoreInGame.setVisible(false);
+    GTween.action(gEndGame, Actions.moveBy(-GStage.getStageWidth(), 0, 1f, Interpolation.swing), null);
   }
 
   public void setColorForUI(Color c1, Color c2) {
