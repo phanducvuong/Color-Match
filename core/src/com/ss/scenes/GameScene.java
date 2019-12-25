@@ -1,7 +1,6 @@
 package com.ss.scenes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import static com.badlogic.gdx.math.Interpolation.*;
 
@@ -23,12 +22,10 @@ import com.platform.IPlatform;
 import com.ss.GMain;
 import com.ss.core.action.exAction.GSimpleAction;
 import com.ss.core.action.exAction.GTween;
-import com.ss.core.effect.Anim;
 import com.ss.core.util.GLayer;
 import com.ss.core.util.GScreen;
 import com.ss.core.util.GStage;
 import com.ss.core.util.GUI;
-import com.ss.gameLogic.config.Colors;
 import com.ss.gameLogic.config.Config;
 import com.ss.gameLogic.config.Level;
 import com.ss.gameLogic.interfaces.ICollision;
@@ -62,11 +59,12 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
   private Image circleClick;
   private ShaderAct shaderAct;
 
-  private PolygonAct polygonAct;
-  private int turn = 0;
+  public PolygonAct polygonAct;
+  public int turn = 0;
   private int numberObjects = 0;
   private Vector3 level;
-  private boolean endGame = false;
+  public boolean endGame = false;
+  public long lv = 1;
 
   public StartScene startScene;
 
@@ -106,11 +104,13 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
 
     createShaderAct();
 
-    startScene = new StartScene(gUI);
-    gUI.addActor(startScene.lbScoreInGame);
+    startScene = new StartScene(gUI, this);
+    startScene.gStart.setPosition(0, 0);
+    gUI.addActor(startScene.gStart);
 
     shapeMainCenter.getShape().setZIndex(1000);
-    nextObj();
+    isTouchStage = false;
+//    nextObj();
 
 //    test();
   }
@@ -255,7 +255,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
     return true;
   }
 
-  private void nextObj() {
+  public void nextObj() {
     turn++;
     if (turn <= numberObjects && !endGame) {
       try {
@@ -273,7 +273,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
     int p1 = obj.p1;
     int p2 = obj.p2;
 
-    Gdx.app.log("ppp", p1 + "  " + p2);
+//    Gdx.app.log("ppp", p1 + "  " + p2);
 
     Vector2 pObj1 = new Vector2();
     Vector2 pObj2 = new Vector2();
@@ -304,7 +304,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
       }
       else {
 //        Gdx.app.log("END", "End Game!");
-        eftEndGame();
+        eftEndGame(obj);
       }
     }
     else {
@@ -318,7 +318,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
       }
       else {
 //        Gdx.app.log("END", "End Game!");
-        eftEndGame();
+        eftEndGame(obj);
       }
     }
 
@@ -344,19 +344,32 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
     obj.remove();
   }
 
-  private void eftEndGame() {
+  private void eftEndGame(Object objj) {
+
+    startScene.turnToContinue = objj.turn; //save position in obj make end game
     endGame = true;
+
     for (int i = 0; i < listObjGamePlay.size(); i++) {
+
       for (Object obj : listObjGamePlay.get(i))
+
         if (obj.isAlive) {
+
+          Vector2 temp = logic.posOfAnim(obj);
+          obj.anim.setiFinishAnim(this);
+          obj.anim.start(gLogic, temp.x, temp.y, logic.getDegree(obj.getId()));
+
+          obj.rmActor();
+
           obj.isAlive = false;
           obj.clear();
+          obj.remove();
         }
     }
-    turn = 0;
-    isTouchStage = false;
+//    turn = 0; //todo: if no watch ads => reset turn = 0
+    setTouchStage(false);
 
-    startScene.eftGEndGame();
+    startScene.eftContinue(false);
   }
 
   @Override
@@ -367,7 +380,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
     polygonAct.setDeltaScl(numberObjects);
 
     updateLevel();
-    GTween.setTimeout(gLogic, 1.5f, this::nextObj);
+    GTween.setTimeout(gLogic, 2f, this::nextObj);
   }
 
   private void updateLevel() {
@@ -417,12 +430,16 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
   }
 
   //call method newGame() when end game
-  private void newGame() {
+  public void newGame() {
     resetGame();
-    GTween.setTimeout(gLogic, .5f, () -> {
+    GTween.setTimeout(gLogic, 1f, () -> {
       isTouchStage = true;
       nextObj();
     });
+  }
+
+  public void setTouchStage(boolean touchStage) {
+    isTouchStage = touchStage;
   }
 
   //////////////////////////////////////////GAME PLAY///////////////////////////////////////////////

@@ -49,7 +49,10 @@ public class PolygonAct {
     polyAct.addAction(scaleTo(scl, scl, .25f, linear));
 
     if (isBorderPoly) {
-      G.startScene.eftLbLevel();
+
+      G.lv += 1;
+      G.startScene.eftLbLevel(G.lv);
+
       GTween.action(borderPolyAct, alpha(1, .5f, linear),
               () -> GTween.action(borderPolyAct, alpha(0, .5f, linear),
               () -> GTween.setTimeout(gUI, .5f,

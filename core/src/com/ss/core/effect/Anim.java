@@ -42,11 +42,13 @@ public class Anim extends Actor {
         float heightRight = textReRight.getRegionHeight();
 
         batch.setColor(Color.WHITE);
-        batch.setColor(cL);
+        if (cL != null)
+            batch.setColor(cL);
         batch.draw(textReLeft, getX()-originXLeft, getY()- originYLeft, originXLeft, originYLeft, widthLeft, heightLeft, 1.2f, 1.2f, rotation);
 
         batch.setColor(Color.WHITE);
-        batch.setColor(cR);
+        if (cR != null)
+            batch.setColor(cR);
         batch.draw(textReRight, getX()-originXRight, getY()-originYRight, originXRight, originYRight, widthRight, heightRight, 1.2f, 1.2f, rotation);
 
         if (animLeft.isAnimationFinished(elapsedTime)
