@@ -16,9 +16,13 @@ public class Shape {
   private static Shape instance;
   private Colors colorShape = Colors.getInstance();
 
+  public Color c1, c2;
+
   public List<Object> shape0 = new ArrayList<>();
   public List<Object> shape1 = new ArrayList<>();
   public List<Object> shape2 = new ArrayList<>();
+
+  public List<Items> listItems = new ArrayList<>();
 
   public static Shape getInstance() {
     return instance == null ? instance = new Shape() : instance;
@@ -49,8 +53,8 @@ public class Shape {
   public void changeItem(String name, String color) {
 
     List<Color> colors = colorShape.colors(color);
-    Color c1 = colors.get(0);
-    Color c2 = colors.get(1);
+    c1 = colors.get(0);
+    c2 = colors.get(1);
 
     for (Object obj : shape0) {
       obj.setDrawable(GMain.textureAtlas.findRegion(name));
@@ -116,5 +120,54 @@ public class Shape {
       shape2.get(i).remove();
       shape2.get(i).clear();
     }
+  }
+
+  public void initListItems() {
+
+    Items items = new Items(Config.SQUARE_2, 100, 1,true);
+    listItems.add(items);
+    items = new Items(Config.SQUARE_3, 100, 1,false);
+    listItems.add(items);
+    items = new Items(Config.SQUARE_1, 0, 1,false);
+    listItems.add(items);
+
+    items = new Items(Config.FLOWER_1, 400, 0,true);
+    listItems.add(items);
+    items = new Items(Config.FLOWER_2, 400, 0,true);
+    listItems.add(items);
+    items = new Items(Config.FLOWER_3, 400, 0,true);
+    listItems.add(items);
+
+    items = new Items(Config.CIRCLE_4, 500, 0,true);
+    listItems.add(items);
+    items = new Items(Config.CIRCLE_1, 500, 0,true);
+    listItems.add(items);
+    items = new Items(Config.CIRCLE_2, 500, 0,true);
+    listItems.add(items);
+    items = new Items(Config.CIRCLE_3, 500, 0,true);
+    listItems.add(items);
+    items = new Items(Config.CIRCLE_5, 600, 0,true);
+    listItems.add(items);
+
+    items = new Items(Config.HEXAGON_1, 800, 0,true);
+    listItems.add(items);
+    items = new Items(Config.HEXAGON_2, 800, 0,true);
+    listItems.add(items);
+    items = new Items(Config.HEXAGON_3, 800, 0,true);
+    listItems.add(items);
+
+    items = new Items(Config.SUN_FLOWER_1, 1000, 0,true);
+    listItems.add(items);
+    items = new Items(Config.SUN_FLOWER_2, 1000, 0,true);
+    listItems.add(items);
+    items = new Items(Config.SUN_FLOWER_3, 1000, 0,true);
+    listItems.add(items);
+
+    items = new Items(Config.PINWHEEL_1, 1500, 0,true);
+    listItems.add(items);
+    items = new Items(Config.PINWHEEL_2, 1500, 0,true);
+    listItems.add(items);
+    items = new Items(Config.PINWHEEL_3, 1500, 0,true);
+    listItems.add(items);
   }
 }

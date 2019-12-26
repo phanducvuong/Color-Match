@@ -27,8 +27,8 @@ public class ShapeLogic extends Actor {
     shapeR.setProjectionMatrix(GStage.getCamera().combined);
   }
 
-  @Override
-  public void draw(Batch batch, float parentAlpha) {
+//  @Override
+//  public void draw(Batch batch, float parentAlpha) {
 //    batch.end();
 //
 //    try {
@@ -42,7 +42,7 @@ public class ShapeLogic extends Actor {
 //
 //    batch.begin();
 //    super.draw(batch, parentAlpha);
-  }
+//  }
 
   @Override
   public void act(float delta) {

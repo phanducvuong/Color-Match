@@ -3,6 +3,7 @@ package com.ss.gameLogic.config;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.ss.GMain;
+import com.ss.core.util.GUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,4 +44,26 @@ public class Config {
     arrPos.add(POST5);
     arrPos.add(POST6);
   }
+
+  ////////////////////////////////////NAME ITEM/////////////////////////////////////////////////////
+  public static final String CIRCLE_1 = "item_circle_1";
+  public static final String CIRCLE_2 = "item_circle_2";
+  public static final String CIRCLE_3 = "item_circle_3";
+  public static final String CIRCLE_4 = "item_circle_4";
+  public static final String CIRCLE_5 = "item_circle_5";
+  public static final String FLOWER_1 = "item_flower_1";
+  public static final String FLOWER_2 = "item_flower_2";
+  public static final String FLOWER_3 = "item_flower_3";
+  public static final String HEXAGON_1 = "item_hexagon_1";
+  public static final String HEXAGON_2 = "item_hexagon_2";
+  public static final String HEXAGON_3 = "item_hexagon_3";
+  public static final String PINWHEEL_1 = "item_pinwheel_1";
+  public static final String PINWHEEL_2 = "item_pinwheel_2";
+  public static final String PINWHEEL_3 = "item_pinwheel_3";
+  public static final String SQUARE_1 = "item_square_1";
+  public static final String SQUARE_2 = "item_square_2";
+  public static final String SQUARE_3 = "item_square_3";
+  public static final String SUN_FLOWER_1 = "item_sun_flower_1";
+  public static final String SUN_FLOWER_2 = "item_sun_flower_2";
+  public static final String SUN_FLOWER_3 = "item_sun_flower_3";
 }

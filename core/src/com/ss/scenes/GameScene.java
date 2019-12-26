@@ -1,9 +1,7 @@
 package com.ss.scenes;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import static com.badlogic.gdx.math.Interpolation.*;
-
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -88,6 +86,8 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
 
     listObjGamePlay = new ArrayList<>();
     logic = Logic.getInstance();
+
+    shape.initListItems();
 
     initAsset();
     createShapeMain("square_1",1,1);
@@ -323,7 +323,6 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
     }
 
     obj.rmActor();
-
   }
 
   private void eftCollition(Object obj) {
@@ -446,13 +445,13 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
 
   //////////////////////////////////////////EVENT CHANGE SHAPE CENTER///////////////////////////////
 
-  private void changeShapeMainCenter(String name, int idShape, String color) {
+  public void changeShapeMainCenter(String name, int idShape, String color) {
     String tempName = "obj_" + name;
     reInitShapeMain(name, 1, idShape);
     shape.changeItem(tempName, color);
   }
 
-  private void changeShaderAct(String name) {
+  public void changeShaderAct(String name) {
     float xx = shapeMainCenter.getShape().getX();
     float yy = shapeMainCenter.getShape().getY();
     shaderAct.reInitShader(xx, yy, textureAtlas.findRegion(shape.getTextureRegionShader(name)));

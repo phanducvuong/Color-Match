@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.platform.IPlatform;
 import com.ss.GMain;
@@ -25,16 +24,20 @@ import com.ss.core.util.GStage;
 import com.ss.core.util.GUI;
 import com.ss.gameLogic.config.C;
 import com.ss.gameLogic.config.Colors;
+import com.ss.gameLogic.interfaces.IChangeLbItem;
+import com.ss.gameLogic.objects.Items;
+import com.ss.gameLogic.objects.Shape;
 
-public class StartScene {
+public class StartScene implements IChangeLbItem {
 
   private BitmapFont bitmap = GAssetsManager.getBitmapFont("font_color_match.fnt");
 
   private Group gUI;
   private TextureAtlas textureAtlas = GMain.textureAtlas;
   private Color c1 = Colors.MONA_LISA, c2 = Colors.ANAKIWA;
-  private Color c = new Color(106/255f, 106/255f, 106/255f, 1);
-  private Color cTxt = new Color(92/255f, 87/255f, 69/255f, 1);
+  private Color c = new Color(106 / 255f, 106 / 255f, 106 / 255f, 1);
+  private Color cGetItem = new Color(255 / 255f, 82 / 255f, 59 / 255f, 1);
+  private Color cTxt = new Color(92 / 255f, 87 / 255f, 69 / 255f, 1);
 
   public Group gStart;
   private Group gBtnStartGame = new Group();
@@ -62,18 +65,22 @@ public class StartScene {
   private Label lbLevel;
 
   public Label lbScoreInGame;
-  private long score = 0;
   private int countAdsFullScreen = 0;
 
   private Group gShop;
   private Group gItem = new Group();
-  private Image bannerItem, bgItem, bgShop;
-  private Label lbShop, lbItem;
+  private Group gGetItem = new Group();
+  private Image bannerItem, bgItem, bgShop, imgItemSelected, bgGetItem, btnX;
+  private Label lbShop, lbItem, lbGetItem, lbNoEnoughCoin, lbCoin;
 
   private GameScene G;
+  private Shape shape = Shape.getInstance();
   public int turnToContinue = 0;
 
   private IPlatform plf = GMain.platform;
+
+  private long coinPre = 3000;
+  private boolean isBuy = false;
 
   public StartScene(Group gUI, GameScene G) {
     this.gUI = gUI;
@@ -98,17 +105,18 @@ public class StartScene {
 
     lbScoreInGame = new Label("0", new Label.LabelStyle(bitmap, c2));
     lbScoreInGame.setFontScale(.5f);
-    lbScoreInGame.setPosition(gUI.getWidth()/2 - lbScoreInGame.getWidth()*lbScoreInGame.getFontScaleX()/2, -30);
+    lbScoreInGame.setPosition(gUI.getWidth() / 2 - lbScoreInGame.getWidth() * lbScoreInGame.getFontScaleX() / 2, -30);
     lbScoreInGame.setVisible(false);
     gUI.addActor(lbScoreInGame);
 
+    initScroll();
+
+    clickGGetItem();
     clickGContinue();
     clickGIgnore();
     clickGBtnStartGame();
     clickGBtnShop();
     clickGBtnRank();
-
-    initScroll();
   }
 
   ///////////////////////////////////////////////INIT///////////////////////////////////////////////
@@ -119,61 +127,94 @@ public class StartScene {
     bgShop = GUI.createImage(textureAtlas, "bg_shop");
     bgItem = GUI.createImage(textureAtlas, "bg_item");
 
+    btnX = GUI.createImage(textureAtlas, "btnX");
+    assert btnX != null;
+    btnX.setPosition(bgShop.getWidth()/2 - btnX.getWidth()/2, bgShop.getHeight() - btnX.getHeight()/2);
+
+    lbShop = new Label(C.lang.shop, new Label.LabelStyle(bitmap, c1));
+    lbShop.setFontScale(.5f);
+    lbShop.setPosition(8, -70);
+    lbShop.setAlignment(Align.center);
+
     bannerItem = GUI.createImage(textureAtlas, "banner_item");
 
     assert bgItem != null;
     gItem.setSize(bgItem.getWidth(), bgItem.getHeight() - 35);
-    bgItem.setPosition(bgShop.getWidth()/2, bgShop.getHeight()/2 + 110, Align.center);
+    bgItem.setPosition(bgShop.getWidth() / 2, bgShop.getHeight() / 2 + 110, Align.center);
     gItem.setPosition(bgItem.getX(), bgItem.getY());
-    gItem.setOrigin(bgItem.getWidth()/2, bgItem.getHeight()/2);
+    gItem.setOrigin(bgItem.getWidth() / 2, bgItem.getHeight() / 2);
     gItem.rotateBy(180);
 
     assert bannerItem != null;
     bannerItem.setPosition(bgItem.getX(), bgItem.getY() - 43);
     bannerItem.setColor(c2);
 
+    lbItem = new Label(C.lang.itemDefault, new Label.LabelStyle(bitmap, null));
+    lbItem.setFontScale(.4f);
+    lbItem.setScale(0);
+    lbItem.setAlignment(Align.center);
+    lbItem.setPosition(bannerItem.getX() + bannerItem.getWidth() / 2 - lbItem.getWidth() / 2, bannerItem.getY() - 80);
+
+    //todo: check perference in android => set drawable to imgItemSelected
+    imgItemSelected = GUI.createImage(textureAtlas, "item_square_1");
+    assert imgItemSelected != null;
+    imgItemSelected.setPosition(bgShop.getX() + bgShop.getWidth() / 2 - imgItemSelected.getWidth() / 2, 130);
+
+    //init gGetItem
+    bgGetItem = GUI.createImage(textureAtlas, "bg_get_item");
+    assert bgGetItem != null;
+    bgGetItem.setColor(c);
+
+    Image star = GUI.createImage(textureAtlas, "star");
+    assert star != null;
+    star.setPosition(bgGetItem.getX() + 5, bgGetItem.getY() + bgGetItem.getHeight() / 2);
+
+    lbGetItem = new Label(C.lang.getItem, new Label.LabelStyle(bitmap, null));
+    lbGetItem.setFontScale(.2f);
+    lbGetItem.setScale(0);
+    lbGetItem.setPosition(bgGetItem.getX() - 20, bgGetItem.getY() - 65);
+    lbGetItem.setAlignment(Align.center);
+
+    lbCoin = new Label("1500", new Label.LabelStyle(bitmap, null));
+    lbCoin.setFontScale(.23f);
+    lbCoin.setScale(0);
+    lbCoin.setPosition(lbGetItem.getX() + 70, lbGetItem.getY() + 50);
+
+    gGetItem.addActor(bgGetItem);
+    gGetItem.addActor(lbGetItem);
+    gGetItem.addActor(star);
+    gGetItem.addActor(lbCoin);
+    gGetItem.setPosition(imgItemSelected.getX() + 190, imgItemSelected.getY() + 50);
+    gGetItem.setVisible(false);
+
     gShop.addActor(bgShop);
+    gShop.addActor(lbShop);
     gShop.addActor(bgItem);
+    gShop.addActor(imgItemSelected);
+    gShop.addActor(gGetItem);
     gShop.addActor(bannerItem);
     gShop.addActor(gItem);
-    gShop.setPosition(GStage.getWorldWidth()/2 - bgShop.getWidth()/2, GStage.getWorldHeight()/2 - bgShop.getHeight()/2);
+    gShop.addActor(lbItem);
+    gShop.addActor(btnX);
+    gShop.setPosition(GStage.getWorldWidth() / 2 - bgShop.getWidth() / 2, GStage.getWorldHeight() / 2 - bgShop.getHeight() / 2);
+    gShop.setOrigin(bgShop.getWidth()/2, bgShop.getHeight()/2);
 
+    //init table items
     Table scrollTable = new Table();
-    for (int i = 0; i < 40; i++) {
-      Image img = GUI.createImage(textureAtlas, "item");
-      Image img1 = GUI.createImage(textureAtlas, "item");
-      Image img2 = GUI.createImage(textureAtlas, "item");
+    for (int i = 0; i < shape.listItems.size(); i += 3) {
+      try {
+        scrollTable.add(shape.listItems.get(i).getItem()).center().padRight(10).padBottom(10);
+        shape.listItems.get(i).iChangeLbItem = this;
 
-      img.setName(i+"");
-      img1.setName(i+"");
-      img2.setName(i+"");
+        scrollTable.add(shape.listItems.get(i + 1).getItem()).center().padRight(10).padBottom(10);
+        shape.listItems.get(i + 1).iChangeLbItem = this;
 
-      if (i %2 == 0) {
-        img.setColor(Color.RED);
-        img1.setColor(Color.BLUE);
-        img2.setColor(Color.CORAL);
+        scrollTable.add(shape.listItems.get(i + 2).getItem()).center().padBottom(10);
+        shape.listItems.get(i + 2).iChangeLbItem = this;
+
+        scrollTable.row();
+      } catch (Exception ex) {
       }
-
-      img.addListener(new ClickListener() {
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-          super.clicked(event, x, y);
-          Gdx.app.log("NAME", img.getName());
-        }
-      });
-
-      img1.addListener(new ClickListener() {
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-          super.clicked(event, x, y);
-          Gdx.app.log("NAME", img.getName());
-        }
-      });
-
-      scrollTable.add(img).center().padRight(25).padBottom(10);
-      scrollTable.add(img1).center().padRight(25).padBottom(10);
-      scrollTable.add(img2).center().padBottom(10);
-      scrollTable.row();
     }
 
     ScrollPane scroller = new ScrollPane(scrollTable);
@@ -182,20 +223,22 @@ public class StartScene {
     table.add(scroller).fill().expand();
 
     gItem.addActor(table);
+
+    gShop.setScale(0);
   }
 
   private void initStartScene() {
     bgTotalCoinStart = GUI.createImage(textureAtlas, "bg_coin");
-    assert  bgTotalCoinStart != null;
-    bgTotalCoinStart.setPosition(gUI.getWidth()/2 - bgTotalCoinStart.getWidth()/2, 0);
+    assert bgTotalCoinStart != null;
+    bgTotalCoinStart.setPosition(gUI.getWidth() / 2 - bgTotalCoinStart.getWidth() / 2, 0);
 
     lbTotalCoinStart = new Label("356879", new Label.LabelStyle(bitmap, null));
     lbTotalCoinStart.setFontScale(.3f);
-    lbTotalCoinStart.setPosition(gUI.getWidth()/2 - lbTotalCoinStart.getWidth()*lbTotalCoinStart.getFontScaleX()/2 + 23, - 38);
+    lbTotalCoinStart.setPosition(gUI.getWidth() / 2 - lbTotalCoinStart.getWidth() * lbTotalCoinStart.getFontScaleX() / 2 + 23, -38);
 
     txtColor = GUI.createImage(textureAtlas, "text_color");
     assert txtColor != null;
-    txtColor.setPosition(gUI.getWidth()/2 - txtColor.getWidth()/2, 120);
+    txtColor.setPosition(gUI.getWidth() / 2 - txtColor.getWidth() / 2, 120);
     txtColor.setColor(c1);
 
     txtMatch = GUI.createImage(textureAtlas, "text_match");
@@ -205,21 +248,21 @@ public class StartScene {
 
     btnShop = GUI.createImage(textureAtlas, "bg_icon");
     assert btnShop != null;
-    btnShop.setPosition(gUI.getWidth()/2 - btnShop.getWidth()/2 - 120, gUI.getHeight()/2 + 280);
+    btnShop.setPosition(gUI.getWidth() / 2 - btnShop.getWidth() / 2 - 120, gUI.getHeight() / 2 + 280);
     btnShop.setColor(c2);
 
     iconShop = GUI.createImage(textureAtlas, "icon_shop");
     assert iconShop != null;
-    iconShop.setPosition(btnShop.getX() + btnShop.getWidth()/2, btnShop.getY() + btnShop.getHeight()/2, Align.center);
+    iconShop.setPosition(btnShop.getX() + btnShop.getWidth() / 2, btnShop.getY() + btnShop.getHeight() / 2, Align.center);
 
     btnRank = GUI.createImage(textureAtlas, "bg_icon");
     assert btnRank != null;
-    btnRank.setPosition(gUI.getWidth()/2 - btnRank.getWidth()/2 + 120, gUI.getHeight()/2 + 280);
+    btnRank.setPosition(gUI.getWidth() / 2 - btnRank.getWidth() / 2 + 120, gUI.getHeight() / 2 + 280);
     btnRank.setColor(c2);
 
     iconRank = GUI.createImage(textureAtlas, "icon_rank");
     assert iconRank != null;
-    iconRank.setPosition(btnRank.getX() + btnRank.getWidth()/2, btnRank.getY() + btnRank.getHeight()/2, Align.center);
+    iconRank.setPosition(btnRank.getX() + btnRank.getWidth() / 2, btnRank.getY() + btnRank.getHeight() / 2, Align.center);
 
     btnPlayNow = GUI.createImage(textureAtlas, "btn_play_now");
     assert btnPlayNow != null;
@@ -228,7 +271,7 @@ public class StartScene {
     lbPlayNow = new Label(C.lang.playnow, new Label.LabelStyle(bitmap, null));
     lbPlayNow.setFontScale(.5f);
     lbPlayNow.setScale(0);
-    lbPlayNow.setPosition(btnPlayNow.getX()+btnPlayNow.getWidth()/2 - lbPlayNow.getPrefWidth()/2, btnPlayNow.getY()+btnPlayNow.getHeight()/2 - 135);
+    lbPlayNow.setPosition(btnPlayNow.getX() + btnPlayNow.getWidth() / 2 - lbPlayNow.getPrefWidth() / 2, btnPlayNow.getY() + btnPlayNow.getHeight() / 2 - 135);
 
     gStart.addActor(bgTotalCoinStart);
     gStart.addActor(lbTotalCoinStart);
@@ -238,16 +281,16 @@ public class StartScene {
 
     gBtnShop.addActor(btnShop);
     gBtnShop.addActor(iconShop);
-    gBtnShop.setOrigin(btnShop.getX()+btnShop.getWidth()/2, btnShop.getY()+btnShop.getHeight()/2);
+    gBtnShop.setOrigin(btnShop.getX() + btnShop.getWidth() / 2, btnShop.getY() + btnShop.getHeight() / 2);
     gStart.addActor(gBtnShop);
 
     gBtnRank.addActor(btnRank);
     gBtnRank.addActor(iconRank);
-    gBtnRank.setOrigin(btnRank.getX()+btnRank.getWidth()/2, btnRank.getY()+btnRank.getHeight()/2);
+    gBtnRank.setOrigin(btnRank.getX() + btnRank.getWidth() / 2, btnRank.getY() + btnRank.getHeight() / 2);
     gStart.addActor(gBtnRank);
 
-    gBtnStartGame.setPosition(gUI.getWidth()/2 - btnPlayNow.getWidth()/2, iconRank.getY() + 150);
-    gBtnStartGame.setOrigin(btnPlayNow.getX()+btnPlayNow.getWidth()/2, btnPlayNow.getY()+btnPlayNow.getHeight()/2);
+    gBtnStartGame.setPosition(gUI.getWidth() / 2 - btnPlayNow.getWidth() / 2, iconRank.getY() + 150);
+    gBtnStartGame.setOrigin(btnPlayNow.getX() + btnPlayNow.getWidth() / 2, btnPlayNow.getY() + btnPlayNow.getHeight() / 2);
     gBtnStartGame.addActor(btnPlayNow);
     gBtnStartGame.addActor(lbPlayNow);
     gStart.addActor(gBtnStartGame);
@@ -258,22 +301,22 @@ public class StartScene {
   }
 
   private void initContinueScene() {
-    lbLose = new Label(C.lang.gameOver, new Label.LabelStyle(bitmap, cTxt));
-    lbLose.setPosition(gUI.getWidth()/2, 90, Align.center);
+    lbLose = new Label(C.lang.gameOver, new Label.LabelStyle(bitmap, c));
+    lbLose.setPosition(gUI.getWidth() / 2, 90, Align.center);
 
     btnContinue = GUI.createImage(textureAtlas, "btn_continue");
     assert btnContinue != null;
-    btnContinue.setPosition(gUI.getWidth()/2 - btnContinue.getWidth()/2, 950);
+    btnContinue.setPosition(gUI.getWidth() / 2 - btnContinue.getWidth() / 2, 950);
     btnContinue.setColor(c1);
 
     imgAds = GUI.createImage(textureAtlas, "ads");
     assert imgAds != null;
-    imgAds.setPosition(btnContinue.getX() + 70, btnContinue.getY() + btnContinue.getHeight()/2, Align.center);
+    imgAds.setPosition(btnContinue.getX() + 70, btnContinue.getY() + btnContinue.getHeight() / 2, Align.center);
 
     lbContinue = new Label(C.lang.continuee, new Label.LabelStyle(bitmap, null));
     lbContinue.setFontScale(.4f);
     lbContinue.setScale(0);
-    lbContinue.setPosition(gUI.getWidth()/2 - lbContinue.getWidth()*lbContinue.getFontScaleX()/2 + 40, btnContinue.getY() + btnContinue.getHeight()/2 - 115);
+    lbContinue.setPosition(gUI.getWidth() / 2 - lbContinue.getWidth() * lbContinue.getFontScaleX() / 2 + 40, btnContinue.getY() + btnContinue.getHeight() / 2 - 115);
 
     btnIgnore = GUI.createImage(textureAtlas, "btn_fr_world");
     assert btnIgnore != null;
@@ -283,11 +326,11 @@ public class StartScene {
     lbIgnore = new Label(C.lang.ignore, new Label.LabelStyle(bitmap, null));
     lbIgnore.setFontScale(.3f);
     lbIgnore.setScale(0);
-    lbIgnore.setPosition(btnIgnore.getX() + btnIgnore.getWidth()/2 - lbIgnore.getWidth()*lbIgnore.getFontScaleX()/2, btnIgnore.getY() - btnIgnore.getHeight()/2 - 38);
+    lbIgnore.setPosition(btnIgnore.getX() + btnIgnore.getWidth() / 2 - lbIgnore.getWidth() * lbIgnore.getFontScaleX() / 2, btnIgnore.getY() - btnIgnore.getHeight() / 2 - 38);
 
     gBtnIgnore.setSize(btnIgnore.getWidth(), btnIgnore.getHeight());
-    gBtnIgnore.setPosition(gUI.getWidth()/2 - btnIgnore.getWidth()/2, btnContinue.getY() + 130);
-    gBtnIgnore.setOrigin(btnIgnore.getX() + btnIgnore.getWidth()/2, btnIgnore.getY() + btnIgnore.getHeight()/2);
+    gBtnIgnore.setPosition(gUI.getWidth() / 2 - btnIgnore.getWidth() / 2, btnContinue.getY() + 130);
+    gBtnIgnore.setOrigin(btnIgnore.getX() + btnIgnore.getWidth() / 2, btnIgnore.getY() + btnIgnore.getHeight() / 2);
     gBtnIgnore.addActor(btnIgnore);
     gBtnIgnore.addActor(lbIgnore);
 
@@ -297,7 +340,7 @@ public class StartScene {
     gBtnContinue.addActor(btnContinue);
     gBtnContinue.addActor(lbContinue);
     gBtnContinue.addActor(imgAds);
-    gBtnContinue.setOrigin(btnContinue.getX() + btnContinue.getWidth()/2, btnContinue.getY() + btnContinue.getHeight()/2);
+    gBtnContinue.setOrigin(btnContinue.getX() + btnContinue.getWidth() / 2, btnContinue.getY() + btnContinue.getHeight() / 2);
 
     gContinue.addActor(gBtnContinue);
 
@@ -307,39 +350,39 @@ public class StartScene {
   private void initEndGameScene() {
     bgResult = GUI.createImage(textureAtlas, "bg_result");
     assert bgResult != null;
-    bgResult.setPosition(gUI.getWidth()/2, gUI.getHeight()/2, Align.center);
+    bgResult.setPosition(gUI.getWidth() / 2, gUI.getHeight() / 2, Align.center);
 
     bgTotalCoin = GUI.createImage(textureAtlas, "bg_coin");
-    assert  bgTotalCoin != null;
-    bgTotalCoin.setPosition(gUI.getWidth()/2 - bgTotalCoin.getWidth()/2, 0);
+    assert bgTotalCoin != null;
+    bgTotalCoin.setPosition(gUI.getWidth() / 2 - bgTotalCoin.getWidth() / 2, 0);
 
     lbTotalCoin = new Label("3568799", new Label.LabelStyle(bitmap, null));
     lbTotalCoin.setFontScale(.3f);
-    lbTotalCoin.setPosition(gUI.getWidth()/2 - lbTotalCoin.getWidth()*lbTotalCoin.getFontScaleX()/2 + 23, - 38);
+    lbTotalCoin.setPosition(gUI.getWidth() / 2 - lbTotalCoin.getWidth() * lbTotalCoin.getFontScaleX() / 2 + 23, -38);
 
     lbResult = new Label(C.lang.result, new Label.LabelStyle(bitmap, c));
     lbResult.setFontScale(.5f);
-    lbResult.setPosition(gUI.getWidth()/2 - lbResult.getWidth()*lbResult.getFontScaleX()/2, 90);
+    lbResult.setPosition(gUI.getWidth() / 2 - lbResult.getWidth() * lbResult.getFontScaleX() / 2, 90);
 
     lbScoreInRound = new Label("345687", new Label.LabelStyle(bitmap, c1));
     lbScoreInRound.setFontScale(.7f);
-    lbScoreInRound.setPosition(gUI.getWidth()/2 - lbScoreInRound.getWidth()*lbScoreInRound.getFontScaleX()/2, lbResult.getY() + 70);
+    lbScoreInRound.setPosition(gUI.getWidth() / 2 - lbScoreInRound.getWidth() * lbScoreInRound.getFontScaleX() / 2, lbResult.getY() + 70);
 
     bgCoinInRound = GUI.createImage(textureAtlas, "bg_coin_in_round");
     assert bgCoinInRound != null;
-    bgCoinInRound.setPosition(gUI.getWidth()/2, lbScoreInRound.getY() + 250, Align.center);
+    bgCoinInRound.setPosition(gUI.getWidth() / 2, lbScoreInRound.getY() + 250, Align.center);
 
     lbCoinInRound = new Label("659875", new Label.LabelStyle(bitmap, null));
     lbCoinInRound.setFontScale(.35f);
-    lbCoinInRound.setPosition(gUI.getWidth()/2 - lbCoinInRound.getWidth()*lbCoinInRound.getFontScaleX()/2 + 20, bgCoinInRound.getY() - 65);
+    lbCoinInRound.setPosition(gUI.getWidth() / 2 - lbCoinInRound.getWidth() * lbCoinInRound.getFontScaleX() / 2 + 20, bgCoinInRound.getY() - 65);
 
     bgRanking = GUI.createImage(textureAtlas, "bg_ranking");
     assert bgRanking != null;
-    bgRanking.setPosition(gUI.getWidth()/2, gUI.getHeight()/2 + 70, Align.center);
+    bgRanking.setPosition(gUI.getWidth() / 2, gUI.getHeight() / 2 + 70, Align.center);
 
     bannerRanikng = GUI.createImage(textureAtlas, "banner_ranking");
     assert bannerRanikng != null;
-    bannerRanikng.setPosition(gUI.getWidth()/2 - bannerRanikng.getWidth()/2, bgRanking.getY() - 30);
+    bannerRanikng.setPosition(gUI.getWidth() / 2 - bannerRanikng.getWidth() / 2, bgRanking.getY() - 30);
     bannerRanikng.setColor(c2);
 
     lbSTT = new Label(C.lang.STT, new Label.LabelStyle(bitmap, null));
@@ -348,7 +391,7 @@ public class StartScene {
 
     lbPlayer = new Label(C.lang.player, new Label.LabelStyle(bitmap, null));
     lbPlayer.setFontScale(.25f);
-    lbPlayer.setPosition(bannerRanikng.getX() + bannerRanikng.getWidth()/2 - lbPlayer.getWidth()*lbPlayer.getFontScaleX()/2, bannerRanikng.getY() - 50);
+    lbPlayer.setPosition(bannerRanikng.getX() + bannerRanikng.getWidth() / 2 - lbPlayer.getWidth() * lbPlayer.getFontScaleX() / 2, bannerRanikng.getY() - 50);
 
     lbScore = new Label(C.lang.score, new Label.LabelStyle(bitmap, null));
     lbScore.setFontScale(.25f);
@@ -356,29 +399,29 @@ public class StartScene {
 
     btnX2Coin = GUI.createImage(textureAtlas, "btn_continue");
     assert btnX2Coin != null;
-    btnX2Coin.setPosition(gUI.getWidth()/2, bgRanking.getY() + bgRanking.getHeight() + 70, Align.center);
+    btnX2Coin.setPosition(gUI.getWidth() / 2, bgRanking.getY() + bgRanking.getHeight() + 70, Align.center);
     btnX2Coin.setColor(c1);
 
     imgAdsEG = GUI.createImage(textureAtlas, "ads");
     assert imgAdsEG != null;
-    imgAdsEG.setPosition(btnX2Coin.getX() + 80, btnX2Coin.getY() + btnX2Coin.getHeight()/2, Align.center);
+    imgAdsEG.setPosition(btnX2Coin.getX() + 80, btnX2Coin.getY() + btnX2Coin.getHeight() / 2, Align.center);
 
     imgStar = GUI.createImage(textureAtlas, "star");
     assert imgStar != null;
-    imgStar.setPosition(imgAdsEG.getX() + 170, imgAdsEG.getY() + imgAdsEG.getHeight()/2, Align.center);
+    imgStar.setPosition(imgAdsEG.getX() + 170, imgAdsEG.getY() + imgAdsEG.getHeight() / 2, Align.center);
 
     lbX2Coin = new Label(C.lang.coin, new Label.LabelStyle(bitmap, null));
     lbX2Coin.setFontScale(.25f);
-    lbX2Coin.setPosition(btnX2Coin.getX() + btnX2Coin.getWidth() + 175, imgStar.getY() + imgStar.getHeight()/2 - 30, Align.center);
+    lbX2Coin.setPosition(btnX2Coin.getX() + btnX2Coin.getWidth() + 175, imgStar.getY() + imgStar.getHeight() / 2 - 30, Align.center);
 
     btnNoThank = GUI.createImage(textureAtlas, "btn_fr_world");
     assert btnNoThank != null;
-    btnNoThank.setPosition(gUI.getWidth()/2 - btnNoThank.getWidth()/2, btnX2Coin.getY() + btnX2Coin.getHeight() + 10);
+    btnNoThank.setPosition(gUI.getWidth() / 2 - btnNoThank.getWidth() / 2, btnX2Coin.getY() + btnX2Coin.getHeight() + 10);
     btnNoThank.setColor(c);
 
     lbNoThank = new Label(C.lang.tks, new Label.LabelStyle(bitmap, null));
     lbNoThank.setFontScale(.25f);
-    lbNoThank.setPosition(btnNoThank.getX() - lbNoThank.getWidth()*lbNoThank.getFontScaleX()/2 + btnNoThank.getWidth()/2, btnNoThank.getY() - lbNoThank.getHeight()*lbNoThank.getFontScaleX()/2 - 40);
+    lbNoThank.setPosition(btnNoThank.getX() - lbNoThank.getWidth() * lbNoThank.getFontScaleX() / 2 + btnNoThank.getWidth() / 2, btnNoThank.getY() - lbNoThank.getHeight() * lbNoThank.getFontScaleX() / 2 - 40);
 
     gEndGame.addActor(bgResult);
     gEndGame.addActor(bgTotalCoin);
@@ -406,12 +449,12 @@ public class StartScene {
     lbLevelUp = new Label(C.lang.lvUp, new Label.LabelStyle(bitmap, c));
     lbLevelUp.setFontScale(.5f);
     lbLevelUp.getColor().a = 0;
-    lbLevelUp.setPosition(gUI.getWidth()/2 - lbLevelUp.getWidth()*lbLevelUp.getFontScaleX()/2, 150);
+    lbLevelUp.setPosition(gUI.getWidth() / 2 - lbLevelUp.getWidth() * lbLevelUp.getFontScaleX() / 2, 150);
 
     lbLevel = new Label(C.lang.lv, new Label.LabelStyle(bitmap, c));
     lbLevel.setFontScale(.5f);
     lbLevel.getColor().a = 0;
-    lbLevel.setPosition(gUI.getWidth()/2 - lbLevel.getWidth()*lbLevel.getFontScaleX()/2, 230);
+    lbLevel.setPosition(gUI.getWidth() / 2 - lbLevel.getWidth() * lbLevel.getFontScaleX() / 2, 230);
 
     gLevelUp.addActor(lbLevelUp);
     gLevelUp.addActor(lbLevel);
@@ -424,27 +467,27 @@ public class StartScene {
   public void eftLbScore(float score) {
     long ss = Integer.parseInt(lbScoreInGame.getText().toString());
     lbScoreInGame.addAction(GTemporalAction.add(.4f, (p, a) -> {
-      long s = (int) (ss + score*p);
+      long s = (int) (ss + score * p);
       lbScoreInGame.setText(String.valueOf(s));
 
-      float x = lbScoreInGame.getText().length * 96 * lbScoreInGame.getFontScaleX()/2;
-      lbScoreInGame.setPosition(gUI.getWidth()/2 - x, -30);
+      float x = lbScoreInGame.getText().length * 96 * lbScoreInGame.getFontScaleX() / 2;
+      lbScoreInGame.setPosition(gUI.getWidth() / 2 - x, -30);
     }));
   }
 
   public void eftLbLevel(long lv) {
     lbLevel.setText(C.lang.lv + lv);
-    float x = gUI.getWidth()/2 - lbLevel.getText().length * 96 * lbLevel.getFontScaleX()/2;
+    float x = gUI.getWidth() / 2 - lbLevel.getText().length * 96 * lbLevel.getFontScaleX() / 2;
     lbLevel.setX(x);
 
     GTween.action(lbLevelUp, Actions.alpha(1, .5f, Interpolation.linear),
             () -> GTween.setTimeout(gLevelUp, .75f,
-            () -> lbLevelUp.addAction(Actions.alpha(0, 1.5f, Interpolation.linear)))
+                    () -> lbLevelUp.addAction(Actions.alpha(0, 1.5f, Interpolation.linear)))
     );
 
     GTween.action(lbLevel, Actions.alpha(1, .5f, Interpolation.linear),
             () -> GTween.setTimeout(gLevelUp, .75f,
-            () -> lbLevel.addAction(Actions.alpha(0, 1.5f, Interpolation.linear)))
+                    () -> lbLevel.addAction(Actions.alpha(0, 1.5f, Interpolation.linear)))
     );
   }
 
@@ -460,22 +503,31 @@ public class StartScene {
     GTween.action(gEndGame, Actions.moveBy(-GStage.getStageWidth(), 0, 1f, Interpolation.swingOut), null);
   }
 
+  public void eftGShop() {
+    float x = gShop.getScaleX();
+    if (x == 1)
+      GTween.action(gShop, Actions.scaleTo(0, 0, .25f, Interpolation.linear),
+              ()-> gBtnStartGame.setTouchable(Touchable.enabled));
+    else
+      GTween.action(gShop, Actions.scaleTo(1, 1, .35f, Interpolation.swingOut),
+              () -> gBtnStartGame.setTouchable(Touchable.disabled));
+  }
+
   public void eftContinue(boolean isContinue) {
     if (isContinue) {
       //todo: set score for lbScore
       GTween.action(gContinue, Actions.moveBy(0, -GStage.getWorldHeight(), .5f, Interpolation.swingIn),
               () -> {
-                  lbScoreInGame.setVisible(true);
-                  G.setTouchStage(true);
-                  G.endGame = false;
-                  GTween.setTimeout(gUI, 1f,
-              () -> {
-                  G.turn = turnToContinue - 1;
-                  G.nextObj();
+                lbScoreInGame.setVisible(true);
+                G.setTouchStage(true);
+                G.endGame = false;
+                GTween.setTimeout(gUI, 1f,
+                        () -> {
+                          G.turn = turnToContinue - 1;
+                          G.nextObj();
+                        });
               });
-      });
-    }
-    else {
+    } else {
       gBtnContinue.setTouchable(Touchable.enabled);
       gBtnIgnore.setTouchable(Touchable.enabled);
       lbScoreInGame.setVisible(false);
@@ -497,8 +549,7 @@ public class StartScene {
               if (success)
                 eftContinue(true);
             });
-          }
-          else
+          } else
             gBtnContinue.setTouchable(Touchable.enabled);
         };
         gBtnContinue.setTouchable(Touchable.disabled);
@@ -509,7 +560,7 @@ public class StartScene {
   }
 
   private void clickGIgnore() {
-    gBtnIgnore.addListener(new InputListener(){
+    gBtnIgnore.addListener(new InputListener() {
       @Override
       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         gBtnIgnore.setTouchable(Touchable.disabled);
@@ -521,7 +572,7 @@ public class StartScene {
         eftBtn(gBtnIgnore, run);
 
         countAdsFullScreen++;
-        if (countAdsFullScreen %3 == 0) {
+        if (countAdsFullScreen % 3 == 0) {
           plf.ShowFullscreen();
           countAdsFullScreen = 0;
         }
@@ -531,15 +582,15 @@ public class StartScene {
   }
 
   private void clickGBtnStartGame() {
-    gBtnStartGame.addListener(new InputListener(){
+    gBtnStartGame.addListener(new InputListener() {
       @Override
       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         Runnable run = () -> eftStart(false,
-                       () -> {
-                            resetLbScoreInGame();
-                            G.newGame();
-                            lbScoreInGame.setVisible(true);
-                       });
+                () -> {
+                  resetLbScoreInGame();
+                  G.newGame();
+                  lbScoreInGame.setVisible(true);
+                });
         eftBtn(gBtnStartGame, run);
         return super.touchDown(event, x, y, pointer, button);
       }
@@ -547,17 +598,26 @@ public class StartScene {
   }
 
   private void clickGBtnShop() {
-    gBtnShop.addListener(new InputListener(){
+    gBtnShop.addListener(new InputListener() {
       @Override
       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        eftBtn(gBtnShop, null);
+        Runnable run = () -> eftGShop();
+        eftBtn(gBtnShop, run);
+        return super.touchDown(event, x, y, pointer, button);
+      }
+    });
+
+    btnX.addListener(new InputListener() {
+      @Override
+      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        eftGShop();
         return super.touchDown(event, x, y, pointer, button);
       }
     });
   }
 
   private void clickGBtnRank() {
-    gBtnRank.addListener(new InputListener(){
+    gBtnRank.addListener(new InputListener() {
       @Override
       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         eftBtn(gBtnRank, null);
@@ -568,7 +628,7 @@ public class StartScene {
 
   ///////////////////////////////////////////////EVENT CLICK////////////////////////////////////////
 
-  public void setColorForUI(Color c1, Color c2) {
+  private void setColorForUI(Color c1, Color c2) {
 
     //gStartScene
     txtColor.setColor(c1);
@@ -585,6 +645,8 @@ public class StartScene {
     btnX2Coin.setColor(c1);
 
     bannerItem.setColor(c2);
+    lbScoreInGame.setColor(c2);
+    lbShop.setColor(c1);
   }
 
   private void eftBtn(Group btn, Runnable run) {
@@ -594,7 +656,65 @@ public class StartScene {
 
   private void resetLbScoreInGame() {
     lbScoreInGame.setText(0);
-    float x = lbScoreInGame.getText().length * 96 * lbScoreInGame.getFontScaleX()/2;
-    lbScoreInGame.setPosition(gUI.getWidth()/2 - x, -30);
+    float x = lbScoreInGame.getText().length * 96 * lbScoreInGame.getFontScaleX() / 2;
+    lbScoreInGame.setPosition(gUI.getWidth() / 2 - x, -30);
+  }
+
+  private Items itemSelected;
+  @Override
+  public void changeLbItem(Items items) {
+
+    if (items.coin == 0) {
+      lbItem.setText(C.lang.itemDefault);
+      gGetItem.setVisible(false);
+    }
+    else {
+      lbItem.setText("Item " + items.coin);
+      lbCoin.setText(items.coin + "");
+
+      if (items.isLock) {
+        gGetItem.setVisible(true);
+
+        if (coinPre >= items.coin) {
+          bgGetItem.setColor(cGetItem);
+          isBuy = true;
+        } else {
+          bgGetItem.setColor(c);
+          isBuy = false;
+        }
+      }else gGetItem.setVisible(false);
+    }
+
+    if (!items.isLock) {
+      G.changeShapeMainCenter(items.name, items.idShape, items.name);
+      G.changeShaderAct(items.name);
+      setColorForUI(shape.c1, shape.c2);
+    }
+
+    itemSelected = items;
+    imgItemSelected.setDrawable(items.item.getDrawable());
+  }
+
+  private void clickGGetItem() {
+    gGetItem.addListener(new InputListener() {
+      @Override
+      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+        if (coinPre >= itemSelected.coin) {
+          gGetItem.setVisible(false);
+          itemSelected.isLock = false;
+
+          Gdx.app.log("AAA", itemSelected.name);
+
+          G.changeShapeMainCenter(itemSelected.name, itemSelected.idShape, itemSelected.name);
+          G.changeShaderAct(itemSelected.name);
+          setColorForUI(shape.c1, shape.c2);
+        }
+        else
+          Gdx.app.log("NO", "NO HAVE ENOUGH MONEY");
+
+        return super.touchDown(event, x, y, pointer, button);
+      }
+    });
   }
 }

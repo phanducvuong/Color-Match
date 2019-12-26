@@ -83,4 +83,13 @@ public class GUI {
       }
       return new Image(region);
    }
+   public static Image createImage(TextureAtlas atlas, String regionName, boolean flipX, boolean flipY){
+      TextureAtlas.AtlasRegion region = atlas.findRegion(regionName);
+      region.flip(flipX, flipY);
+      if(region == null){
+         GMain.platform.log("atlas " + atlas.toString() + "find region " + regionName + " not found");
+         return null;
+      }
+      return new Image(region);
+   }
 }

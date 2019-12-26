@@ -13,7 +13,7 @@ action_polygon
   index: -1
 ads
   rotate: false
-  xy: 1448, 31
+  xy: 1958, 1030
   size: 88, 63
   orig: 88, 63
   offset: 0, 0
@@ -46,18 +46,18 @@ bg
   orig: 720, 1280
   offset: 0, 0
   index: -1
-bg_coin
-  rotate: false
-  xy: 1459, 96
-  size: 266, 97
-  orig: 266, 97
-  offset: 0, 0
-  index: -1
 bg_coin_in_round
   rotate: false
   xy: 1056, 53
   size: 288, 64
   orig: 288, 64
+  offset: 0, 0
+  index: -1
+bg_get_item
+  rotate: false
+  xy: 1863, 8
+  size: 160, 102
+  orig: 160, 102
   offset: 0, 0
   index: -1
 bg_icon
@@ -83,14 +83,14 @@ bg_ranking
   index: -1
 bg_result
   rotate: false
-  xy: 1316, 1072
+  xy: 724, 1072
   size: 590, 970
   orig: 590, 970
   offset: 0, 0
   index: -1
 bg_shop
   rotate: false
-  xy: 724, 1072
+  xy: 1316, 1072
   size: 590, 970
   orig: 590, 970
   offset: 0, 0
@@ -104,7 +104,7 @@ border_poly_act
   index: -1
 border_square
   rotate: false
-  xy: 1908, 1172
+  xy: 1346, 17
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
@@ -116,13 +116,6 @@ btn_continue
   orig: 477, 101
   offset: 0, 0
   index: -1
-btn_fr_world
-  rotate: false
-  xy: 1685, 199
-  size: 234, 63
-  orig: 234, 63
-  offset: 0, 0
-  index: -1
 btn_play_now
   rotate: false
   xy: 2, 2
@@ -130,39 +123,25 @@ btn_play_now
   orig: 565, 125
   offset: 0, 0
   index: -1
-circle_1
-  rotate: false
-  xy: 1756, 870
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
-  index: -1
-circle_2
-  rotate: false
-  xy: 1756, 668
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
-  index: -1
-circle_3
-  rotate: false
-  xy: 1756, 466
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
-  index: -1
-circle_5
-  rotate: false
-  xy: 1483, 195
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
-  index: -1
 circle_click
   rotate: false
   xy: 1908, 1380
   size: 117, 118
   orig: 117, 118
+  offset: 0, 0
+  index: -1
+flower_1
+  rotate: false
+  xy: 1661, 62
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+flower_2
+  rotate: false
+  xy: 1833, 264
+  size: 200, 200
+  orig: 200, 200
   offset: 0, 0
   index: -1
 half_back_obj
@@ -174,28 +153,28 @@ half_back_obj
   index: -1
 half_obj_down
   rotate: false
-  xy: 1346, 17
+  xy: 1614, 475
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 half_obj_up
   rotate: false
-  xy: 1614, 475
+  xy: 1908, 1172
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 icon_rank
   rotate: false
-  xy: 1600, 36
+  xy: 1958, 832
   size: 58, 58
   orig: 58, 58
   offset: 0, 0
   index: -1
 icon_shop
   rotate: false
-  xy: 1538, 35
+  xy: 1958, 892
   size: 60, 59
   orig: 60, 59
   offset: 0, 0
@@ -207,107 +186,191 @@ info_user
   orig: 485, 103
   offset: 0, 0
   index: -1
+item
+  rotate: false
+  xy: 1483, 249
+  size: 146, 146
+  orig: 146, 146
+  offset: 0, 0
+  index: -1
+item_circle_1
+  rotate: false
+  xy: 1863, 112
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_sun_flower_2
+  rotate: false
+  xy: 560, 610
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
 obj_circle_1
   rotate: false
-  xy: 2008, 274
+  xy: 1958, 512
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_circle_2
   rotate: false
-  xy: 729, 11
+  xy: 890, 11
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_circle_3
   rotate: false
-  xy: 769, 11
+  xy: 1958, 472
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_circle_4
   rotate: false
-  xy: 689, 11
+  xy: 930, 11
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_circle_5
   rotate: false
-  xy: 809, 11
+  xy: 850, 11
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_flower_1
   rotate: false
-  xy: 1660, 56
+  xy: 770, 11
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_flower_2
   rotate: false
-  xy: 1928, 274
+  xy: 810, 11
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_flower_3
   rotate: false
-  xy: 609, 11
+  xy: 1958, 552
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_hexagon_1
+  rotate: false
+  xy: 730, 11
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_hexagon_2
+  rotate: false
+  xy: 1958, 632
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_hexagon_3
+  rotate: false
+  xy: 1958, 592
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_pinwheel_1
+  rotate: false
+  xy: 1958, 712
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_pinwheel_2
+  rotate: false
+  xy: 690, 11
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+obj_pinwheel_3
+  rotate: false
+  xy: 1958, 672
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_square_1
   rotate: false
-  xy: 849, 11
+  xy: 1998, 792
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_square_2
   rotate: false
-  xy: 889, 11
+  xy: 970, 11
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_square_3
   rotate: false
-  xy: 649, 11
+  xy: 1010, 11
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_sun_flower_1
   rotate: false
-  xy: 1968, 274
+  xy: 1958, 752
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_sun_flower_2
   rotate: false
-  xy: 569, 11
+  xy: 650, 11
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_sun_flower_3
   rotate: false
-  xy: 969, 11
+  xy: 610, 11
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
+pinwheel_1
+  rotate: false
+  xy: 1756, 668
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+pinwheel_2
+  rotate: false
+  xy: 1756, 466
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+pinwheel_3
+  rotate: false
+  xy: 1459, 47
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
 point_start
   rotate: false
-  xy: 929, 11
+  xy: 1998, 752
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
@@ -319,67 +382,46 @@ polygon_center
   orig: 487, 493
   offset: 0, 0
   index: -1
-shader_square
+shader_hexagon
   rotate: false
-  xy: 1887, 314
-  size: 150, 150
-  orig: 150, 150
+  xy: 1631, 264
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+shader_pinwheel
+  rotate: false
+  xy: 1756, 870
+  size: 200, 200
+  orig: 200, 200
   offset: 0, 0
   index: -1
 sound_off
   rotate: false
-  xy: 1908, 1095
+  xy: 1958, 953
   size: 81, 75
   orig: 81, 75
   offset: 0, 0
   index: -1
 sound_on
   rotate: false
-  xy: 1602, 398
+  xy: 1908, 1095
   size: 81, 75
   orig: 81, 75
   offset: 0, 0
   index: -1
 square
   rotate: false
-  xy: 1009, 11
+  xy: 1958, 792
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
-square_1
-  rotate: false
-  xy: 560, 610
-  size: 150, 150
-  orig: 150, 150
-  offset: 0, 0
-  index: -1
-square_2
-  rotate: false
-  xy: 1879, 47
-  size: 150, 150
-  orig: 150, 150
-  offset: 0, 0
-  index: -1
-square_3
-  rotate: false
-  xy: 1727, 47
-  size: 150, 150
-  orig: 150, 150
-  offset: 0, 0
-  index: -1
 star
   rotate: false
-  xy: 1887, 272
+  xy: 569, 9
   size: 39, 40
   orig: 39, 40
-  offset: 0, 0
-  index: -1
-sun_flower_3
-  rotate: false
-  xy: 1685, 264
-  size: 200, 200
-  orig: 200, 200
   offset: 0, 0
   index: -1
 test
@@ -405,83 +447,300 @@ text_match
   index: -1
 
 ColorMatch2.png
-size: 2048,512
+size: 2048,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+bg_coin
+  rotate: false
+  xy: 1012, 915
+  size: 266, 97
+  orig: 266, 97
+  offset: 0, 0
+  index: -1
+border_item
+  rotate: false
+  xy: 1432, 862
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+btnX
+  rotate: false
+  xy: 558, 253
+  size: 146, 153
+  orig: 146, 153
+  offset: 0, 0
+  index: -1
+btn_fr_world
+  rotate: false
+  xy: 1012, 850
+  size: 234, 63
+  orig: 234, 63
+  offset: 0, 0
+  index: -1
+circle_1
+  rotate: false
+  xy: 2, 610
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+circle_2
+  rotate: false
+  xy: 204, 812
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+circle_3
+  rotate: false
+  xy: 2, 408
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
 circle_4
   rotate: false
-  xy: 204, 2
+  xy: 204, 610
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
-flower_1
+circle_5
   rotate: false
-  xy: 406, 2
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
-  index: -1
-flower_2
-  rotate: false
-  xy: 406, 204
+  xy: 406, 812
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 flower_3
   rotate: false
-  xy: 608, 204
+  xy: 2, 812
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
-item
+hexagon_1
   rotate: false
-  xy: 1012, 258
-  size: 146, 146
-  orig: 146, 146
+  xy: 608, 812
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+hexagon_2
+  rotate: false
+  xy: 2, 4
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+hexagon_3
+  rotate: false
+  xy: 204, 206
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+item_circle_2
+  rotate: false
+  xy: 406, 256
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_circle_3
+  rotate: false
+  xy: 1584, 862
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_circle_4
+  rotate: false
+  xy: 608, 458
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_circle_5
+  rotate: false
+  xy: 810, 660
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_flower_1
+  rotate: false
+  xy: 1266, 710
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_flower_2
+  rotate: false
+  xy: 1418, 710
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_flower_3
+  rotate: false
+  xy: 1570, 710
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_hexagon_1
+  rotate: false
+  xy: 706, 306
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_hexagon_2
+  rotate: false
+  xy: 710, 154
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_hexagon_3
+  rotate: false
+  xy: 858, 306
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_pinwheel_1
+  rotate: false
+  xy: 962, 660
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_pinwheel_2
+  rotate: false
+  xy: 912, 508
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_pinwheel_3
+  rotate: false
+  xy: 1114, 698
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_square_1
+  rotate: false
+  xy: 406, 104
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_square_2
+  rotate: false
+  xy: 862, 154
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_square_3
+  rotate: false
+  xy: 1280, 862
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_sun_flower_1
+  rotate: false
+  xy: 1736, 862
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_sun_flower_3
+  rotate: false
+  xy: 1888, 862
+  size: 150, 150
+  orig: 150, 150
   offset: 0, 0
   index: -1
 shader_circle_1
   rotate: false
-  xy: 2, 204
+  xy: 2, 206
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 shader_circle_4
   rotate: false
-  xy: 2, 2
+  xy: 406, 610
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 shader_circle_5
   rotate: false
-  xy: 204, 204
+  xy: 204, 408
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 shader_flower
   rotate: false
-  xy: 810, 2
+  xy: 204, 4
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
+shader_square
+  rotate: false
+  xy: 710, 2
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+square_1
+  rotate: false
+  xy: 558, 101
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+square_2
+  rotate: false
+  xy: 862, 2
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+square_3
+  rotate: false
+  xy: 760, 458
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
 sun_flower_1
   rotate: false
-  xy: 608, 2
+  xy: 406, 408
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 sun_flower_2
   rotate: false
-  xy: 810, 204
+  xy: 608, 610
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+sun_flower_3
+  rotate: false
+  xy: 810, 812
   size: 200, 200
   orig: 200, 200
   offset: 0, 0

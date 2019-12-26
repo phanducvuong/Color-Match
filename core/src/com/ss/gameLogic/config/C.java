@@ -34,6 +34,9 @@ public class C {
         public static String tks = "";
         public static String lvUp = "";
         public static String lv = "";
+        public static String getItem = "";
+        public static String itemDefault = "";
+        public static String shop = "";
 
         static void initLocalize() {
             FileHandle specFilehandle = Gdx.files.internal("i18n/lang_" + "id");
@@ -60,6 +63,9 @@ public class C {
             tks = locale.get("tks");
             lvUp = locale.get("lvUp");
             lv = locale.get("lv");
+            getItem = locale.get("getItem");
+            itemDefault = locale.get("itemDefault");
+            shop = locale.get("shop");
         }
     }
 
