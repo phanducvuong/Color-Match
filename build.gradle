@@ -59,6 +59,7 @@ project(":desktop") {
         implementation "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        implementation 'com.google.code.gson:gson:2.8.6'
     }
 }
 
@@ -89,6 +90,7 @@ project(":android") {
         implementation 'com.google.firebase:firebase-ads:18.3.0'
         implementation 'com.google.firebase:firebase-core:17.2.1'
         implementation 'com.google.firebase:firebase-config:19.0.3'
+        implementation 'com.google.code.gson:gson:2.8.6'
 
         // (Recommended) Add Analytics
         implementation 'com.google.firebase:firebase-analytics:17.2.1'
@@ -110,6 +112,7 @@ project(":core") {
     dependencies {
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        implementation 'com.google.code.gson:gson:2.8.6'
     }
 }
 

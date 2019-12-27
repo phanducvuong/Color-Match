@@ -1,13 +1,22 @@
 package com.ss.gameLogic.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.ss.GMain;
 import com.ss.core.util.GUI;
+import com.ss.data.ItemShape;
 import com.ss.gameLogic.config.Colors;
 import com.ss.gameLogic.config.Config;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +24,7 @@ public class Shape {
 
   private static Shape instance;
   private Colors colorShape = Colors.getInstance();
+  public List<ItemShape> itemShapeList;
 
   public Color c1, c2;
 
@@ -124,50 +134,55 @@ public class Shape {
 
   public void initListItems() {
 
-    Items items = new Items(Config.SQUARE_2, 100, 1,true);
-    listItems.add(items);
-    items = new Items(Config.SQUARE_3, 100, 1,false);
-    listItems.add(items);
-    items = new Items(Config.SQUARE_1, 0, 1,false);
-    listItems.add(items);
+    readFileJson();
 
-    items = new Items(Config.FLOWER_1, 400, 0,true);
-    listItems.add(items);
-    items = new Items(Config.FLOWER_2, 400, 0,true);
-    listItems.add(items);
-    items = new Items(Config.FLOWER_3, 400, 0,true);
-    listItems.add(items);
+    for (ItemShape i : itemShapeList) {
+      Items items = new Items(i.getNameShape(), i.getCoin(), i.getIdShape(), i.getIsLock());
+      listItems.add(items);
+    }
+  }
 
-    items = new Items(Config.CIRCLE_4, 500, 0,true);
-    listItems.add(items);
-    items = new Items(Config.CIRCLE_1, 500, 0,true);
-    listItems.add(items);
-    items = new Items(Config.CIRCLE_2, 500, 0,true);
-    listItems.add(items);
-    items = new Items(Config.CIRCLE_3, 500, 0,true);
-    listItems.add(items);
-    items = new Items(Config.CIRCLE_5, 600, 0,true);
-    listItems.add(items);
+  private void readFileJson() {
 
-    items = new Items(Config.HEXAGON_1, 800, 0,true);
-    listItems.add(items);
-    items = new Items(Config.HEXAGON_2, 800, 0,true);
-    listItems.add(items);
-    items = new Items(Config.HEXAGON_3, 800, 0,true);
-    listItems.add(items);
+    Gson gson = new Gson();
+    itemShapeList = new ArrayList<>();
 
-    items = new Items(Config.SUN_FLOWER_1, 1000, 0,true);
-    listItems.add(items);
-    items = new Items(Config.SUN_FLOWER_2, 1000, 0,true);
-    listItems.add(items);
-    items = new Items(Config.SUN_FLOWER_3, 1000, 0,true);
-    listItems.add(items);
+    try {
 
-    items = new Items(Config.PINWHEEL_1, 1500, 0,true);
-    listItems.add(items);
-    items = new Items(Config.PINWHEEL_2, 1500, 0,true);
-    listItems.add(items);
-    items = new Items(Config.PINWHEEL_3, 1500, 0,true);
-    listItems.add(items);
+      BufferedReader buf = new BufferedReader(new FileReader("data.json"));
+      JsonArray jsonArray = gson.fromJson(buf, JsonArray.class);
+
+      for (int i=0; i<jsonArray.size();i++) {
+        ItemShape itemShape = gson.fromJson(jsonArray.get(i), ItemShape.class);
+        itemShapeList.add(itemShape);
+      }
+
+    } catch (FileNotFoundException e) { e.printStackTrace(); }
+  }
+
+  public void writeFileJson(Items itemsChange) {
+
+    Gson gson = new Gson();
+    notifyListItem(itemsChange);
+    try {
+
+      String json = gson.toJson(itemShapeList);
+
+      FileWriter fWriter = new FileWriter("data.json");
+      fWriter.write(json);
+      fWriter.close();
+
+    }
+    catch (Exception ex) { ex.printStackTrace(); }
+  }
+
+  private void notifyListItem(Items itemsChange) {
+
+    for (ItemShape items : itemShapeList) {
+      if (items.getNameShape().equals(itemsChange.nameJson)) {
+        items.setIsLock(false);
+        break;
+      }
+    }
   }
 }

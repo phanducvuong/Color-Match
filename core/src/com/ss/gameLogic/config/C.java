@@ -37,6 +37,7 @@ public class C {
         public static String getItem = "";
         public static String itemDefault = "";
         public static String shop = "";
+        public static String bestScore = "";
 
         static void initLocalize() {
             FileHandle specFilehandle = Gdx.files.internal("i18n/lang_" + "id");
@@ -66,6 +67,7 @@ public class C {
             getItem = locale.get("getItem");
             itemDefault = locale.get("itemDefault");
             shop = locale.get("shop");
+            bestScore = locale.get("bestScore");
         }
     }
 

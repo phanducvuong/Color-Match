@@ -1,5 +1,6 @@
 package com.ss;
 
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.platform.IPlatform;
 import com.badlogic.gdx.Gdx;
@@ -17,13 +18,10 @@ import com.ss.scenes.GameScene;
 
 public class GMain extends GDirectedGame {
 
-  public static boolean isDebug = false;
-  public static final boolean isTest = false;
   public static int screenHeight = 0;
   public static int screenWidth = 0;
-  public static final int testType = 2;
   public static TextureAtlas textureAtlas, animAtlas;
-  public static float ratioX, ratioY;
+  public static Preferences prefs;
 
   public static IPlatform platform;
   public GMain(IPlatform plat){
@@ -92,6 +90,15 @@ public class GMain extends GDirectedGame {
     Config.addArrPos();
     this.init();
     C.init();
+    prefs = Gdx.app.getPreferences("ColorMatch");
+
+    if (!prefs.getBoolean("isHave")) {
+      prefs.putBoolean("isHave", true);
+      prefs.putLong("bestScore", 0);
+      prefs.putLong("coin", 0);
+      prefs.flush();
+    }
+
     AnimationEffect.LoadAnimation();
     this.setScreen(menuScreen());
   }

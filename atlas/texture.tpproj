@@ -1,4 +1,4 @@
-name=menu
+nameShape=menu
 filename=
 output=../android/assets/textureAtlas
 

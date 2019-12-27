@@ -63,6 +63,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
   private Vector3 level;
   public boolean endGame = false;
   public long lv = 1;
+  public long coinInGame = 0;
 
   public StartScene startScene;
 
@@ -240,7 +241,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
     GTween.action(obj.gBorderSquare, scaleTo(.4f, .4f, 1f, linear),
             () -> {
               gLogic.addActor(obj.gImgBack);
-              obj.getShape().setZIndex(1000);
+//              obj.getShape().setZIndex(1000);
               obj.move(shapeMainCenter, level, logic, (int)v.x, (int)v.y);
               obj.gBorderSquare.remove();
             }
@@ -331,6 +332,9 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
     else
       polygonAct.updatePolyAct(false);
 
+    if (obj.getBound() == 0) coinInGame += 2;
+    else coinInGame += 1;
+
     startScene.eftLbScore(10);
 
     Vector2 temp = logic.posOfAnim(obj);
@@ -419,9 +423,11 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
   private void resetGame() {
     shape.resetItem();
 
+    coinInGame = 0;
     endGame = false;
     numberObjects = 5;
     turn = 0;
+    lv = 1;
     polygonAct.setScalePolyAct(1f);
     polygonAct.setDeltaScl(numberObjects);
 

@@ -1,0 +1,122 @@
+[
+  {
+    "nameShape": "item_square_2",
+    "coin": 100,
+    "idShape": 1,
+    "isLock": false
+  },
+  {
+    "nameShape": "item_square_3",
+    "coin": 100,
+    "idShape": 1,
+    "isLock": false
+  },
+  {
+    "nameShape": "item_square_1",
+    "coin": 0,
+    "idShape": 1,
+    "isLock": false
+  },
+  {
+    "nameShape": "item_flower_1",
+    "coin": 400,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_flower_2",
+    "coin": 400,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_flower_3",
+    "coin": 400,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_circle_4",
+    "coin": 500,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_circle_1",
+    "coin": 500,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_circle_2",
+    "coin": 500,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_circle_3",
+    "coin": 500,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_circle_5",
+    "coin": 500,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_hexagon_1",
+    "coin": 800,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_hexagon_2",
+    "coin": 800,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_hexagon_3",
+    "coin": 800,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_sun_flower_1",
+    "coin": 1000,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_sun_flower_2",
+    "coin": 1000,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_sun_flower_3",
+    "coin": 1000,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_pinwheel_1",
+    "coin": 1500,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_pinwheel_2",
+    "coin": 1500,
+    "idShape": 0,
+    "isLock": true
+  },
+  {
+    "nameShape": "item_pinwheel_3",
+    "coin": 1500,
+    "idShape": 0,
+    "isLock": true
+  }
+]

@@ -64,7 +64,7 @@ public class Colors {
   private static final Color OLD_COPPER = new Color(110/255f, 75/255f, 44/255f, 1f);
 
   //square_3
-  private static final Color BRICK_RED = new Color(184/255f, 42/255f, 64/255f, 1f);
+  private static final Color BRICK_RED = new Color(203/255f, 34/255f, 59/255f, 1f);
   private static final Color CHATHAMS_BLUE = new Color(25/255f, 69/255f, 114/255f, 1f);
 
   //hexagon_1

@@ -6,443 +6,548 @@ filter: Nearest,Nearest
 repeat: none
 action_polygon
   rotate: false
-  xy: 1908, 1274
+  xy: 926, 1771
   size: 103, 104
   orig: 103, 104
   offset: 0, 0
   index: -1
-ads
-  rotate: false
-  xy: 1958, 1030
-  size: 88, 63
-  orig: 88, 63
-  offset: 0, 0
-  index: -1
 back_obj
   rotate: false
-  xy: 1550, 403
+  xy: 1788, 7
   size: 50, 95
   orig: 50, 95
   offset: 0, 0
   index: -1
-banner_item
-  rotate: false
-  xy: 1071, 500
-  size: 541, 75
-  orig: 541, 75
-  offset: 0, 0
-  index: -1
-banner_ranking
-  rotate: false
-  xy: 2, 129
-  size: 550, 73
-  orig: 550, 73
-  offset: 0, 0
-  index: -1
 bg
   rotate: false
-  xy: 2, 762
+  xy: 2, 766
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
   index: -1
+bg_coin
+  rotate: false
+  xy: 1520, 5
+  size: 266, 97
+  orig: 266, 97
+  offset: 0, 0
+  index: -1
 bg_coin_in_round
   rotate: false
-  xy: 1056, 53
+  xy: 724, 1877
   size: 288, 64
   orig: 288, 64
   offset: 0, 0
   index: -1
 bg_get_item
   rotate: false
-  xy: 1863, 8
+  xy: 1049, 1839
   size: 160, 102
   orig: 160, 102
   offset: 0, 0
   index: -1
 bg_icon
   rotate: false
-  xy: 1908, 1500
+  xy: 1083, 1192
   size: 118, 118
   orig: 118, 118
   offset: 0, 0
   index: -1
-bg_item
-  rotate: false
-  xy: 724, 592
-  size: 541, 478
-  orig: 541, 478
-  offset: 0, 0
-  index: -1
-bg_ranking
-  rotate: false
-  xy: 560, 156
-  size: 509, 434
-  orig: 509, 434
-  offset: 0, 0
-  index: -1
 bg_result
   rotate: false
-  xy: 724, 1072
+  xy: 1214, 1076
   size: 590, 970
   orig: 590, 970
   offset: 0, 0
   index: -1
 bg_shop
   rotate: false
-  xy: 1316, 1072
+  xy: 1214, 104
   size: 590, 970
   orig: 590, 970
   offset: 0, 0
   index: -1
+border_item
+  rotate: false
+  xy: 724, 931
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
 border_poly_act
   rotate: false
-  xy: 2, 204
+  xy: 2, 208
   size: 556, 556
   orig: 556, 556
   offset: 0, 0
   index: -1
 border_square
   rotate: false
-  xy: 1346, 17
+  xy: 1418, 2
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
+btnX
+  rotate: false
+  xy: 1840, 10
+  size: 146, 153
+  orig: 146, 153
+  offset: 0, 0
+  index: -1
 btn_continue
   rotate: false
-  xy: 1071, 397
+  xy: 724, 1312
   size: 477, 101
   orig: 477, 101
   offset: 0, 0
   index: -1
-btn_play_now
+btn_fr_world
   rotate: false
-  xy: 2, 2
-  size: 565, 125
-  orig: 565, 125
+  xy: 1806, 1983
+  size: 234, 63
+  orig: 234, 63
+  offset: 0, 0
+  index: -1
+circle_1
+  rotate: false
+  xy: 1806, 1175
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+circle_2
+  rotate: false
+  xy: 1806, 973
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+circle_3
+  rotate: false
+  xy: 1840, 771
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+circle_4
+  rotate: false
+  xy: 1840, 569
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+circle_5
+  rotate: false
+  xy: 1840, 367
+  size: 200, 200
+  orig: 200, 200
   offset: 0, 0
   index: -1
 circle_click
   rotate: false
-  xy: 1908, 1380
+  xy: 1083, 1072
   size: 117, 118
   orig: 117, 118
   offset: 0, 0
   index: -1
 flower_1
   rotate: false
-  xy: 1661, 62
+  xy: 1806, 1781
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 flower_2
   rotate: false
-  xy: 1833, 264
+  xy: 1806, 1579
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+flower_3
+  rotate: false
+  xy: 1806, 1377
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 half_back_obj
   rotate: false
-  xy: 1716, 481
+  xy: 1049, 1743
   size: 25, 94
   orig: 25, 94
   offset: 0, 0
   index: -1
 half_obj_down
   rotate: false
-  xy: 1614, 475
+  xy: 1316, 2
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 half_obj_up
   rotate: false
-  xy: 1908, 1172
+  xy: 1214, 2
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
+hexagon_1
+  rotate: false
+  xy: 724, 1473
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
 icon_rank
   rotate: false
-  xy: 1958, 832
+  xy: 622, 211
   size: 58, 58
   orig: 58, 58
   offset: 0, 0
   index: -1
 icon_shop
   rotate: false
-  xy: 1958, 892
+  xy: 560, 210
   size: 60, 59
   orig: 60, 59
   offset: 0, 0
   index: -1
 info_user
   rotate: false
-  xy: 569, 51
+  xy: 724, 1943
   size: 485, 103
   orig: 485, 103
   offset: 0, 0
   index: -1
-item
-  rotate: false
-  xy: 1483, 249
-  size: 146, 146
-  orig: 146, 146
-  offset: 0, 0
-  index: -1
 item_circle_1
   rotate: false
-  xy: 1863, 112
+  xy: 1049, 920
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_circle_2
+  rotate: false
+  xy: 724, 768
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_circle_3
+  rotate: false
+  xy: 876, 768
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_circle_4
+  rotate: false
+  xy: 1028, 768
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_circle_5
+  rotate: false
+  xy: 1049, 616
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_flower_2
+  rotate: false
+  xy: 1049, 464
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_square_1
+  rotate: false
+  xy: 1049, 312
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_square_3
+  rotate: false
+  xy: 926, 1160
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_sun_flower_1
+  rotate: false
+  xy: 876, 931
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 item_sun_flower_2
   rotate: false
-  xy: 560, 610
+  xy: 926, 1591
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+item_sun_flower_3
+  rotate: false
+  xy: 926, 1439
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 obj_circle_1
   rotate: false
-  xy: 1958, 512
+  xy: 883, 231
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_circle_2
   rotate: false
-  xy: 890, 11
+  xy: 2008, 1703
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_circle_3
   rotate: false
-  xy: 1958, 472
+  xy: 2008, 1663
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_circle_4
   rotate: false
-  xy: 930, 11
+  xy: 2008, 1623
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_circle_5
   rotate: false
-  xy: 850, 11
+  xy: 2008, 1743
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_flower_1
   rotate: false
-  xy: 770, 11
+  xy: 2008, 1863
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_flower_2
   rotate: false
-  xy: 810, 11
+  xy: 2008, 1823
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_flower_3
   rotate: false
-  xy: 1958, 552
+  xy: 2008, 1783
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_hexagon_1
   rotate: false
-  xy: 730, 11
+  xy: 1043, 231
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_hexagon_2
   rotate: false
-  xy: 1958, 632
+  xy: 2008, 1943
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_hexagon_3
   rotate: false
-  xy: 1958, 592
+  xy: 2008, 1903
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_pinwheel_1
   rotate: false
-  xy: 1958, 712
+  xy: 923, 231
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_pinwheel_2
   rotate: false
-  xy: 690, 11
+  xy: 963, 231
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_pinwheel_3
   rotate: false
-  xy: 1958, 672
+  xy: 1003, 231
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_square_1
   rotate: false
-  xy: 1998, 792
+  xy: 2008, 1583
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_square_2
   rotate: false
-  xy: 970, 11
+  xy: 2008, 1543
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_square_3
   rotate: false
-  xy: 1010, 11
+  xy: 2008, 1503
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_sun_flower_1
   rotate: false
-  xy: 1958, 752
+  xy: 803, 231
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_sun_flower_2
   rotate: false
-  xy: 650, 11
+  xy: 843, 231
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 obj_sun_flower_3
   rotate: false
-  xy: 610, 11
+  xy: 763, 231
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 pinwheel_1
   rotate: false
-  xy: 1756, 668
+  xy: 204, 6
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 pinwheel_2
   rotate: false
-  xy: 1756, 466
+  xy: 406, 6
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 pinwheel_3
   rotate: false
-  xy: 1459, 47
+  xy: 608, 8
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 point_start
   rotate: false
-  xy: 1998, 752
+  xy: 2008, 1463
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 polygon_center
   rotate: false
-  xy: 1267, 577
+  xy: 560, 271
   size: 487, 493
   orig: 487, 493
   offset: 0, 0
   index: -1
+shader_circle_1
+  rotate: false
+  xy: 1840, 165
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+shader_circle_4
+  rotate: false
+  xy: 724, 1110
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+shader_circle_5
+  rotate: false
+  xy: 724, 1675
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
 shader_hexagon
   rotate: false
-  xy: 1631, 264
+  xy: 810, 29
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 shader_pinwheel
   rotate: false
-  xy: 1756, 870
+  xy: 2, 6
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+shader_sun_flower
+  rotate: false
+  xy: 1012, 29
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 sound_off
   rotate: false
-  xy: 1958, 953
+  xy: 926, 1083
   size: 81, 75
   orig: 81, 75
   offset: 0, 0
   index: -1
 sound_on
   rotate: false
-  xy: 1908, 1095
+  xy: 1083, 235
   size: 81, 75
   orig: 81, 75
   offset: 0, 0
   index: -1
 square
   rotate: false
-  xy: 1958, 792
+  xy: 723, 231
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 star
   rotate: false
-  xy: 569, 9
+  xy: 682, 229
   size: 39, 40
   orig: 39, 40
   offset: 0, 0
   index: -1
 test
   rotate: false
-  xy: 1908, 1620
+  xy: 1083, 1415
   size: 123, 422
   orig: 123, 422
-  offset: 0, 0
-  index: -1
-text_color
-  rotate: false
-  xy: 1071, 119
-  size: 386, 137
-  orig: 386, 137
-  offset: 0, 0
-  index: -1
-text_match
-  rotate: false
-  xy: 1071, 258
-  size: 410, 137
-  orig: 410, 137
   offset: 0, 0
   index: -1
 
@@ -451,297 +556,199 @@ size: 2048,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-bg_coin
+ads
   rotate: false
-  xy: 1012, 915
-  size: 266, 97
-  orig: 266, 97
+  xy: 2, 2
+  size: 88, 63
+  orig: 88, 63
   offset: 0, 0
   index: -1
-border_item
+banner_item
   rotate: false
-  xy: 1432, 862
-  size: 150, 150
-  orig: 150, 150
+  xy: 1112, 906
+  size: 541, 75
+  orig: 541, 75
   offset: 0, 0
   index: -1
-btnX
+banner_ranking
   rotate: false
-  xy: 558, 253
-  size: 146, 153
-  orig: 146, 153
+  xy: 545, 781
+  size: 550, 73
+  orig: 550, 73
   offset: 0, 0
   index: -1
-btn_fr_world
+bg_item
   rotate: false
-  xy: 1012, 850
-  size: 234, 63
-  orig: 234, 63
+  xy: 2, 503
+  size: 541, 478
+  orig: 541, 478
   offset: 0, 0
   index: -1
-circle_1
+bg_ranking
   rotate: false
-  xy: 2, 610
-  size: 200, 200
-  orig: 200, 200
+  xy: 2, 67
+  size: 509, 434
+  orig: 509, 434
   offset: 0, 0
   index: -1
-circle_2
+btn_play_now
   rotate: false
-  xy: 204, 812
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
-  index: -1
-circle_3
-  rotate: false
-  xy: 2, 408
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
-  index: -1
-circle_4
-  rotate: false
-  xy: 204, 610
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
-  index: -1
-circle_5
-  rotate: false
-  xy: 406, 812
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
-  index: -1
-flower_3
-  rotate: false
-  xy: 2, 812
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
-  index: -1
-hexagon_1
-  rotate: false
-  xy: 608, 812
-  size: 200, 200
-  orig: 200, 200
+  xy: 545, 856
+  size: 565, 125
+  orig: 565, 125
   offset: 0, 0
   index: -1
 hexagon_2
   rotate: false
-  xy: 2, 4
+  xy: 513, 301
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 hexagon_3
   rotate: false
-  xy: 204, 206
+  xy: 513, 99
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
-item_circle_2
+item
   rotate: false
-  xy: 406, 256
-  size: 150, 150
-  orig: 150, 150
-  offset: 0, 0
-  index: -1
-item_circle_3
-  rotate: false
-  xy: 1584, 862
-  size: 150, 150
-  orig: 150, 150
-  offset: 0, 0
-  index: -1
-item_circle_4
-  rotate: false
-  xy: 608, 458
-  size: 150, 150
-  orig: 150, 150
-  offset: 0, 0
-  index: -1
-item_circle_5
-  rotate: false
-  xy: 810, 660
-  size: 150, 150
-  orig: 150, 150
+  xy: 957, 633
+  size: 146, 146
+  orig: 146, 146
   offset: 0, 0
   index: -1
 item_flower_1
   rotate: false
-  xy: 1266, 710
-  size: 150, 150
-  orig: 150, 150
-  offset: 0, 0
-  index: -1
-item_flower_2
-  rotate: false
-  xy: 1418, 710
+  xy: 1287, 602
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 item_flower_3
   rotate: false
-  xy: 1570, 710
+  xy: 1287, 450
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 item_hexagon_1
   rotate: false
-  xy: 706, 306
+  xy: 917, 127
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 item_hexagon_2
   rotate: false
-  xy: 710, 154
+  xy: 1069, 279
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 item_hexagon_3
   rotate: false
-  xy: 858, 306
+  xy: 1069, 127
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 item_pinwheel_1
   rotate: false
-  xy: 962, 660
+  xy: 1264, 754
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 item_pinwheel_2
   rotate: false
-  xy: 912, 508
+  xy: 1416, 754
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 item_pinwheel_3
   rotate: false
-  xy: 1114, 698
-  size: 150, 150
-  orig: 150, 150
-  offset: 0, 0
-  index: -1
-item_square_1
-  rotate: false
-  xy: 406, 104
+  xy: 1135, 602
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 item_square_2
   rotate: false
-  xy: 862, 154
+  xy: 1857, 679
   size: 150, 150
   orig: 150, 150
-  offset: 0, 0
-  index: -1
-item_square_3
-  rotate: false
-  xy: 1280, 862
-  size: 150, 150
-  orig: 150, 150
-  offset: 0, 0
-  index: -1
-item_sun_flower_1
-  rotate: false
-  xy: 1736, 862
-  size: 150, 150
-  orig: 150, 150
-  offset: 0, 0
-  index: -1
-item_sun_flower_3
-  rotate: false
-  xy: 1888, 862
-  size: 150, 150
-  orig: 150, 150
-  offset: 0, 0
-  index: -1
-shader_circle_1
-  rotate: false
-  xy: 2, 206
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
-  index: -1
-shader_circle_4
-  rotate: false
-  xy: 406, 610
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
-  index: -1
-shader_circle_5
-  rotate: false
-  xy: 204, 408
-  size: 200, 200
-  orig: 200, 200
   offset: 0, 0
   index: -1
 shader_flower
   rotate: false
-  xy: 204, 4
+  xy: 933, 431
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 shader_square
   rotate: false
-  xy: 710, 2
+  xy: 1112, 754
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 square_1
   rotate: false
-  xy: 558, 101
+  xy: 1857, 831
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 square_2
   rotate: false
-  xy: 862, 2
+  xy: 1135, 450
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 square_3
   rotate: false
-  xy: 760, 458
+  xy: 917, 279
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 sun_flower_1
   rotate: false
-  xy: 406, 408
+  xy: 715, 301
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 sun_flower_2
   rotate: false
-  xy: 608, 610
+  xy: 715, 99
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 sun_flower_3
   rotate: false
-  xy: 810, 812
+  xy: 1655, 781
   size: 200, 200
   orig: 200, 200
+  offset: 0, 0
+  index: -1
+text_color
+  rotate: false
+  xy: 545, 503
+  size: 386, 137
+  orig: 386, 137
+  offset: 0, 0
+  index: -1
+text_match
+  rotate: false
+  xy: 545, 642
+  size: 410, 137
+  orig: 410, 137
   offset: 0, 0
   index: -1

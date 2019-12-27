@@ -13,6 +13,7 @@ public class Items {
   private TextureAtlas textureAtlas = GMain.textureAtlas;
   public int coin;
   public String name;
+  public String nameJson;
   public Image item;
   public int idShape;
   public boolean isLock;
@@ -21,6 +22,7 @@ public class Items {
   Items(String textureRegion, int coin, int idShape, boolean isLock) {
 
     item = GUI.createImage(textureAtlas, textureRegion);
+    nameJson = textureRegion;
     name = textureRegion.split("item_")[1].trim();
     this.coin = coin;
     this.isLock = isLock;
