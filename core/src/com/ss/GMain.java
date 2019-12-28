@@ -6,6 +6,7 @@ import com.platform.IPlatform;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.ss.core.effect.AnimationEffect;
+import com.ss.core.effect.SoundEffects;
 import com.ss.core.exSprite.particle.GParticleSystem;
 import com.ss.core.util.GAssetsManager;
 import com.ss.core.util.GDirectedGame;
@@ -20,7 +21,7 @@ public class GMain extends GDirectedGame {
 
   public static int screenHeight = 0;
   public static int screenWidth = 0;
-  public static TextureAtlas textureAtlas, animAtlas;
+  public static TextureAtlas textureAtlas, animAtlas, tutorialAtlas;
   public static Preferences prefs;
 
   public static IPlatform platform;
@@ -87,13 +88,16 @@ public class GMain extends GDirectedGame {
   {
     textureAtlas = GAssetsManager.getTextureAtlas("ColorMatch.atlas");
     animAtlas = GAssetsManager.getTextureAtlas("anim.atlas");
+    tutorialAtlas = GAssetsManager.getTextureAtlas("tutorial.atlas");
     Config.addArrPos();
     this.init();
+    SoundEffects.getInstance().initSound();
     C.init();
     prefs = Gdx.app.getPreferences("ColorMatch");
 
     if (!prefs.getBoolean("isHave")) {
       prefs.putBoolean("isHave", true);
+      prefs.putBoolean("saveItems", false);
       prefs.putLong("bestScore", 0);
       prefs.putLong("coin", 0);
       prefs.flush();

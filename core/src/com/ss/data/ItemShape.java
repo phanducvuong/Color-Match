@@ -1,10 +1,19 @@
 package com.ss.data;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ItemShape {
 
+  @SerializedName("nameShape")
   private String nameShape;
+
+  @SerializedName("coin")
   private int coin;
+
+  @SerializedName("isShape")
   private int idShape;
+
+  @SerializedName("isLock")
   private boolean isLock;
 
   public ItemShape(String nameShape, int coin, int idShape, boolean isLock) {

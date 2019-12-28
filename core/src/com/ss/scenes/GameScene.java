@@ -20,6 +20,7 @@ import com.platform.IPlatform;
 import com.ss.GMain;
 import com.ss.core.action.exAction.GSimpleAction;
 import com.ss.core.action.exAction.GTween;
+import com.ss.core.effect.SoundEffects;
 import com.ss.core.util.GLayer;
 import com.ss.core.util.GScreen;
 import com.ss.core.util.GStage;
@@ -66,6 +67,7 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
   public long coinInGame = 0;
 
   public StartScene startScene;
+  public SoundEffects soundEffects;
 
   @Override
   public void dispose() {
@@ -88,6 +90,8 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
     listObjGamePlay = new ArrayList<>();
     logic = Logic.getInstance();
 
+    soundEffects = SoundEffects.getInstance();
+    soundEffects.play("bg_music");
     shape.initListItems();
 
     initAsset();
@@ -111,9 +115,8 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
 
     shapeMainCenter.getShape().setZIndex(1000);
     isTouchStage = false;
-//    nextObj();
 
-//    test();
+    plf.CrashLog("Start Game!");
   }
 
   //////////////////////////////////////////INIT////////////////////////////////////////////////////
@@ -327,13 +330,18 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
   }
 
   private void eftCollition(Object obj) {
+
+    String rs = randomSound();
+    soundEffects.stop(rs);
+    soundEffects.play(rs);
+
     if (obj.turn == numberObjects)
       polygonAct.updatePolyAct(true);
     else
       polygonAct.updatePolyAct(false);
 
-    if (obj.getBound() == 0) coinInGame += 2;
-    else coinInGame += 1;
+    if (obj.getBound() == 0) coinInGame += Config.COIN_2;
+    else coinInGame += Config.COIN_1;
 
     startScene.eftLbScore(10);
 
@@ -348,6 +356,10 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
   }
 
   private void eftEndGame(Object objj) {
+
+    plf.TrackCustomEvent(lv + "");
+
+    soundEffects.play("game_over");
 
     startScene.turnToContinue = objj.turn; //save position in obj make end game
     endGame = true;
@@ -463,36 +475,12 @@ public class GameScene extends GScreen implements ICollision, INextLevel, IFinis
     shaderAct.reInitShader(xx, yy, textureAtlas.findRegion(shape.getTextureRegionShader(name)));
   }
 
-  private void test() {
-    Image square = GUI.createImage(textureAtlas, "square_1");
-    square.setPosition(100, 100);
-    gUI.addActor(square);
-
-    Image circle = GUI.createImage(textureAtlas, "circle_2");
-    circle.setPosition(300, 100);
-    gUI.addActor(circle);
-
-    square.addListener(new InputListener() {
-      @Override
-      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        changeShapeMainCenter("square_1", 1, "square_1");
-        changeShaderAct("square_1");
-        return super.touchDown(event, x, y, pointer, button);
-      }
-    });
-
-    circle.addListener(new InputListener() {
-      @Override
-      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        changeShapeMainCenter("circle_2", 0, "circle_2");
-        changeShaderAct("circle_2");
-        return super.touchDown(event, x, y, pointer, button);
-      }
-    });
-  }
-
   //////////////////////////////////////////EVENT CHANGE SHAPE CENTER///////////////////////////////
 
+  private String randomSound() {
+    int r = (int) Math.floor(Math.random() * 8);
+    return r+"";
+  }
 
 
 

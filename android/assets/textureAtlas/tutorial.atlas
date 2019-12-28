@@ -1,0 +1,54 @@
+
+tutorial.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+arrow
+  rotate: false
+  xy: 2, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+t_1
+  rotate: false
+  xy: 2, 84
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1
+t_2
+  rotate: false
+  xy: 724, 84
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1
+tutorial
+  rotate: false
+  xy: 1446, 1311
+  size: 83, 53
+  orig: 83, 53
+  offset: 0, 0
+  index: -1
+
+tutorial2.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+t_3
+  rotate: false
+  xy: 2, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1
+t_4
+  rotate: false
+  xy: 724, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1

@@ -1,6 +1,7 @@
 package com.ss.gameLogic.objects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -12,11 +13,6 @@ import com.ss.core.util.GUI;
 import com.ss.data.ItemShape;
 import com.ss.gameLogic.config.Colors;
 import com.ss.gameLogic.config.Config;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +21,8 @@ public class Shape {
   private static Shape instance;
   private Colors colorShape = Colors.getInstance();
   public List<ItemShape> itemShapeList;
+
+//  private FileHandle fData = Gdx.files.local("data/data.json");
 
   public Color c1, c2;
 
@@ -145,19 +143,32 @@ public class Shape {
   private void readFileJson() {
 
     Gson gson = new Gson();
+    String json;
+    JsonArray jsonArray;
     itemShapeList = new ArrayList<>();
 
     try {
 
-      BufferedReader buf = new BufferedReader(new FileReader("data.json"));
-      JsonArray jsonArray = gson.fromJson(buf, JsonArray.class);
+      if (!GMain.prefs.getBoolean("saveItems")) {
+        FileHandle fh = Gdx.files.internal("data/data.json");
+        json = fh.readString();
+        jsonArray = gson.fromJson(json, JsonArray.class);
+
+        GMain.prefs.putBoolean("saveItems", true);
+        GMain.prefs.putString("Items", json);
+        GMain.prefs.flush();
+      }
+      else {
+        json = GMain.prefs.getString("Items");
+        jsonArray = gson.fromJson(json, JsonArray.class);
+      }
 
       for (int i=0; i<jsonArray.size();i++) {
         ItemShape itemShape = gson.fromJson(jsonArray.get(i), ItemShape.class);
         itemShapeList.add(itemShape);
       }
 
-    } catch (FileNotFoundException e) { e.printStackTrace(); }
+    } catch (Exception e) { e.printStackTrace(); }
   }
 
   public void writeFileJson(Items itemsChange) {
@@ -167,10 +178,8 @@ public class Shape {
     try {
 
       String json = gson.toJson(itemShapeList);
-
-      FileWriter fWriter = new FileWriter("data.json");
-      fWriter.write(json);
-      fWriter.close();
+      GMain.prefs.putString("Items", json);
+      GMain.prefs.flush();
 
     }
     catch (Exception ex) { ex.printStackTrace(); }
